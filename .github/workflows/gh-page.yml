@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+# Run workflow on every push
+on: push
+
+jobs:
+  deploy-to-github-pages:
+    # use ubuntu-latest image to run steps on
+    runs-on: ubuntu-latest
+    steps:
+      # uses GitHub's checkout action to checkout code form the master branch
+      - uses: actions/checkout@v4
+
+      # publishes Blazor project to the release-folder
+      - name: npm build
+        run: npm ci &&
+             npm run build
+
+      # copy index.html to 404.html to serve the same file when a file is not found
+      - name: copy index.html to 404.html
+        run: cp dist/index.html dist/404.html
+
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch dist/.nojekyll
+
+      # add CNAME file
+      - name: Add CNAME file
+        run: echo 'not-fair-spin-wheel.maki0419.com' > dist/CNAME
+
+      - name: Commit dist to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.CR_PAT }}
+          branch: gh-pages
+          folder: dist
+          single-commit: true
+          clean: true

@@ -1,6 +1,7 @@
 {
   "name": "not-fair-spin-wheel",
   "version": "0.0.0",
+  "homepage": "https://github.com/jim60105/not-fair-spin-wheel",
   "private": true,
   "scripts": {
     "dev": "vite",
