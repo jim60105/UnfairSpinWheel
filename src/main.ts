@@ -15,6 +15,8 @@ import 'primevue/resources/themes/lara-light-indigo/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 
+import SpinWheel from './components/SpinWheel.vue'
+
 const app = createApp(App)
 app.use(PrimeVue)
 app.use(ToastService)
@@ -22,4 +24,6 @@ app.use(ToastService)
 app.component('Button', Button)
 app.component('InputText', InputText)
 app.component('Toast', Toast)
+
+app.component('SpinWheel', SpinWheel)
 app.mount('#app')
