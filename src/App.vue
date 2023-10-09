@@ -1,47 +1,34 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue'
+import { useToast } from 'primevue/usetoast'
+
+const text = ref()
+const toast = useToast()
+const greet = () => {
+  toast.add({
+    severity: 'info',
+    summary: 'Hello',
+    detail: text.value
+  })
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <Toast></Toast>
+  <div class="container">
+    <span class="p-float-label">
+      <InputText id="txt" type="text" v-model="text" />
+      <label for="txt">Text</label>
+    </span>
+    <Button label="Greet" @click="greet" icon="pi pi-user"></Button>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 </style>
