@@ -26,7 +26,7 @@ jobs:
 
       # add CNAME file
       - name: Add CNAME file
-        run: echo 'not-fair-spin-wheel.maki0419.com' > dist/CNAME
+        run: echo 'unfair-spin-wheel.maki0419.com' > dist/CNAME
 
       - name: Commit dist to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
