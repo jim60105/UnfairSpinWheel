@@ -1,15 +1,28 @@
 <template>
-  <div ref="container"></div>
+  <div ref="container" class="w-full container"></div>
 </template>
 
 <script setup>
-import { Wheel } from 'spin-wheel/dist/spin-wheel-esm'
-import { ref, onMounted } from 'vue'
+import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
+import { ref, onMounted } from 'vue';
+import { Subject } from 'rxjs';
 
-const fontName = 'Amatic SC'
+const props = defineProps({
+  items: {
+    type: Array,
+    required: true
+  },
+  change: {
+    type: Subject,
+    required: true
+  }
+});
+
+const fontName = 'Amatic SC';
 
 // 1. Configure the wheel's properties:
-const props = {
+const properties = {
+  debug: import.meta.env.DEV,
   radius: 0.84,
   itemLabelRadius: 0.93,
   itemLabelRadiusMax: 0.6,
@@ -34,67 +47,43 @@ const props = {
   lineColor: '#fff',
   image: './img/example-0-image.svg',
   overlayImage: './img/example-0-overlay.svg',
-  items: [
-    {
-      label: 'Jim',
-      weight: 5
-    },
-    {
-      label: 'John'
-    },
-    {
-      label: 'Will',
-      weight: 10
-    },
-    {
-      label: 'Mark'
-    },
-    {
-      label: 'Emily',
-      weight: 7
-    },
-    {
-      label: 'Sarah',
-      weight: 3
-    },
-    {
-      label: 'David',
-      weight: 2
-    },
-    {
-      label: 'Michael'
-    },
-    {
-      label: 'Jessica',
-      weight: 3
-    },
-    {
-      label: 'Daniel'
-    }
-  ]
-}
+  items: props.items
+};
 
 // 2. Decide where you want it to go:
-const container = ref()
+const container = ref();
 
-let wheel
+let wheel = undefined;
 
 onMounted(async () => {
-  await loadFonts([fontName])
-  wheel = new Wheel(container.value, props)
-})
+  await loadFonts([fontName]);
+  wheel = new Wheel(container.value, properties);
+
+  props.change.subscribe(() => {
+    if (wheel) {
+      wheel.init({
+        ...properties,
+        rotation: wheel.rotation
+      });
+    }
+  });
+});
 
 async function loadFonts(fontNames = []) {
   // Fail silently if browser doesn't support font loading.
-  if (!('fonts' in document)) return
+  if (!('fonts' in document)) return;
 
-  const fontLoading = []
+  const fontLoading = [];
   for (const i of fontNames) {
-    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i))
+    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
   }
 
-  await Promise.all(fontLoading)
+  await Promise.all(fontLoading);
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  height: 75vh;
+}
+</style>

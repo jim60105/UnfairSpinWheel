@@ -1,29 +1,33 @@
 /* eslint-disable vue/multi-word-component-names */
 /* eslint-disable vue/no-reserved-component-names */
-import { createApp } from 'vue'
-import App from './App.vue'
-import PrimeVue from 'primevue/config'
+import { createApp } from 'vue';
+import App from './App.vue';
+import PrimeVue from 'primevue/config';
 
-import InputText from 'primevue/inputtext'
-import Button from 'primevue/button'
-import Toast from 'primevue/toast'
-import ToastService from 'primevue/toastservice'
+import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Button from 'primevue/button';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 //theme
-import './assets/app.scss'
-import 'primevue/resources/themes/lara-light-indigo/theme.css'
-import 'primevue/resources/primevue.min.css'
-import 'primeicons/primeicons.css'
+import './assets/app.scss';
+import 'primevue/resources/themes/lara-light-indigo/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
 
-import SpinWheel from './components/SpinWheel.vue'
+import SpinWheel from './components/SpinWheel.vue';
+import ItemInputGroup from './components/ItemInputGroup.vue';
 
-const app = createApp(App)
-app.use(PrimeVue)
-app.use(ToastService)
+const app = createApp(App);
+app.use(PrimeVue);
+app.use(ToastService);
 
-app.component('Button', Button)
-app.component('InputText', InputText)
-app.component('Toast', Toast)
+app.component('Button', Button);
+app.component('InputText', InputText);
+app.component('InputNumber', InputNumber);
+app.component('Toast', Toast);
 
-app.component('SpinWheel', SpinWheel)
-app.mount('#app')
+app.component('SpinWheel', SpinWheel);
+app.component('ItemInputGroup', ItemInputGroup);
+app.mount('#app');
