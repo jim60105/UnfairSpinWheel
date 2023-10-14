@@ -7,16 +7,24 @@
   </div>
   <div class="container mx-auto grid justify-content-center align-items-start mt-3">
     <div class="spin-container flex md:col-6 sm:col-12">
-      <SpinWheel v-model:items="items" v-model:change="$change"></SpinWheel>
+      <SpinWheel></SpinWheel>
     </div>
     <div class="grid md:col-6 sm:col-12">
+      <div class="p-inputgroup col-12">
+        <Dropdown
+          v-model="groupLabel"
+          editable
+          :options="groupLabels"
+          placeholder="Select a Group"
+          class="w-full md:w-14rem"
+          @update:model-value="changeGroupLabel"
+        />
+      </div>
       <ItemInputGroup
         :class="['col-12']"
-        v-for="(item, index) in items"
-        :key="index"
+        v-for="item in items"
+        :key="item._id"
         :modelValue="item"
-        @update:label="updateItem({ label: $event, weight: item.weight }, index)"
-        @update:weight="updateItem({ label: item.label, weight: $event }, index)"
       ></ItemInputGroup>
       <div class="p-inputgroup col-12">
         <Button
@@ -33,68 +41,48 @@
 
 <script setup lang="ts">
 import ItemInputGroup from '@/components/ItemInputGroup.vue';
-import { Subject } from 'rxjs';
 import type { IItem } from '@/models/Item';
-import { ref, type Ref } from 'vue';
+import { ref, inject, onMounted } from 'vue';
+import type { DbService } from './services/DbService';
 
-const items: Ref<IItem[]> = ref([
-  {
-    label: 'Jim',
-    weight: 5
-  },
-  {
-    label: 'John',
-    weight: 1
-  },
-  {
-    label: 'Will',
-    weight: 10
-  },
-  {
-    label: 'Mark',
-    weight: 1
-  },
-  {
-    label: 'Emily',
-    weight: 7
-  },
-  {
-    label: 'Sarah',
-    weight: 3
-  },
-  {
-    label: 'David',
-    weight: 2
-  },
-  {
-    label: 'Michael',
-    weight: 1
-  },
-  {
-    label: 'Jessica',
-    weight: 3
-  }
-]);
+const dbService = inject<DbService>('DbService')!;
 
-const $change = new Subject<IItem>();
+const groupLabel = ref();
+const groupLabels = ref();
+const items = ref<PouchDB.Core.ExistingDocument<IItem>[]>();
 const addButton = ref();
 
-function updateItem(item: IItem, index: number) {
-  items.value[index].label = item.label;
-  items.value[index].weight = item.weight;
-  $change.next(items.value[index]);
-}
-
-function addItem() {
-  items.value.push({
+async function addItem() {
+  await dbService.addItem({
+    group: groupLabel.value,
     label: 'New Item',
-    weight: 1
+    weight: 1,
+    order: (await dbService.getItemCount()) ?? 0
   });
-  $change.next(items.value[items.value.length - 1]);
   setTimeout(() => {
     addButton.value.$el.scrollIntoView({ behavior: 'smooth' });
   }, 100);
 }
+
+async function changeGroupLabel(newGroupLabel: string) {
+  if (newGroupLabel !== dbService.groupLabel) {
+    dbService.groupLabel = newGroupLabel;
+    dbService.syncEvent.dispatchEvent(new Event('change'));
+  }
+}
+
+async function syncDbData() {
+  groupLabels.value = await dbService.getGroupLabels();
+  items.value = await dbService.getItems();
+}
+
+onMounted(async () => {
+  const firstItem = await dbService.getFirstItem();
+  groupLabel.value = firstItem.group;
+
+  dbService.syncEvent.addEventListener('change', syncDbData);
+  await syncDbData();
+});
 </script>
 
 <style>

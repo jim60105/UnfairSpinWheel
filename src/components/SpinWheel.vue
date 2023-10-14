@@ -4,19 +4,9 @@
 
 <script setup>
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
-import { ref, onMounted } from 'vue';
-import { Subject } from 'rxjs';
+import { ref, onMounted, inject } from 'vue';
 
-const props = defineProps({
-  items: {
-    type: Array,
-    required: true
-  },
-  change: {
-    type: Subject,
-    required: true
-  }
-});
+const dbService = inject('DbService');
 
 const fontName = 'Amatic SC';
 
@@ -47,27 +37,13 @@ const properties = {
   lineColor: '#fff',
   image: './img/example-0-image.svg',
   overlayImage: './img/example-0-overlay.svg',
-  items: props.items
+  items: []
 };
 
 // 2. Decide where you want it to go:
 const container = ref();
 
 let wheel = undefined;
-
-onMounted(async () => {
-  await loadFonts([fontName]);
-  wheel = new Wheel(container.value, properties);
-
-  props.change.subscribe(() => {
-    if (wheel) {
-      wheel.init({
-        ...properties,
-        rotation: wheel.rotation
-      });
-    }
-  });
-});
 
 async function loadFonts(fontNames = []) {
   // Fail silently if browser doesn't support font loading.
@@ -80,6 +56,21 @@ async function loadFonts(fontNames = []) {
 
   await Promise.all(fontLoading);
 }
+
+const syncDbData = async () =>
+  wheel.init({
+    ...properties,
+    items: await dbService.getItems(),
+    rotation: wheel.rotation
+  });
+
+onMounted(async () => {
+  await loadFonts([fontName]);
+  wheel = new Wheel(container.value, properties);
+
+  dbService.syncEvent.addEventListener('change', syncDbData);
+  await syncDbData();
+});
 </script>
 
 <style scoped>

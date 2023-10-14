@@ -1,8 +1,15 @@
 <template>
   <div class="p-inputgroup">
-    <InputText v-model="label" :style="{ width: '40%' }"></InputText>
+    <InputText
+      :modelValue="label"
+      @blur="updateLabel($event)"
+      @submit="updateLabel($event)"
+      :style="{ width: '40%' }"
+    ></InputText>
     <InputNumber
-      v-model="weight"
+      :modelValue="weight"
+      @update:modelValue="updateWeight($event)"
+      @change="updateWeight($event)"
       showButtons
       buttonLayout="horizontal"
       :step="1"
@@ -23,36 +30,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { inject, ref } from 'vue';
+import { DbService } from '@/services/DbService';
 
 const props = defineProps(['modelValue']);
-const emit = defineEmits(['update:label', 'update:weight']);
 
-let _label = ref(props.modelValue.label);
-let _weight = ref(props.modelValue.weight);
-const label = computed({
-  get() {
-    return _label.value;
-  },
-  set(value) {
-    if (_label.value !== value) {
-      _label.value = value;
-      emit('update:label', _label.value);
-    }
-  }
-});
+const dbService = inject<DbService>('DbService')!;
 
-const weight = computed({
-  get() {
-    return _weight.value;
-  },
-  set(value) {
-    if (_weight.value !== value) {
-      _weight.value = value;
-      emit('update:weight', _weight.value);
-    }
-  }
-});
+const label = ref(props.modelValue.label);
+const weight = ref(props.modelValue.weight);
+
+function updateLabel(value: Event) {
+  const input = value.target as HTMLInputElement;
+  label.value = input.value;
+  const item = props.modelValue;
+  item.label = input.value;
+  dbService.updateItem(item);
+}
+
+function updateWeight(value: Number) {
+  weight.value = value;
+  const item = props.modelValue;
+  item.weight = value;
+  dbService.updateItem(item);
+}
 </script>
 
 <style scoped></style>
