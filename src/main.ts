@@ -3,7 +3,6 @@
 import { createApp } from 'vue';
 import App from '@/App.vue';
 import PrimeVue from 'primevue/config';
-import { DbService } from '@/services/DbService';
 
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -11,6 +10,9 @@ import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import Dropdown from 'primevue/dropdown';
+import ConfirmPopup from 'primevue/confirmpopup';
+import ConfirmationService from 'primevue/confirmationservice';
+import Divider from 'primevue/divider';
 
 //theme
 import '@/assets/app.scss';
@@ -20,16 +22,20 @@ import 'primeicons/primeicons.css';
 
 import SpinWheel from '@/components/SpinWheel.vue';
 import ItemInputGroup from '@/components/ItemInputGroup.vue';
+import { DbService } from '@/services/DbService';
 
 const app = createApp(App);
 app.use(PrimeVue);
+app.use(ConfirmationService);
 app.use(ToastService);
 
 app.component('Button', Button);
 app.component('InputText', InputText);
 app.component('InputNumber', InputNumber);
+app.component('ConfirmPopup', ConfirmPopup);
 app.component('Toast', Toast);
 app.component('Dropdown', Dropdown);
+app.component('Divider', Divider);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);

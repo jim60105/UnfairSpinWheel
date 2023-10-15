@@ -39,6 +39,8 @@
     "package.json"
   ],
   "cSpell.words": [
+    "confirmationservice",
+    "confirmpopup",
     "decrementbuttonicon",
     "incrementbuttonicon",
     "inputgroup",
@@ -47,6 +49,7 @@
     "noround",
     "primeicons",
     "primevue",
-    "toastservice"
+    "toastservice",
+    "useconfirm"
   ]
 }

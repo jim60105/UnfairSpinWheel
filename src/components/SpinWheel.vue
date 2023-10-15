@@ -1,10 +1,10 @@
 <template>
-  <div ref="container" class="w-full container"></div>
+  <div ref="container" class="w-full spin-container"></div>
 </template>
 
 <script setup>
-import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 import { ref, onMounted, inject } from 'vue';
+import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 
 const dbService = inject('DbService');
 
@@ -73,8 +73,16 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-.container {
-  height: 75vh;
+<style lang="scss" scoped>
+@import 'primeflex/core/_variables.scss';
+
+.spin-container {
+  aspect-ratio: 1/1;
+  height: auto;
+
+  // Use height 100vh for md breakpoint and above.
+  @media (min-width: map-get($breakpoints, 'md')) {
+    height: calc(100vh - 15em);
+  }
 }
 </style>

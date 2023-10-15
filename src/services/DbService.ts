@@ -1,6 +1,6 @@
-import type { IItem } from '@/models/Item';
 import PouchDB from 'pouchdb-browser';
 import PouchDBFind from 'pouchdb-find';
+import type { IItem } from '@/models/Item';
 import { templateItems } from '@/assets/TemplateData';
 
 export class DbService {
@@ -80,4 +80,24 @@ export class DbService {
     doc.weight = item.weight;
     return this.db.put(item);
   }
+
+  public removeItem = (item: PouchDB.Core.ExistingDocument<IItem>) => {
+    const _item: PouchDB.Core.ExistingDocument<IItem & PouchDB.Core.ChangesMeta> = item;
+    _item._deleted = true;
+    return this.db.put(_item);
+  };
+
+  public removeGroup = async (groupLabel: string) => {
+    if (groupLabel === this._firstItem?.group) this._firstItem = undefined;
+
+    const items: PouchDB.Core.ExistingDocument<IItem & PouchDB.Core.ChangesMeta>[] =
+      await this.getItemByGroupLabel(groupLabel);
+    items.forEach((item) => (item._deleted = true));
+    await this.db.bulkDocs(items);
+
+    const firstItem = await this.getFirstItem();
+    this.groupLabel = firstItem.group;
+
+    this.syncEvent.dispatchEvent(new Event('change'));
+  };
 }

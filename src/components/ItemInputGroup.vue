@@ -1,24 +1,26 @@
 <template>
   <div class="p-inputgroup">
+    <Button icon="pi pi-trash" severity="danger" outlined aria-label="Remove" @click="removeItem" />
     <InputText
       :modelValue="label"
       @blur="updateLabel($event)"
       @submit="updateLabel($event)"
-      :style="{ width: '40%' }"
     ></InputText>
     <InputNumber
       :modelValue="weight"
       @update:modelValue="updateWeight($event)"
       @change="updateWeight($event)"
       showButtons
-      buttonLayout="horizontal"
       :step="1"
-      decrementButtonClass="p-button-secondary border-noround"
+      decrementButtonClass="p-button-secondary"
       incrementButtonClass="p-button-secondary"
       mode="decimal"
+      :style="{
+        maxWidth: 'fit-content'
+      }"
       :pt="{
         input: {
-          style: { width: '3em', borderRadius: '0', textAlign: 'center' }
+          style: { minWidth: '4em', maxWidth: '4em', borderRadius: '0', textAlign: 'center' }
         }
       }"
       :min="1"
@@ -53,6 +55,10 @@ function updateWeight(value: Number) {
   const item = props.modelValue;
   item.weight = value;
   dbService.updateItem(item);
+}
+
+function removeItem() {
+  dbService.removeItem(props.modelValue);
 }
 </script>
 
