@@ -116,6 +116,9 @@ onMounted(async () => {
 </script>
 
 <style>
+.header {
+  font-family: 'Rock Salt';
+}
 .container {
   max-width: 80vw;
 }

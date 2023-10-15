@@ -8,7 +8,7 @@ import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 
 const dbService = inject('DbService');
 
-const fontName = 'Amatic SC';
+const fontName = ['Mochiy Pop P One'];
 
 // 1. Configure the wheel's properties:
 const properties = {
@@ -20,7 +20,7 @@ const properties = {
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
   itemLabelBaselineOffset: -0.07,
-  itemLabelFont: fontName,
+  itemLabelFont: fontName.join(', '),
   itemLabelFontSizeMax: 55,
   itemBackgroundColors: [
     '#ffc93c',
@@ -65,7 +65,7 @@ const syncDbData = async () =>
   });
 
 onMounted(async () => {
-  await loadFonts([fontName]);
+  await loadFonts(fontName);
   wheel = new Wheel(container.value, properties);
 
   dbService.syncEvent.addEventListener('change', syncDbData);
