@@ -16,7 +16,7 @@ import Divider from 'primevue/divider';
 
 //theme
 import '@/assets/app.scss';
-import 'primevue/resources/themes/lara-light-indigo/theme.css';
+import 'primevue/resources/themes/lara-dark-indigo/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 

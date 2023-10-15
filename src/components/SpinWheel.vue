@@ -14,8 +14,9 @@ const fontName = ['Mochiy Pop P One'];
 const properties = {
   debug: import.meta.env.DEV,
   radius: 0.84,
+  rotationResistance: 0,
   itemLabelRadius: 0.93,
-  itemLabelRadiusMax: 0.6,
+  itemLabelRadiusMax: 0.45,
   itemLabelRotation: 180,
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
@@ -32,7 +33,6 @@ const properties = {
     '#d54062'
   ],
   rotationSpeedMax: 500,
-  rotationResistance: -100,
   lineWidth: 1,
   lineColor: '#fff',
   image: './img/example-0-image.svg',
@@ -70,6 +70,8 @@ onMounted(async () => {
 
   dbService.syncEvent.addEventListener('change', syncDbData);
   await syncDbData();
+
+  wheel.spin(10);
 });
 </script>
 
@@ -80,9 +82,12 @@ onMounted(async () => {
   aspect-ratio: 1/1;
   height: auto;
 
-  // Use height 100vh for md breakpoint and above.
+  background: -moz-radial-gradient(circle at center, #d2acffe1 0%, rgba(0, 0, 0, 0) 48%);
+  background: -webkit-radial-gradient(circle at center, #d2acffe1 0%, rgba(0, 0, 0, 0) 48%);
+  background: radial-gradient(circle at center, #d2acffe1 0%, rgba(0, 0, 0, 0) 48%);
+
   @media (min-width: map-get($breakpoints, 'md')) {
-    height: calc(100vh - 15em);
+    height: calc(90vh);
   }
 }
 </style>

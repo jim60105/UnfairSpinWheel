@@ -6,11 +6,11 @@
       The world is unfair, and so is our spin wheel.
     </p>
   </div>
-  <div class="container mx-auto grid justify-content-center align-items-start mt-3">
-    <div class="spin-container flex lg:col-7 md:col-12">
+  <div class="container mx-auto grid justify-content-center align-items-start">
+    <div class="spin-container flex col-12">
       <SpinWheel></SpinWheel>
     </div>
-    <div class="grid lg:col-5 md:col-12">
+    <div class="grid col-12">
       <div class="p-inputgroup col-12">
         <Button
           icon="pi pi-trash"
@@ -115,9 +115,18 @@ onMounted(async () => {
 });
 </script>
 
-<style>
+<style lang="scss">
 .header {
   font-family: 'Rock Salt';
+  -webkit-text-shadow: 9px 7px 20px #000000;
+  text-shadow: 9px 7px 20px #000000;
+
+  h1 {
+    font-size: xxx-large;
+  }
+  p {
+    font-size: large;
+  }
 }
 .container {
   max-width: 80vw;

@@ -2,4 +2,10 @@
 
 body {
   font-family: 'Mochiy Pop P One';
+
+  background: #401871;
+  background: -moz-radial-gradient(center, circle cover, #401871 0%, #000000 100%);
+  background: -webkit-radial-gradient(center, circle cover, #401871 0%, #000000 100%);
+  background: radial-gradient(circle at center, #401871 0%, #000000 100%);
+  background-attachment: fixed;
 }
