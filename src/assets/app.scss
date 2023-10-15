@@ -3,9 +3,18 @@
 body {
   font-family: 'Mochiy Pop P One';
 
-  background: #401871;
-  background: -moz-radial-gradient(center, circle cover, #401871 0%, #000000 100%);
-  background: -webkit-radial-gradient(center, circle cover, #401871 0%, #000000 100%);
-  background: radial-gradient(circle at center, #401871 0%, #000000 100%);
+  $background-color: rgb(33, 47, 86);
+
+  background: $background-color;
+  background: -moz-radial-gradient(center, circle cover, $background-color 0%, #000000 100%);
+  background: -webkit-radial-gradient(center, circle cover, $background-color 0%, #000000 100%);
+  background: radial-gradient(circle at center, $background-color 0%, #000000 100%);
   background-attachment: fixed;
+}
+
+.p-tooltip {
+  font-family: 'Rock Salt';
+  font-size: 0.75rem;
+  text-align: center;
+  font-weight: 700;
 }

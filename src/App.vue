@@ -128,7 +128,4 @@ onMounted(async () => {
     font-size: large;
   }
 }
-.container {
-  max-width: 80vw;
-}
 </style>

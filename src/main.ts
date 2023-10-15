@@ -13,10 +13,11 @@ import Dropdown from 'primevue/dropdown';
 import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmationService from 'primevue/confirmationservice';
 import Divider from 'primevue/divider';
+import Tooltip from 'primevue/tooltip';
 
 //theme
 import '@/assets/app.scss';
-import 'primevue/resources/themes/lara-dark-indigo/theme.css';
+import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 
@@ -36,6 +37,7 @@ app.component('ConfirmPopup', ConfirmPopup);
 app.component('Toast', Toast);
 app.component('Dropdown', Dropdown);
 app.component('Divider', Divider);
+app.directive('tooltip', Tooltip);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
