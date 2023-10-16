@@ -1,5 +1,6 @@
 <template>
   <div ref="container" class="spin-container">
+    <div class="icon"></div>
     <div
       class="spin-button rotating"
       @click="spin"
@@ -130,6 +131,21 @@ onMounted(async () => {
   @media (min-width: map-get($breakpoints, 'lg')) {
     height: 110vh;
   }
+}
+.icon {
+  $icon-size: 10vh;
+  // cursor: pointer;
+
+  width: $icon-size;
+  height: $icon-size;
+  border-radius: 50%;
+  background-image: url('/img/icon.png');
+  background-size: contain;
+  // background-color: rgba(1, 1, 1, 0.5);
+
+  position: absolute;
+  top: calc(calc(50% - 42.3vh) - calc($icon-size / 2));
+  left: calc(calc(50%) - calc($icon-size / 2));
 }
 
 .spin-button {
