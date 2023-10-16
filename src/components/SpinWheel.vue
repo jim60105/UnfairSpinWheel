@@ -10,6 +10,15 @@
       @click="stop"
       v-tooltip.bottom="{ value: 'Stop!', class: 'text-xl' }"
     ></div>
+    <div
+      class="customize-button"
+      @click="emit('update:visibleSidebar', true)"
+      v-tooltip.bottom="{
+        value: `<i class='pi pi-palette'></i> Customize`,
+        escape: true,
+        class: 'text-xl'
+      }"
+    ></div>
     <a
       href="https://www.bing.com/images/create/spin-wheel-game2c-web-design-material2c-dark-mode-de/652bec3676ed40afac326e7bd32cf3c6?id=sGSw5bLqrygiMyekuUrIMw%3d%3d&view=detailv2&idpp=genimg&FORM=GCRIDP&mode=overlay"
       target="_blank"
@@ -24,6 +33,8 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
+
+const emit = defineEmits(['update:visibleSidebar']);
 
 const dbService = inject('DbService');
 
@@ -149,6 +160,20 @@ onMounted(async () => {
   position: absolute;
   top: calc(calc(50% + 30.8vh) - calc($stop-button-size / 2));
   left: calc(calc(50% + 35.4vh) - calc($stop-button-size / 2));
+}
+
+.customize-button {
+  $customize-button-width: 6vh;
+  $customize-button-height: 3.5vh;
+  cursor: pointer;
+
+  width: $customize-button-width;
+  height: $customize-button-height;
+  background-color: transparent;
+
+  position: absolute;
+  top: calc(calc(50% + 36vh) - calc($customize-button-height / 2));
+  left: calc(calc(50% + 25.9vh) - calc($customize-button-width / 2));
 }
 
 .source-link {

@@ -14,6 +14,8 @@ import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmationService from 'primevue/confirmationservice';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
+import Sidebar from 'primevue/sidebar';
+import ScrollPanel from 'primevue/scrollpanel';
 
 //theme
 import '@/assets/app.scss';
@@ -37,6 +39,8 @@ app.component('ConfirmPopup', ConfirmPopup);
 app.component('Toast', Toast);
 app.component('Dropdown', Dropdown);
 app.component('Divider', Divider);
+app.component('Sidebar', Sidebar);
+app.component('ScrollPanel', ScrollPanel);
 app.directive('tooltip', Tooltip);
 
 app.component('SpinWheel', SpinWheel);

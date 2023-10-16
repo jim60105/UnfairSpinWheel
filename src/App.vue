@@ -1,17 +1,44 @@
 <template>
   <ConfirmPopup></ConfirmPopup>
-  <div class="header grid">
-    <h1 class="flex col-12 justify-content-center align-items-center mb-0">Unfair Spin Wheel</h1>
-    <p class="flex col-12 justify-content-center align-items-center mt-0">
-      The world is unfair, and so is our spin wheel.
-    </p>
-  </div>
-  <div class="container mx-auto grid justify-content-center align-items-start">
-    <div class="spin-container flex col-12">
-      <SpinWheel></SpinWheel>
+  <ScrollPanel class="h-screen">
+    <div class="header grid">
+      <h1 class="flex col-12 justify-content-center align-items-center mb-0">Unfair Spin Wheel</h1>
+      <p class="flex col-12 justify-content-center align-items-center my-0 py-0">
+        The world is unfair, and so is our spin wheel.
+      </p>
     </div>
-    <div class="grid col-12">
-      <div class="p-inputgroup col-12">
+    <div class="mx-auto grid justify-content-center align-items-start h-screen overflow-y-hidden">
+      <div class="spin-container flex col-12">
+        <SpinWheel @update:visibleSidebar="visibleSidebar = $event"></SpinWheel>
+      </div>
+    </div>
+  </ScrollPanel>
+
+  <Sidebar
+    v-model:visible="visibleSidebar"
+    position="right"
+    :showCloseIcon="false"
+    :pt="{
+      root: {
+        style: { width: '500px' }
+      },
+      header: {
+        class: 'justify-content-start pb-0'
+      }
+    }"
+  >
+    <template #header>
+      <h2><i class="pi pi-palette"></i> Customize</h2>
+    </template>
+    <ScrollPanel
+      class="h-full"
+      :pt="{
+        content: {
+          class: 'grid'
+        }
+      }"
+    >
+      <div class="p-inputgroup col-12 mt-4">
         <Button
           icon="pi pi-trash"
           severity="danger"
@@ -47,8 +74,8 @@
           @click="addItem"
         />
       </div>
-    </div>
-  </div>
+    </ScrollPanel>
+  </Sidebar>
 </template>
 
 <script setup lang="ts">
@@ -65,6 +92,7 @@ const groupLabels = ref();
 const items = ref<PouchDB.Core.ExistingDocument<IItem>[]>();
 const addButton = ref();
 
+const visibleSidebar = ref(false);
 const confirm = useConfirm();
 
 async function addItem() {

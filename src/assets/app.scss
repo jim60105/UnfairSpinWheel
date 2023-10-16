@@ -10,6 +10,8 @@ body {
   background: -webkit-radial-gradient(center, circle cover, $background-color 0%, #000000 100%);
   background: radial-gradient(circle at center, $background-color 0%, #000000 100%);
   background-attachment: fixed;
+
+  margin: 0;
 }
 
 .p-tooltip {
