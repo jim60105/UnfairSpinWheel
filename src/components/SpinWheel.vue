@@ -1,33 +1,39 @@
 <template>
   <div ref="container" class="spin-container">
-    <div class="icon"></div>
-    <div
-      class="spin-button rotating"
-      @click="spin"
-      v-tooltip.bottom="{ value: 'Spin!', class: 'text-xl' }"
-    ></div>
-    <div
-      class="stop-button"
-      @click="stop"
-      v-tooltip.bottom="{ value: 'Stop!', class: 'text-xl' }"
-    ></div>
-    <div
-      class="customize-button"
-      @click="emit('update:visibleSidebar', true)"
-      v-tooltip.bottom="{
-        value: `<i class='pi pi-palette'></i> Customize`,
-        escape: true,
-        class: 'text-xl'
-      }"
-    ></div>
-    <a
-      href="https://www.bing.com/images/create/spin-wheel-game2c-web-design-material2c-dark-mode-de/652bec3676ed40afac326e7bd32cf3c6?id=sGSw5bLqrygiMyekuUrIMw%3d%3d&view=detailv2&idpp=genimg&FORM=GCRIDP&mode=overlay"
-      target="_blank"
-      class="source-link"
-      v-tooltip.bottom="{
-        value: `Image powered by DALL·E 3`
-      }"
-    ></a>
+    <div class="icon" @click="spin" v-tooltip.bottom="{ value: 'Spin!', class: 'text-xl' }"></div>
+  </div>
+  <div class="grid button-container">
+    <div class="col">
+      <Button label="Spin!" severity="success" outlined size="large" @click="spin" />
+    </div>
+    <div class="col">
+      <Button label="Stop!" severity="danger" outlined size="large" @click="stopAndClearSound" />
+    </div>
+    <div class="col">
+      <Button
+        icon="pi pi-palette"
+        label="Customize"
+        severity="info"
+        outlined
+        size="large"
+        @click="emit('update:visibleSidebar', true)"
+      />
+    </div>
+    <div class="p-float-label col flex">
+      <Dropdown
+        v-model="selectedSound"
+        inputId="dd-sound"
+        :options="groupedSounds"
+        optionLabel="label"
+        optionGroupLabel="label"
+        optionGroupChildren="items"
+        showClear
+        :pt="{
+          input: { class: 'flex align-items-center', style: { minWidth: '150px' } }
+        }"
+      />
+      <label for="dd-sound">Select a Sound</label>
+    </div>
   </div>
 </template>
 
@@ -43,7 +49,7 @@ const fontName = ['Mochiy Pop P One'];
 
 // 1. Configure the wheel's properties:
 const properties = {
-  debug: import.meta.env.DEV,
+  // debug: import.meta.env.DEV,
   radius: 0.47,
   rotationResistance: 0,
   itemLabelRadius: 0.93,
@@ -70,10 +76,34 @@ const properties = {
   rotationSpeedMax: 500,
   lineWidth: 1,
   lineColor: '#fff',
-  // image: './img/image.png',
-  // overlayImage: './img/image.png',
+  // image: './img/icon.png',
+  overlayImage: './img/image.png',
   items: []
 };
+
+const selectedSound = ref();
+const groupedSounds = ref([
+  {
+    label: 'Sound Effect',
+    items: [
+      { label: 'Car horn', value: 'car_horn-108152.mp3' },
+      { label: 'Cork', value: 'cork-85200.mp3' },
+      { label: 'Ding', value: 'ding-108042.mp3' },
+      { label: 'Interface', value: 'interface-1-126517.mp3' },
+      { label: 'Start', value: 'start-13691.mp3' }
+    ]
+  },
+  {
+    label: 'Funny Voice',
+    items: [
+      { label: '臥槽', value: '臥槽.webm' },
+      { label: '尖叫', value: '尖叫2.webm' },
+      { label: '哈哈ᏊꈊᏊ', value: '哈哈ᏊꈊᏊ_638014168033514976.webm' },
+      { label: '哈哈ᏊꈊᏊ', value: '哈哈ᏊꈊᏊ_638014227957579626.webm' },
+      { label: '靠北喔', value: '靠北喔.webm' }
+    ]
+  }
+]);
 
 // 2. Decide where you want it to go:
 const container = ref();
@@ -95,12 +125,24 @@ async function loadFonts(fontNames = []) {
 const syncDbData = async () => (wheel.items = await dbService.getItems());
 
 const spin = () => {
-  console.log('Spin!');
-  wheel.rotationResistance = -80;
-  wheel.spin(500);
+  wheel.onCurrentIndexChange = playSound;
+
+  wheel.rotationResistance = -100;
+  wheel.spin(1000);
 };
 
-const stop = () => wheel.stop();
+const stopAndClearSound = () => {
+  wheel.onCurrentIndexChange = undefined;
+  wheel.stop();
+};
+
+const playSound = () => {
+  if (!selectedSound.value) return;
+
+  const audio = new Audio(`/sound/${selectedSound.value.value}`);
+  audio.volume = 0.3;
+  audio.play();
+};
 
 onMounted(async () => {
   await loadFonts(fontName);
@@ -110,6 +152,8 @@ onMounted(async () => {
   await syncDbData();
 
   wheel.spin(10);
+
+  wheel.onRest = stopAndClearSound;
 });
 </script>
 
@@ -121,20 +165,24 @@ onMounted(async () => {
   width: 2000vw;
   height: 70vh;
 
-  background-image: url('/img/image.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-
   position: relative;
 
   @media (min-width: map-get($breakpoints, 'lg')) {
     height: 110vh;
   }
 }
+
+.p-float-label .p-inputwrapper-filled ~ label {
+  top: 0;
+}
+
+.button-container {
+  margin-top: -5.5rem;
+}
+
 .icon {
-  $icon-size: 10vh;
-  // cursor: pointer;
+  $icon-size: 13vh;
+  cursor: pointer;
 
   width: $icon-size;
   height: $icon-size;
@@ -144,85 +192,13 @@ onMounted(async () => {
   // background-color: rgba(1, 1, 1, 0.5);
 
   position: absolute;
-  top: calc(calc(50% - 42.3vh) - calc($icon-size / 2));
+  top: calc(calc(50%) - calc($icon-size / 2));
   left: calc(calc(50%) - calc($icon-size / 2));
 }
 
-.spin-button {
-  $spin-button-size: 6vh;
-  cursor: pointer;
-
-  width: $spin-button-size;
-  height: $spin-button-size;
-  border-radius: 50%;
-  background-image: url('/img/spin-button.png');
-  background-size: contain;
-  // background-color: rgba(1, 1, 1, 0.5);
-
-  position: absolute;
-  top: calc(calc(50% + 29.1vh) - calc($spin-button-size / 2));
-  left: calc(calc(50% + 26vh) - calc($spin-button-size / 2));
-}
-
-.stop-button {
-  $stop-button-size: 4.5vh;
-  cursor: pointer;
-
-  width: $stop-button-size;
-  height: $stop-button-size;
-  border-radius: 50%;
-  background-color: transparent;
-
-  position: absolute;
-  top: calc(calc(50% + 30.8vh) - calc($stop-button-size / 2));
-  left: calc(calc(50% + 35.4vh) - calc($stop-button-size / 2));
-}
-
-.customize-button {
-  $customize-button-width: 6vh;
-  $customize-button-height: 3.5vh;
-  cursor: pointer;
-
-  width: $customize-button-width;
-  height: $customize-button-height;
-  background-color: transparent;
-
-  position: absolute;
-  top: calc(calc(50% + 36vh) - calc($customize-button-height / 2));
-  left: calc(calc(50% + 25.9vh) - calc($customize-button-width / 2));
-}
-
-.source-link {
-  $source-link-size: 3vh;
-
-  width: $source-link-size;
-  height: $source-link-size;
-  border-radius: 50%;
-  background-color: transparent;
-
-  position: absolute;
-  top: calc(calc(50% + 36.3vh) - calc($source-link-size / 2));
-  left: calc(calc(50% + 41.6vh) - calc($source-link-size / 2));
-}
-
-.rotating {
-  -webkit-animation: rotating 5s linear infinite;
-  animation: rotating 5s linear infinite;
-}
-@-webkit-keyframes rotating {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@keyframes rotating {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
+label {
+  left: 0.55rem;
+  padding-left: 0.75rem;
+  padding-right: 1.75rem;
 }
 </style>

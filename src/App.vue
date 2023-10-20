@@ -7,10 +7,8 @@
         The world is unfair, and so is our spin wheel.
       </p>
     </div>
-    <div class="mx-auto grid justify-content-center align-items-start h-screen overflow-y-hidden">
-      <div class="spin-container flex col-12">
-        <SpinWheel @update:visibleSidebar="visibleSidebar = $event"></SpinWheel>
-      </div>
+    <div class="flex flex-wrap justify-content-center align-items-start">
+      <SpinWheel @update:visibleSidebar="visibleSidebar = $event"></SpinWheel>
     </div>
   </ScrollPanel>
 
