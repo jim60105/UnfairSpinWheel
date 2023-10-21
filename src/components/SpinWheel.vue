@@ -73,7 +73,7 @@ const properties = {
     '#904e55',
     '#8b7856'
   ],
-  rotationSpeedMax: 500,
+  rotationSpeedMax: 2000,
   lineWidth: 1,
   lineColor: '#fff',
   // image: './img/icon.png',
@@ -127,8 +127,8 @@ const syncDbData = async () => (wheel.items = await dbService.getItems());
 const spin = () => {
   wheel.onCurrentIndexChange = playSound;
 
-  wheel.rotationResistance = -100;
-  wheel.spin(1000);
+  wheel.rotationResistance = -500;
+  wheel.spin(wheel.rotationSpeed + 1000);
 };
 
 const stopAndClearSound = () => {
