@@ -33,11 +33,11 @@
 
 <script setup lang="ts">
 import { inject, ref } from 'vue';
-import { DbService } from '@/services/DbService';
+import { ItemService } from '@/services/ItemService';
 
 const props = defineProps(['modelValue']);
 
-const dbService = inject<DbService>('DbService')!;
+const itemService = inject<ItemService>('ItemService');
 
 const label = ref(props.modelValue.label);
 const weight = ref(props.modelValue.weight);
@@ -47,18 +47,18 @@ function updateLabel(value: Event) {
   label.value = input.value;
   const item = props.modelValue;
   item.label = input.value;
-  dbService.updateItem(item);
+  itemService?.updateItem(item);
 }
 
 function updateWeight(value: Number) {
   weight.value = value;
   const item = props.modelValue;
   item.weight = value;
-  dbService.updateItem(item);
+  itemService?.updateItem(item);
 }
 
 function removeItem() {
-  dbService.removeItem(props.modelValue);
+  itemService?.removeItem(props.modelValue);
 }
 </script>
 

@@ -22,8 +22,10 @@ import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 
 import SpinWheel from '@/components/SpinWheel.vue';
-import ItemInputGroup from '@/components/ItemInputGroup.vue';
-import { DbService } from '@/services/DbService';
+import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
+import SidebarPanel from '@/components/sidebar-panel/SidebarPanel.vue';
+import { ItemService } from '@/services/ItemService';
+import { SidebarService } from '@/services/SidebarService';
 
 const app = createApp(App);
 app.use(PrimeVue);
@@ -41,9 +43,13 @@ app.directive('tooltip', Tooltip);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
+app.component('SidebarPanel', SidebarPanel);
 
-const dbService = new DbService();
-await dbService.init();
-app.provide('DbService', dbService);
+const itemService = new ItemService();
+await itemService.init();
+app.provide('ItemService', itemService);
+
+const sidebarService = new SidebarService();
+app.provide('SidebarService', sidebarService);
 
 app.mount('#app');

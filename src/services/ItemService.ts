@@ -1,11 +1,12 @@
+import { ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import PouchDBFind from 'pouchdb-find';
 import type { IItem } from '@/models/Item';
 import { templateItems } from '@/assets/TemplateData';
 
-export class DbService {
-  db: PouchDB.Database<IItem> = new PouchDB('db');
-  public groupLabel: string = '';
+export class ItemService {
+  private db: PouchDB.Database<IItem> = new PouchDB('db');
+  public groupLabel = ref<string>();
   public syncEvent: EventTarget = new EventTarget();
 
   async init() {
@@ -14,8 +15,7 @@ export class DbService {
     PouchDB.plugin(PouchDBFind);
     const dbInfo = await this.db.info();
 
-    const firstItem = await this.getFirstItem();
-    this.groupLabel = firstItem.group;
+    await this.resetGroupLabel();
 
     if (dbInfo.doc_count !== 0) {
       this.db.compact();
@@ -38,7 +38,7 @@ export class DbService {
   ];
 
   public getItems = async (): Promise<PouchDB.Core.ExistingDocument<IItem>[]> =>
-    this.getItemByGroupLabel(this.groupLabel || (await this.getFirstItem()).group);
+    this.getItemByGroupLabel(this.groupLabel.value || (await this.getFirstItem()).group);
 
   public getItemByGroupLabel = async (
     groupLabel: string
@@ -51,12 +51,13 @@ export class DbService {
       })
     ).docs.sort((a, b) => a.order - b.order);
 
-  insertTemplateItems = (): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]> =>
+  private insertTemplateItems = (): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]> =>
     this.db.bulkDocs(templateItems);
 
   public addItem = async (item: IItem): Promise<PouchDB.Core.Response> => this.db.post(item);
 
   private _firstItem: PouchDB.Core.ExistingDocument<IItem> | undefined;
+
   public async getFirstItem(): Promise<PouchDB.Core.ExistingDocument<IItem>> {
     if (this._firstItem) return this._firstItem;
 
@@ -70,6 +71,11 @@ export class DbService {
       this._firstItem = item.doc;
       return this._firstItem!;
     }
+  }
+
+  public async resetGroupLabel() {
+    const firstItem = await this.getFirstItem();
+    this.groupLabel.value = firstItem.group;
   }
 
   public async updateItem(
@@ -95,9 +101,7 @@ export class DbService {
     items.forEach((item) => (item._deleted = true));
     await this.db.bulkDocs(items);
 
-    const firstItem = await this.getFirstItem();
-    this.groupLabel = firstItem.group;
-
+    await this.resetGroupLabel();
     this.syncEvent.dispatchEvent(new Event('change'));
   };
 }

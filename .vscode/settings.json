@@ -46,11 +46,13 @@
     "inputgroup",
     "inputnumber",
     "inputtext",
+    "inputwrapper",
     "Mochiy",
     "noround",
     "primeflex",
     "primeicons",
     "primevue",
+    "scrollpanel",
     "toastservice",
     "useconfirm"
   ]

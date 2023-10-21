@@ -16,7 +16,7 @@
         severity="info"
         outlined
         size="large"
-        @click="emit('update:visibleSidebar', true)"
+        @click="sidebarService.openSidebar"
       />
     </div>
     <div class="p-float-label col flex">
@@ -38,18 +38,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, inject, onUnmounted } from 'vue';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 
-const emit = defineEmits(['update:visibleSidebar']);
-
-const dbService = inject('DbService');
+const itemService = inject('ItemService');
+const sidebarService = inject('SidebarService');
 
 const fontName = ['Mochiy Pop P One'];
 
 // 1. Configure the wheel's properties:
 const properties = {
   // debug: import.meta.env.DEV,
+  isInteractive: false,
   radius: 0.47,
   rotationResistance: 0,
   itemLabelRadius: 0.93,
@@ -122,7 +122,7 @@ async function loadFonts(fontNames = []) {
   await Promise.all(fontLoading);
 }
 
-const syncDbData = async () => (wheel.items = await dbService.getItems());
+const syncDbData = async () => (wheel.items = await itemService.getItems());
 
 const spin = () => {
   wheel.onCurrentIndexChange = playSound;
@@ -148,12 +148,16 @@ onMounted(async () => {
   await loadFonts(fontName);
   wheel = new Wheel(container.value, properties);
 
-  dbService.syncEvent.addEventListener('change', syncDbData);
+  itemService.syncEvent.addEventListener('change', syncDbData);
   await syncDbData();
 
   wheel.spin(10);
 
   wheel.onRest = stopAndClearSound;
+});
+
+onUnmounted(() => {
+  itemService.syncEvent.removeEventListener('change', syncDbData);
 });
 </script>
 
