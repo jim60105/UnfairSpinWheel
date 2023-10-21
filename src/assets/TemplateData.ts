@@ -1,54 +1,54 @@
 export const templateItems = [
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Jim',
     weight: 5,
     order: 0
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'John',
     weight: 1,
     order: 1
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Will',
-    weight: 10,
+    weight: 5,
     order: 2
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Mark',
     weight: 1,
     order: 3
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Emily',
     weight: 4,
     order: 4
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Sarah',
     weight: 3,
     order: 5
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'David',
     weight: 2,
     order: 6
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Michael',
     weight: 1,
     order: 7
   },
   {
-    group: 'Names',
+    group: "Who's the next winner?",
     label: 'Jessica',
     weight: 3,
     order: 8
@@ -107,5 +107,60 @@ export const templateItems = [
     label: 'Apple TV',
     weight: 1,
     order: 17
+  },
+
+  {
+    group: '晚餐吃什麼?',
+    label: '火鍋',
+    weight: 5,
+    order: 18
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '牛肉麵',
+    weight: 4,
+    order: 19
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '牛排館',
+    weight: 3,
+    order: 20
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '拉麵',
+    weight: 2,
+    order: 21
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '便當店',
+    weight: 1,
+    order: 22
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '自助餐',
+    weight: 1,
+    order: 23
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '夜市',
+    weight: 3,
+    order: 24
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '速食店',
+    weight: 10,
+    order: 25
+  },
+  {
+    group: '晚餐吃什麼?',
+    label: '中餐館',
+    weight: 3,
+    order: 26
   }
 ];

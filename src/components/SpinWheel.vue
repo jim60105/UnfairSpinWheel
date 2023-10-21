@@ -96,11 +96,11 @@ const groupedSounds = ref([
   {
     label: 'Funny Voice',
     items: [
-      { label: '臥槽', value: '臥槽.webm' },
-      { label: '尖叫', value: '尖叫2.webm' },
-      { label: '哈哈ᏊꈊᏊ', value: '哈哈ᏊꈊᏊ_638014168033514976.webm' },
-      { label: '哈哈ᏊꈊᏊ', value: '哈哈ᏊꈊᏊ_638014227957579626.webm' },
-      { label: '靠北喔', value: '靠北喔.webm' }
+      { label: 'Screaming', value: '尖叫2.mp3' },
+      { label: 'Laughing', value: '哈哈ᏊꈊᏊ_638014168033514976.mp3' },
+      { label: 'Laughing', value: '哈哈ᏊꈊᏊ_638014227957579626.mp3' },
+      { label: '臥槽 (Chinese Swear words)', value: '臥槽.mp3' },
+      { label: '靠北喔 (Taiwanese mild expletive)', value: '靠北喔.mp3' }
     ]
   }
 ]);
