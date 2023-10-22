@@ -4,7 +4,7 @@
       class="icon"
       @click="spin"
       v-tooltip.bottom="{
-        value: `<i class='pi pi-refresh'></i>Spin!`,
+        value: `↻ Spin!`,
         class: 'text-xl',
         escape: true
       }"
@@ -17,8 +17,17 @@
         icon="pi pi-refresh"
         severity="success"
         outlined
+        class="w-full"
         size="large"
         @click="spin"
+        :pt="{
+          icon: {
+            class: 'flex-auto flex justify-content-end'
+          },
+          label: {
+            class: 'text-left'
+          }
+        }"
       />
     </div>
     <div class="col">
@@ -27,18 +36,36 @@
         icon="pi pi-stop"
         severity="danger"
         outlined
+        class="w-full"
         size="large"
         @click="stopAndClearSound"
+        :pt="{
+          icon: {
+            class: 'flex-auto flex justify-content-end'
+          },
+          label: {
+            class: 'text-left'
+          }
+        }"
       />
     </div>
-    <div class="col">
+    <div class="col-12">
       <Button
         icon="pi pi-palette"
         label="Customize"
         severity="info"
         outlined
+        class="w-full"
         size="large"
         @click="sidebarService.openSidebar"
+        :pt="{
+          icon: {
+            class: 'flex-auto flex justify-content-end'
+          },
+          label: {
+            class: 'text-left'
+          }
+        }"
       />
     </div>
   </div>
