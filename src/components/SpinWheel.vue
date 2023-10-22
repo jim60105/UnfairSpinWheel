@@ -89,7 +89,7 @@
 import { ref, onMounted, inject, watch } from 'vue';
 import random from 'random';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
-import { TickSound } from '@/services/SettingService';
+import { TickSound, LabelLength } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 
 const itemService = inject('ItemService');
@@ -171,10 +171,18 @@ const playSound = () => {
 
 onMounted(async () => {
   await loadFonts(fontName);
-  wheel = new Wheel(container.value, properties);
 
-  wheel.items = Items.value;
   watch(Items, () => (wheel.items = Items.value));
+  watch(LabelLength, () => {
+    wheel.itemLabelRadiusMax = 1 - LabelLength.value;
+    console.log(1 - LabelLength.value);
+  });
+
+  wheel = new Wheel(container.value, {
+    ...properties,
+    items: Items.value,
+    itemLabelRadiusMax: 1 - LabelLength.value
+  });
 
   wheel.spin(10);
 

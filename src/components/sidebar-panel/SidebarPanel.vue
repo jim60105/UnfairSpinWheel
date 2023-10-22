@@ -24,24 +24,24 @@
       }"
     >
       <TabPanel header="Items">
-        <div class="p-inputgroup col-12 mt-4">
-          <Button
-            icon="pi pi-trash"
-            severity="danger"
-            outlined
-            aria-label="Remove"
-            @click="removeGroup"
-          />
-          <div class="p-float-label">
+        <div class="col-12">
+          <label for="dd-group" class="block mb-2">Select a Group</label>
+          <div class="p-inputgroup">
+            <Button
+              icon="pi pi-trash"
+              severity="danger"
+              outlined
+              aria-label="Remove"
+              @click="removeGroup"
+            />
             <Dropdown
               :model-value="GroupLabel"
-              inputId="group"
+              inputId="dd-group"
               editable
               :options="GroupLabels"
               class="w-full"
               @update:model-value="itemService.changeGroupLabel"
             />
-            <label for="group">Select a Group</label>
           </div>
         </div>
         <Divider />
@@ -62,19 +62,27 @@
         </div>
       </TabPanel>
       <TabPanel header="Settings">
-        <div class="col-12 mt-4">
-          <div class="p-float-label">
-            <Dropdown
-              v-model="TickSound"
-              inputId="dd-sound"
-              :options="TickSounds"
-              optionLabel="label"
-              optionGroupLabel="label"
-              optionGroupChildren="items"
-              class="w-full"
-            />
-            <label for="dd-sound">Select a Sound</label>
-          </div>
+        <div class="col-12">
+          <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
+          <Dropdown
+            v-model="TickSound"
+            inputId="dd-sound"
+            :options="TickSounds"
+            optionLabel="label"
+            optionGroupLabel="label"
+            optionGroupChildren="items"
+            class="w-full"
+          />
+        </div>
+        <div class="col-12">
+          <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
+          <Slider
+            v-model="LabelLength"
+            inputId="sl-labelLength"
+            :min="0.3"
+            :max="0.75"
+            :step="0.01"
+          />
         </div>
       </TabPanel>
     </TabView>
@@ -86,7 +94,7 @@ import { inject, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
-import { TickSound, TickSounds } from '@/services/SettingService';
+import { TickSound, TickSounds, LabelLength } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 
 const itemService = inject<ItemService>('ItemService')!;

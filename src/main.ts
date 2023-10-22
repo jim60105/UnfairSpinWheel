@@ -18,6 +18,7 @@ import Sidebar from 'primevue/sidebar';
 import ScrollPanel from 'primevue/scrollpanel';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import Slider from 'primevue/slider';
 
 //theme
 import '@/assets/app.scss';
@@ -62,6 +63,7 @@ app.component('ScrollPanel', ScrollPanel);
 app.directive('tooltip', Tooltip);
 app.component('TabView', TabView);
 app.component('TabPanel', TabPanel);
+app.component('Slider', Slider);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);

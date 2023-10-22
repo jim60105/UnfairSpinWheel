@@ -30,9 +30,10 @@ export const TickSounds = [
   }
 ];
 
+export const LabelLength = ref<number>(0.45);
+
 export class SettingService {
   private db: PouchDB.Database<ISetting> = new PouchDB('setting');
-  public syncEvent: EventTarget = new EventTarget();
 
   public async init() {
     const dbInfo = await this.db.info();
@@ -41,10 +42,7 @@ export class SettingService {
     }
 
     await this.initTickSound();
-
-    this.db
-      .changes({ live: true, since: 'now', include_docs: true })
-      .on('change', () => this.syncEvent.dispatchEvent(new Event('change')));
+    await this.initLabelLength();
   }
 
   private async initTickSound() {
@@ -68,6 +66,26 @@ export class SettingService {
     });
   }
 
+  private async initLabelLength() {
+    try {
+      LabelLength.value = (await this.getSetting('labelLength')).value;
+    } catch (e) {
+      LabelLength.value = 0.45;
+      // Don't await
+      this.addSetting({ key: 'labelLength', value: LabelLength.value });
+    }
+
+    watch(LabelLength, async (newValue) => {
+      try {
+        const doc = await this.getSetting('labelLength');
+        doc.value = newValue;
+        await this.updateSetting(doc, true);
+      } catch (e) {
+        await this.addSetting({ key: 'labelLength', value: newValue });
+      }
+    });
+  }
+
   public getSettings = async (): Promise<PouchDB.Core.ExistingDocument<ISetting>[]> =>
     (await this.db.allDocs<ISetting>({ include_docs: true })).rows.map((row) => row.doc!);
 
@@ -81,10 +99,11 @@ export class SettingService {
   };
 
   public async updateSetting(
-    item: PouchDB.Core.ExistingDocument<ISetting>
+    item: PouchDB.Core.ExistingDocument<ISetting>,
+    force: boolean = false
   ): Promise<PouchDB.Core.Response> {
     const doc = await this.db.get(item._id);
     doc.value = item.value;
-    return this.db.put(item);
+    return this.db.put(item, { force: force });
   }
 }
