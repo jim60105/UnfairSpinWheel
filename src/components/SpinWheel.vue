@@ -46,6 +46,7 @@
 
 <script setup>
 import { ref, onMounted, inject, onUnmounted } from 'vue';
+import random from 'random';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 import { TickSound } from '@/services/SettingService';
 
@@ -112,7 +113,7 @@ const spin = () => {
   wheel.onCurrentIndexChange = playSound;
 
   wheel.rotationResistance = -500;
-  wheel.spin(wheel.rotationSpeed + 1000);
+  wheel.spin(wheel.rotationSpeed + random.int(400, 1200));
 };
 
 const stopAndClearSound = () => {
