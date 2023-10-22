@@ -1,25 +1,20 @@
 import { ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
-import PouchDBFind from 'pouchdb-find';
-import type { IItem } from '@/models/Item';
+import type { IItem } from '@/interface/IItem';
 import { templateItems } from '@/assets/TemplateData';
 
 export class ItemService {
-  private db: PouchDB.Database<IItem> = new PouchDB('db');
+  private db: PouchDB.Database<IItem> = new PouchDB('item');
   public groupLabel = ref<string>();
   public syncEvent: EventTarget = new EventTarget();
 
   async init() {
-    // PouchDB
-    // https://pouchdb.com/guides/databases.html
-    PouchDB.plugin(PouchDBFind);
     const dbInfo = await this.db.info();
-
-    await this.resetGroupLabel();
-
     if (dbInfo.doc_count !== 0) {
       this.db.compact();
     }
+
+    await this.resetGroupLabel();
 
     this.db
       .changes({ live: true, since: 'now', include_docs: true })

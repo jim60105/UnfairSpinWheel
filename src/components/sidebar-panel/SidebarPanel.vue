@@ -15,61 +15,80 @@
     <template #header>
       <h2><i class="pi pi-palette"></i> Customize</h2>
     </template>
-    <ScrollPanel
-      class="h-full"
+    <TabView
+      :scrollable="true"
       :pt="{
-        content: {
-          class: 'grid'
+        panelContainer: {
+          class: 'p-0'
         }
       }"
     >
-      <div class="p-inputgroup col-12 mt-4">
-        <Button
-          icon="pi pi-trash"
-          severity="danger"
-          outlined
-          aria-label="Remove"
-          @click="removeGroup"
-        />
-        <div class="p-float-label">
-          <Dropdown
-            :model-value="itemService.groupLabel.value"
-            inputId="group"
-            editable
-            :options="groupLabels"
-            class="w-full md:w-14rem"
-            @update:model-value="changeGroupLabel"
+      <TabPanel header="Items">
+        <div class="p-inputgroup col-12 mt-4">
+          <Button
+            icon="pi pi-trash"
+            severity="danger"
+            outlined
+            aria-label="Remove"
+            @click="removeGroup"
           />
-          <label for="group">Select a Group</label>
+          <div class="p-float-label">
+            <Dropdown
+              :model-value="itemService.groupLabel.value"
+              inputId="group"
+              editable
+              :options="groupLabels"
+              class="w-full"
+              @update:model-value="changeGroupLabel"
+            />
+            <label for="group">Select a Group</label>
+          </div>
         </div>
-      </div>
-      <Divider />
-      <ItemInputGroup
-        :class="['col-12']"
-        v-for="item in items"
-        :key="item._id"
-        :modelValue="item"
-      ></ItemInputGroup>
-      <div class="p-inputgroup col-12">
-        <Button
-          ref="addButton"
-          class="w-full"
-          icon="pi pi-plus"
-          aria-label="Add item"
-          @click="addItem"
-        />
-      </div>
-    </ScrollPanel>
+        <Divider />
+        <ItemInputGroup
+          :class="['col-12']"
+          v-for="item in items"
+          :key="item._id"
+          :modelValue="item"
+        ></ItemInputGroup>
+        <div class="p-inputgroup col-12">
+          <Button
+            ref="addButton"
+            class="w-full"
+            icon="pi pi-plus"
+            aria-label="Add item"
+            @click="addItem"
+          />
+        </div>
+      </TabPanel>
+      <TabPanel header="Settings">
+        <div class="col-12 mt-4">
+          <div class="p-float-label">
+            <Dropdown
+              v-model="tickSound"
+              inputId="dd-sound"
+              :options="tickSounds"
+              optionLabel="label"
+              optionGroupLabel="label"
+              optionGroupChildren="items"
+              class="w-full"
+            />
+            <label for="dd-sound">Select a Sound</label>
+          </div>
+        </div>
+      </TabPanel>
+    </TabView>
   </Sidebar>
 </template>
 
 <script setup lang="ts">
-import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
-import { useConfirm } from 'primevue/useconfirm';
 import { inject, onMounted, onUnmounted, ref } from 'vue';
-import type { IItem } from '@/models/Item';
+import { useConfirm } from 'primevue/useconfirm';
+import type { IItem } from '@/interface/IItem';
 import type { ItemService } from '@/services/ItemService';
 import type { SidebarService } from '@/services/SidebarService';
+import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
+import { tickSound, tickSounds } from '@/services/SettingService';
 
 const itemService = inject<ItemService>('ItemService')!;
 const sidebarService = inject<SidebarService>('SidebarService')!;

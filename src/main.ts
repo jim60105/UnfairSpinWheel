@@ -3,6 +3,8 @@
 import { createApp } from 'vue';
 import App from '@/App.vue';
 import PrimeVue from 'primevue/config';
+import PouchDBFind from 'pouchdb-find';
+import PouchDB from 'pouchdb-browser';
 
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
@@ -14,6 +16,8 @@ import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
 import Sidebar from 'primevue/sidebar';
 import ScrollPanel from 'primevue/scrollpanel';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 //theme
 import '@/assets/app.scss';
@@ -26,10 +30,26 @@ import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 import SidebarPanel from '@/components/sidebar-panel/SidebarPanel.vue';
 import { ItemService } from '@/services/ItemService';
 import { SidebarService } from '@/services/SidebarService';
+import { SettingService } from './services/SettingService';
 
 const app = createApp(App);
 app.use(PrimeVue);
 app.use(ConfirmationService);
+
+// PouchDB
+// https://pouchdb.com/guides/databases.html
+PouchDB.plugin(PouchDBFind);
+
+const itemService = new ItemService();
+await itemService.init();
+app.provide('ItemService', itemService);
+
+const settingService = new SettingService();
+await settingService.init();
+app.provide('SettingService', settingService);
+
+const sidebarService = new SidebarService();
+app.provide('SidebarService', sidebarService);
 
 app.component('Button', Button);
 app.component('InputText', InputText);
@@ -40,16 +60,11 @@ app.component('Divider', Divider);
 app.component('Sidebar', Sidebar);
 app.component('ScrollPanel', ScrollPanel);
 app.directive('tooltip', Tooltip);
+app.component('TabView', TabView);
+app.component('TabPanel', TabPanel);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
 app.component('SidebarPanel', SidebarPanel);
-
-const itemService = new ItemService();
-await itemService.init();
-app.provide('ItemService', itemService);
-
-const sidebarService = new SidebarService();
-app.provide('SidebarService', sidebarService);
 
 app.mount('#app');

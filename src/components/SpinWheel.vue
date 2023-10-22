@@ -1,13 +1,35 @@
 <template>
   <div ref="container" class="spin-container">
-    <div class="icon" @click="spin" v-tooltip.bottom="{ value: 'Spin!', class: 'text-xl' }"></div>
+    <div
+      class="icon"
+      @click="spin"
+      v-tooltip.bottom="{
+        value: `<i class='pi pi-refresh'></i>Spin!`,
+        class: 'text-xl',
+        escape: true
+      }"
+    ></div>
   </div>
   <div class="grid button-container">
     <div class="col">
-      <Button label="Spin!" severity="success" outlined size="large" @click="spin" />
+      <Button
+        label="Spin!"
+        icon="pi pi-refresh"
+        severity="success"
+        outlined
+        size="large"
+        @click="spin"
+      />
     </div>
     <div class="col">
-      <Button label="Stop!" severity="danger" outlined size="large" @click="stopAndClearSound" />
+      <Button
+        label="Stop!"
+        icon="pi pi-stop"
+        severity="danger"
+        outlined
+        size="large"
+        @click="stopAndClearSound"
+      />
     </div>
     <div class="col">
       <Button
@@ -19,27 +41,13 @@
         @click="sidebarService.openSidebar"
       />
     </div>
-    <div class="p-float-label col flex">
-      <Dropdown
-        v-model="selectedSound"
-        inputId="dd-sound"
-        :options="groupedSounds"
-        optionLabel="label"
-        optionGroupLabel="label"
-        optionGroupChildren="items"
-        showClear
-        :pt="{
-          input: { class: 'flex align-items-center', style: { minWidth: '150px' } }
-        }"
-      />
-      <label for="dd-sound">Select a Sound</label>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, inject, onUnmounted } from 'vue';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
+import { tickSound } from '@/services/SettingService';
 
 const itemService = inject('ItemService');
 const sidebarService = inject('SidebarService');
@@ -81,30 +89,6 @@ const properties = {
   items: []
 };
 
-const selectedSound = ref();
-const groupedSounds = ref([
-  {
-    label: 'Sound Effect',
-    items: [
-      { label: 'Car horn', value: 'car_horn-108152.mp3' },
-      { label: 'Cork', value: 'cork-85200.mp3' },
-      { label: 'Ding', value: 'ding-108042.mp3' },
-      { label: 'Interface', value: 'interface-1-126517.mp3' },
-      { label: 'Start', value: 'start-13691.mp3' }
-    ]
-  },
-  {
-    label: 'Funny Voice',
-    items: [
-      { label: 'Screaming', value: '尖叫2.mp3' },
-      { label: 'Laughing', value: '哈哈ᏊꈊᏊ_638014168033514976.mp3' },
-      { label: 'Laughing', value: '哈哈ᏊꈊᏊ_638014227957579626.mp3' },
-      { label: '臥槽 (Chinese Swear words)', value: '臥槽.mp3' },
-      { label: '靠北喔 (Taiwanese mild expletive)', value: '靠北喔.mp3' }
-    ]
-  }
-]);
-
 // 2. Decide where you want it to go:
 const container = ref();
 
@@ -137,9 +121,9 @@ const stopAndClearSound = () => {
 };
 
 const playSound = () => {
-  if (!selectedSound.value) return;
+  if (!tickSound.value) return;
 
-  const audio = new Audio(`/sound/${selectedSound.value.value}`);
+  const audio = new Audio(`/sound/${tickSound.value.value}`);
   audio.volume = 0.3;
   audio.play();
 };
@@ -176,10 +160,6 @@ onUnmounted(() => {
   }
 }
 
-.p-float-label .p-inputwrapper-filled ~ label {
-  top: 0;
-}
-
 .button-container {
   margin-top: -5.5rem;
 }
@@ -198,11 +178,5 @@ onUnmounted(() => {
   position: absolute;
   top: calc(calc(50%) - calc($icon-size / 2));
   left: calc(calc(50%) - calc($icon-size / 2));
-}
-
-label {
-  left: 0.55rem;
-  padding-left: 0.75rem;
-  padding-right: 1.75rem;
 }
 </style>
