@@ -1,5 +1,19 @@
 <template>
-  <div ref="container" class="spin-container">
+  <Dropdown
+    :model-value="GroupLabel"
+    :options="GroupLabels"
+    class="text-8xl mt-4 z-1"
+    @update:model-value="itemService.changeGroupLabel"
+    :pt="{
+      input: {
+        class: 'text-6xl'
+      },
+      item: {
+        class: 'text-3xl'
+      }
+    }"
+  />
+  <div ref="container" class="spin-container -mt-5">
     <div
       class="icon"
       @click="spin"
@@ -72,10 +86,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject, onUnmounted } from 'vue';
+import { ref, onMounted, inject, watch } from 'vue';
 import random from 'random';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 import { TickSound } from '@/services/SettingService';
+import { GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 
 const itemService = inject('ItemService');
 const sidebarService = inject('SidebarService');
@@ -134,8 +149,6 @@ async function loadFonts(fontNames = []) {
   await Promise.all(fontLoading);
 }
 
-const syncDbData = async () => (wheel.items = await itemService.getItems());
-
 const spin = () => {
   wheel.onCurrentIndexChange = playSound;
 
@@ -160,16 +173,12 @@ onMounted(async () => {
   await loadFonts(fontName);
   wheel = new Wheel(container.value, properties);
 
-  itemService.syncEvent.addEventListener('change', syncDbData);
-  await syncDbData();
+  wheel.items = Items.value;
+  watch(Items, () => (wheel.items = Items.value));
 
   wheel.spin(10);
 
   wheel.onRest = stopAndClearSound;
-});
-
-onUnmounted(() => {
-  itemService.syncEvent.removeEventListener('change', syncDbData);
 });
 </script>
 

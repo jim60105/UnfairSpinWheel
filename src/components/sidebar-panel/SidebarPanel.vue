@@ -37,9 +37,9 @@
               :model-value="GroupLabel"
               inputId="group"
               editable
-              :options="groupLabels"
+              :options="GroupLabels"
               class="w-full"
-              @update:model-value="changeGroupLabel"
+              @update:model-value="itemService.changeGroupLabel"
             />
             <label for="group">Select a Group</label>
           </div>
@@ -47,7 +47,7 @@
         <Divider />
         <ItemInputGroup
           :class="['col-12']"
-          v-for="item in items"
+          v-for="item in Items"
           :key="item._id"
           :modelValue="item"
         ></ItemInputGroup>
@@ -82,43 +82,23 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, onUnmounted, ref } from 'vue';
+import { inject, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
-import type { IItem } from '@/interface/IItem';
-import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
-import { ItemService, GroupLabel } from '@/services/ItemService';
+import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
 import { TickSound, TickSounds } from '@/services/SettingService';
+import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 
 const itemService = inject<ItemService>('ItemService')!;
 
 const addButton = ref();
 const confirm = useConfirm();
-const groupLabels = ref();
-const items = ref<PouchDB.Core.ExistingDocument<IItem>[]>();
-
-async function syncDbData() {
-  groupLabels.value = await itemService.getGroupLabels();
-  items.value = await itemService.getItems();
-}
 
 async function addItem() {
-  await itemService.addItem({
-    group: GroupLabel.value ?? 'New Group',
-    label: 'New Item',
-    weight: 1,
-    order: (await itemService.getItemCount()) ?? 0
-  });
+  await itemService.addItem();
   setTimeout(() => {
     addButton.value.$el.scrollIntoView({ behavior: 'smooth' });
   }, 100);
-}
-
-async function changeGroupLabel(newGroupLabel: string) {
-  if (newGroupLabel !== GroupLabel.value) {
-    GroupLabel.value = newGroupLabel;
-    itemService.syncEvent.dispatchEvent(new Event('change'));
-  }
 }
 
 const removeGroup = ($event: Event) => {
@@ -129,20 +109,9 @@ const removeGroup = ($event: Event) => {
       icon: 'pi pi-exclamation-triangle',
       accept: async () => {
         await itemService.removeGroup(GroupLabel.value!);
-        await itemService.resetGroupLabel();
-        itemService.syncEvent.dispatchEvent(new Event('change'));
       }
     });
 };
-
-onMounted(async () => {
-  itemService.syncEvent.addEventListener('change', syncDbData);
-  await syncDbData();
-});
-
-onUnmounted(() => {
-  itemService.syncEvent.removeEventListener('change', syncDbData);
-});
 </script>
 
 <style scoped></style>
