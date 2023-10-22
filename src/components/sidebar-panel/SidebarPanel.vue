@@ -1,6 +1,6 @@
 <template>
   <Sidebar
-    v-model:visible="sidebarService.visibleSidebar.value"
+    v-model:visible="VisibleSidebar"
     position="right"
     :showCloseIcon="false"
     :pt="{
@@ -34,7 +34,7 @@
           />
           <div class="p-float-label">
             <Dropdown
-              :model-value="itemService.groupLabel.value"
+              :model-value="GroupLabel"
               inputId="group"
               editable
               :options="groupLabels"
@@ -65,9 +65,9 @@
         <div class="col-12 mt-4">
           <div class="p-float-label">
             <Dropdown
-              v-model="tickSound"
+              v-model="TickSound"
               inputId="dd-sound"
-              :options="tickSounds"
+              :options="TickSounds"
               optionLabel="label"
               optionGroupLabel="label"
               optionGroupChildren="items"
@@ -85,13 +85,12 @@
 import { inject, onMounted, onUnmounted, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import type { IItem } from '@/interface/IItem';
-import type { ItemService } from '@/services/ItemService';
-import type { SidebarService } from '@/services/SidebarService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
-import { tickSound, tickSounds } from '@/services/SettingService';
+import { ItemService, GroupLabel } from '@/services/ItemService';
+import { VisibleSidebar } from '@/services/SidebarService';
+import { TickSound, TickSounds } from '@/services/SettingService';
 
 const itemService = inject<ItemService>('ItemService')!;
-const sidebarService = inject<SidebarService>('SidebarService')!;
 
 const addButton = ref();
 const confirm = useConfirm();
@@ -105,7 +104,7 @@ async function syncDbData() {
 
 async function addItem() {
   await itemService.addItem({
-    group: itemService.groupLabel.value ?? 'New Group',
+    group: GroupLabel.value ?? 'New Group',
     label: 'New Item',
     weight: 1,
     order: (await itemService.getItemCount()) ?? 0
@@ -116,8 +115,8 @@ async function addItem() {
 }
 
 async function changeGroupLabel(newGroupLabel: string) {
-  if (newGroupLabel !== itemService.groupLabel.value) {
-    itemService.groupLabel.value = newGroupLabel;
+  if (newGroupLabel !== GroupLabel.value) {
+    GroupLabel.value = newGroupLabel;
     itemService.syncEvent.dispatchEvent(new Event('change'));
   }
 }
@@ -129,7 +128,7 @@ const removeGroup = ($event: Event) => {
       message: 'Are you sure you want to delete this group?',
       icon: 'pi pi-exclamation-triangle',
       accept: async () => {
-        await itemService.removeGroup(itemService.groupLabel.value!);
+        await itemService.removeGroup(GroupLabel.value!);
         await itemService.resetGroupLabel();
         itemService.syncEvent.dispatchEvent(new Event('change'));
       }

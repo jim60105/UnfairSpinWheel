@@ -2,14 +2,12 @@ import { ref, watch } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 
-type soundOption = {
+export const TickSound = ref<{
   label: string;
   value: string;
-};
+}>();
 
-export const tickSound = ref<soundOption>();
-
-export const tickSounds = [
+export const TickSounds = [
   {
     label: 'Sound Effect',
     items: [
@@ -51,15 +49,15 @@ export class SettingService {
 
   private async initTickSound() {
     try {
-      tickSound.value = (await this.getSetting('tickSound')).value;
+      TickSound.value = (await this.getSetting('tickSound')).value;
     } catch (e) {
-      const firstItem = tickSounds[0].items[0];
-      tickSound.value = firstItem;
+      const firstItem = TickSounds[0].items[0];
+      TickSound.value = firstItem;
       // Don't await
       this.addSetting({ key: 'tickSound', value: firstItem });
     }
 
-    watch(tickSound, async (newValue) => {
+    watch(TickSound, async (newValue) => {
       try {
         const doc = await this.getSetting('tickSound');
         doc.value = newValue;

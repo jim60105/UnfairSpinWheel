@@ -3,9 +3,10 @@ import PouchDB from 'pouchdb-browser';
 import type { IItem } from '@/interface/IItem';
 import { templateItems } from '@/assets/TemplateData';
 
+export const GroupLabel = ref<string>();
+
 export class ItemService {
   private db: PouchDB.Database<IItem> = new PouchDB('item');
-  public groupLabel = ref<string>();
   public syncEvent: EventTarget = new EventTarget();
 
   async init() {
@@ -33,7 +34,7 @@ export class ItemService {
   ];
 
   public getItems = async (): Promise<PouchDB.Core.ExistingDocument<IItem>[]> =>
-    this.getItemByGroupLabel(this.groupLabel.value || (await this.getFirstItem()).group);
+    this.getItemByGroupLabel(GroupLabel.value || (await this.getFirstItem()).group);
 
   public getItemByGroupLabel = async (
     groupLabel: string
@@ -46,10 +47,10 @@ export class ItemService {
       })
     ).docs.sort((a, b) => a.order - b.order);
 
+  public addItem = async (item: IItem): Promise<PouchDB.Core.Response> => this.db.post(item);
+
   private insertTemplateItems = (): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]> =>
     this.db.bulkDocs(templateItems);
-
-  public addItem = async (item: IItem): Promise<PouchDB.Core.Response> => this.db.post(item);
 
   private _firstItem: PouchDB.Core.ExistingDocument<IItem> | undefined;
 
@@ -70,7 +71,7 @@ export class ItemService {
 
   public async resetGroupLabel() {
     const firstItem = await this.getFirstItem();
-    this.groupLabel.value = firstItem.group;
+    GroupLabel.value = firstItem.group;
   }
 
   public async updateItem(

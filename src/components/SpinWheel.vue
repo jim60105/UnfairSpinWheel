@@ -47,7 +47,7 @@
 <script setup>
 import { ref, onMounted, inject, onUnmounted } from 'vue';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
-import { tickSound } from '@/services/SettingService';
+import { TickSound } from '@/services/SettingService';
 
 const itemService = inject('ItemService');
 const sidebarService = inject('SidebarService');
@@ -121,9 +121,9 @@ const stopAndClearSound = () => {
 };
 
 const playSound = () => {
-  if (!tickSound.value) return;
+  if (!TickSound.value) return;
 
-  const audio = new Audio(`/sound/${tickSound.value.value}`);
+  const audio = new Audio(`/sound/${TickSound.value.value}`);
   audio.volume = 0.3;
   audio.play();
 };
