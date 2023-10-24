@@ -24,10 +24,10 @@ import DynamicDialog from 'primevue/dynamicdialog';
 import DialogService from 'primevue/dialogservice';
 
 //theme
-import '@/assets/app.scss';
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
-import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.scss';
+import '@/assets/app.scss';
 
 import SpinWheel from '@/components/SpinWheel.vue';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';

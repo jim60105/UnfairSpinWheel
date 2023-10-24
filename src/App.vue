@@ -1,19 +1,25 @@
 <template>
   <ConfirmPopup></ConfirmPopup>
-  <DynamicDialog />
   <ScrollPanel class="h-screen">
-    <div class="header grid">
-      <h1 class="flex col-12 justify-content-center align-items-center mb-0">Unfair Spin Wheel</h1>
-      <p class="flex col-12 justify-content-center align-items-center my-0 py-0">
-        The world is unfair, and so is our spin wheel.
-      </p>
-    </div>
-    <div class="flex flex-wrap justify-content-center align-items-start">
-      <SpinWheel></SpinWheel>
+    <div class="">
+      <div class="grid header text-center">
+        <h1 class="col-12 mb-0 text-4xl sm:text-5xl md:text-6xl">
+          Unfair <span class="white-space-nowrap">Spin Wheel</span>
+        </h1>
+        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl">
+          <span class="white-space-nowrap">The world is unfair,</span>
+          &nbsp;
+          <span class="white-space-nowrap">and so is our spin wheel.</span>
+        </p>
+      </div>
+      <div class="flex flex-wrap justify-content-center">
+        <SpinWheel></SpinWheel>
+      </div>
     </div>
   </ScrollPanel>
 
   <SidebarPanel></SidebarPanel>
+  <DynamicDialog />
 </template>
 
 <script setup lang="ts"></script>

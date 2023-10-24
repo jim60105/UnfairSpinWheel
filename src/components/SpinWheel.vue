@@ -2,18 +2,18 @@
   <Dropdown
     :model-value="GroupLabel"
     :options="GroupLabels"
-    class="text-8xl mt-4 z-1"
+    class="mt-4 z-1"
     @update:model-value="itemService.changeGroupLabel"
     :pt="{
       input: {
-        class: 'text-6xl'
+        class: 'text-xl sm:text-4xl md:text-6xl'
       },
       item: {
-        class: 'text-3xl'
+        class: 'text-xl sm:text-xl md:text-3xl'
       }
     }"
   />
-  <div ref="container" class="spin-container -mt-5">
+  <div ref="container" class="flex spin-container -mt-5">
     <div
       class="icon"
       @click="spin"
@@ -216,12 +216,15 @@ onMounted(async () => {
 
 .spin-container {
   aspect-ratio: 1/1;
-  width: 2000vw;
-  height: 70vh;
+  width: 130vw;
+  height: 90vh;
 
   position: relative;
 
-  @media (min-width: map-get($breakpoints, 'lg')) {
+  @media (min-width: map-get($breakpoints, 'sm')) {
+    height: 100vh;
+  }
+  @media (min-width: map-get($breakpoints, 'md')) {
     height: 110vh;
   }
 }

@@ -1,5 +1,3 @@
-@import 'primeflex/primeflex.scss';
-
 body {
   font-family: 'Mochiy Pop P One';
 
@@ -12,6 +10,12 @@ body {
   background-attachment: fixed;
 
   margin: 0;
+
+  /**
+    * When a dialog modal is triggered, this value is used to hide the scrollbar and add a margin-right to the body.
+    * This fix is necessary when using ScrollPanel and there is no scrollbar width.
+    */
+  --scrollbar-width: 0 !important;
 }
 
 .p-tooltip {
