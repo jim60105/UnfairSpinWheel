@@ -1,10 +1,10 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <footer class="fixed bottom-0 left-0 m-2 text-xs z-2 overflow-hidden w-full">
+  <footer class="fixed bottom-0 left-0 m-2 mb-1 text-xs overflow-hidden w-full">
     <a :href="url" target="_blank"
       >{{ version }}<i class="pi pi-github vertical-align-middle m-2"></i>AGPL-3.0 Licensed</a
     >
-    / Copyright © 2023 jim60105
+    / Copyright © 2023 Jim60105
   </footer>
 </template>
 
@@ -28,6 +28,6 @@ onMounted(() => {
 footer {
   font-family: 'Rock Salt';
 
-  background-image: linear-gradient(to right, black 0%, transparent 100%);
+  background-image: linear-gradient(to right, black 0%, transparent 50%);
 }
 </style>

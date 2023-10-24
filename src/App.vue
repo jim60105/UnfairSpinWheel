@@ -12,14 +12,12 @@
           <span class="white-space-nowrap">and so is our spin wheel.</span>
         </p>
       </div>
-      <div class="flex flex-wrap justify-content-center">
+      <div class="flex flex-wrap justify-content-center mb-6">
         <SpinWheel></SpinWheel>
       </div>
-      <div class="h-3rem"></div>
     </div>
+    <Footer></Footer>
   </ScrollPanel>
-
-  <Footer></Footer>
 
   <SidebarPanel></SidebarPanel>
   <DynamicDialog />
