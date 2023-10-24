@@ -1,5 +1,6 @@
 <template>
   <ConfirmPopup></ConfirmPopup>
+  <DynamicDialog />
   <ScrollPanel class="h-screen">
     <div class="header grid">
       <h1 class="flex col-12 justify-content-center align-items-center mb-0">Unfair Spin Wheel</h1>

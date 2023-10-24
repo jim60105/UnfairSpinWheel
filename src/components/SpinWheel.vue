@@ -89,8 +89,10 @@
 import { ref, onMounted, inject, watch } from 'vue';
 import random from 'random';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
+import { useDialog } from 'primevue/usedialog';
 import { TickSound, LabelLength } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, Items } from '@/services/ItemService';
+import CongratulationDialog from '@/components/CongratulationDialog.vue';
 
 const itemService = inject('ItemService');
 const sidebarService = inject('SidebarService');
@@ -169,6 +171,22 @@ const playSound = () => {
   audio.play();
 };
 
+const dialog = useDialog();
+const openCongratulationDialog = ($event) => {
+  dialog.open(CongratulationDialog, {
+    props: {
+      modal: true,
+      showHeader: false,
+      style: 'border: 0',
+      contentStyle: 'border: 0; backgroundColor: transparent',
+      dismissableMask: true
+    },
+    data: {
+      item: Items.value[$event.currentIndex]
+    }
+  });
+};
+
 onMounted(async () => {
   await loadFonts(fontName);
 
@@ -186,7 +204,10 @@ onMounted(async () => {
 
   wheel.spin(10);
 
-  wheel.onRest = stopAndClearSound;
+  wheel.onRest = ($event) => {
+    stopAndClearSound;
+    openCongratulationDialog($event);
+  };
 });
 </script>
 

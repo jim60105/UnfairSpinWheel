@@ -39,9 +39,14 @@
     "package.json"
   ],
   "cSpell.words": [
+    "Animista",
     "confirmationservice",
     "confirmpopup",
+    "cssanimista",
     "decrementbuttonicon",
+    "dialogservice",
+    "dismissable",
+    "dynamicdialog",
     "incrementbuttonicon",
     "inputgroup",
     "inputnumber",
@@ -53,7 +58,10 @@
     "primeicons",
     "primevue",
     "scrollpanel",
+    "tabpanel",
+    "tabview",
     "toastservice",
-    "useconfirm"
+    "useconfirm",
+    "usedialog"
   ]
 }
