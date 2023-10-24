@@ -1,7 +1,7 @@
 <template>
   <ConfirmPopup></ConfirmPopup>
   <ScrollPanel class="h-screen">
-    <div class="">
+    <div class="max-w-screen overflow-x-hidden">
       <div class="grid header text-center">
         <h1 class="col-12 mb-0 text-4xl sm:text-5xl md:text-6xl">
           Unfair <span class="white-space-nowrap">Spin Wheel</span>

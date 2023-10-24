@@ -1,16 +1,19 @@
 <template>
-  <div class="congrats" ref="congrats">
-    <h1 ref="h1" class="bounce-in-fwd text-8xl">{{ dialogRef.data?.item?.label }}</h1>
+  <div class="congrats" ref="congrats" @click="close">
+    <h1 ref="h1" class="bounce-in-fwd text-8xl">{{ dialogRef?.data.item.label }}</h1>
 
     <div v-for="i in 20" :key="i" class="blob pi pi-star-fill" :class="'blob-' + i"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref, type Ref } from 'vue';
 import { CongratulationSound } from '@/services/SettingService';
+import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
 
-const dialogRef = inject('dialogRef') as any;
+const dialogRef = inject<DynamicDialogInstance>('dialogRef') as unknown as
+  | Ref<DynamicDialogInstance>
+  | undefined;
 const congrats = ref();
 const h1 = ref();
 
@@ -20,6 +23,10 @@ const playSound = () => {
   const audio = new Audio(`/sound/${CongratulationSound.value.value}`);
   audio.volume = 0.7;
   audio.play();
+};
+
+const close = () => {
+  dialogRef?.value.close();
 };
 
 onMounted(() => {
