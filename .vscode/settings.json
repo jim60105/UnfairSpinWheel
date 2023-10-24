@@ -40,6 +40,7 @@
     "package.json"
   ],
   "cSpell.words": [
+    "Airhorn",
     "Animista",
     "confirmationservice",
     "confirmpopup",
@@ -61,6 +62,7 @@
     "scrollpanel",
     "tabpanel",
     "tabview",
+    "tada",
     "toastservice",
     "useconfirm",
     "usedialog"

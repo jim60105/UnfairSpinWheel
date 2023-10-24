@@ -8,15 +8,22 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
+import { CongratulationSound } from '@/services/SettingService';
 
 const dialogRef = inject('dialogRef') as any;
 const congrats = ref();
 const h1 = ref();
 
-onMounted(() => {
-  const audio = new Audio(`/sound/中大獎.mp3`);
+const playSound = () => {
+  if (!CongratulationSound.value) return;
+
+  const audio = new Audio(`/sound/${CongratulationSound.value.value}`);
   audio.volume = 0.7;
   audio.play();
+};
+
+onMounted(() => {
+  playSound();
 });
 </script>
 

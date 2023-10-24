@@ -30,6 +30,34 @@ export const TickSounds = [
   }
 ];
 
+export const CongratulationSound = ref<{
+  label: string;
+  value: string;
+}>();
+
+export const CongratulationSounds = [
+  {
+    label: 'Sound Effect',
+    items: [
+      { label: 'TA-DA!', value: 'tada-fanfare-a-6313.mp3' },
+      { label: 'Crowd Cheering', value: 'crowd-cheering-143103.mp3' },
+      { label: 'Bicycle Horn', value: 'bicycle-horn-7126.mp3' },
+      { label: 'DJ Airhorn Sound', value: 'dj-airhorn-sound-39405.mp3' }
+    ]
+  },
+  {
+    label: 'Funny Voice',
+    items: [
+      { label: '中~大~獎~ (Chinese: Hitting the jackpot)', value: '中大獎.mp3' },
+      {
+        label: "那個橡皮擦我不要了 (Chinese: I don't want that eraser anymore)",
+        value: '350b8fc91c2e4ca4b7b0652f6eee1a42.mp3'
+      },
+      { label: '不是我！ (Chinese: Not me!)', value: '不是我笑.mp3' }
+    ]
+  }
+];
+
 export const LabelLength = ref<number>(0.45);
 
 export class SettingService {
@@ -41,8 +69,29 @@ export class SettingService {
       this.db.compact();
     }
 
-    await this.initTickSound();
     await this.initLabelLength();
+    await this.initTickSound();
+    await this.initCongratulationSound();
+  }
+
+  private async initLabelLength() {
+    try {
+      LabelLength.value = (await this.getSetting('labelLength')).value;
+    } catch (e) {
+      LabelLength.value = 0.45;
+      // Don't await
+      this.addSetting({ key: 'labelLength', value: LabelLength.value });
+    }
+
+    watch(LabelLength, async (newValue) => {
+      try {
+        const doc = await this.getSetting('labelLength');
+        doc.value = newValue;
+        await this.updateSetting(doc, true);
+      } catch (e) {
+        await this.addSetting({ key: 'labelLength', value: newValue });
+      }
+    });
   }
 
   private async initTickSound() {
@@ -66,22 +115,23 @@ export class SettingService {
     });
   }
 
-  private async initLabelLength() {
+  private async initCongratulationSound() {
     try {
-      LabelLength.value = (await this.getSetting('labelLength')).value;
+      CongratulationSound.value = (await this.getSetting('congratulationSound')).value;
     } catch (e) {
-      LabelLength.value = 0.45;
+      const firstItem = CongratulationSounds[0].items[0];
+      CongratulationSound.value = firstItem;
       // Don't await
-      this.addSetting({ key: 'labelLength', value: LabelLength.value });
+      this.addSetting({ key: 'congratulationSound', value: firstItem });
     }
 
-    watch(LabelLength, async (newValue) => {
+    watch(CongratulationSound, async (newValue) => {
       try {
-        const doc = await this.getSetting('labelLength');
+        const doc = await this.getSetting('congratulationSound');
         doc.value = newValue;
-        await this.updateSetting(doc, true);
+        await this.updateSetting(doc);
       } catch (e) {
-        await this.addSetting({ key: 'labelLength', value: newValue });
+        await this.addSetting({ key: 'congratulationSound', value: newValue });
       }
     });
   }

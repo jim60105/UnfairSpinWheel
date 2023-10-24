@@ -2,13 +2,12 @@
   <Sidebar
     v-model:visible="VisibleSidebar"
     position="right"
-    :showCloseIcon="false"
     :pt="{
       root: {
-        style: { width: '500px' }
+        style: { width: '500px', maxWidth: '100vw' }
       },
       header: {
-        class: 'justify-content-start pb-0'
+        class: 'justify-content-between pb-0'
       }
     }"
   >
@@ -75,6 +74,18 @@
           />
         </div>
         <div class="col-12">
+          <label for="dd-sound" class="block mb-2">Select a Congratulation Sound</label>
+          <Dropdown
+            v-model="CongratulationSound"
+            inputId="dd-sound"
+            :options="CongratulationSounds"
+            optionLabel="label"
+            optionGroupLabel="label"
+            optionGroupChildren="items"
+            class="w-full"
+          />
+        </div>
+        <div class="col-12">
           <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
           <Slider
             v-model="LabelLength"
@@ -94,7 +105,13 @@ import { inject, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
-import { TickSound, TickSounds, LabelLength } from '@/services/SettingService';
+import {
+  TickSound,
+  TickSounds,
+  LabelLength,
+  CongratulationSound,
+  CongratulationSounds
+} from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 
 const itemService = inject<ItemService>('ItemService')!;
