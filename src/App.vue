@@ -15,8 +15,11 @@
       <div class="flex flex-wrap justify-content-center">
         <SpinWheel></SpinWheel>
       </div>
+      <div class="h-3rem"></div>
     </div>
   </ScrollPanel>
+
+  <Footer></Footer>
 
   <SidebarPanel></SidebarPanel>
   <DynamicDialog />
