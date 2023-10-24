@@ -7,11 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 
 const dialogRef = inject('dialogRef') as any;
 const congrats = ref();
 const h1 = ref();
+
+onMounted(() => {
+  const audio = new Audio(`/sound/中大獎.mp3`);
+  audio.volume = 0.7;
+  audio.play();
+});
 </script>
 
 <style scoped lang="scss">
