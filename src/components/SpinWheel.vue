@@ -231,6 +231,18 @@ onMounted(async () => {
 
 .button-container {
   margin-top: -5.5rem;
+
+  button {
+    z-index: 2;
+    position: relative;
+
+    $background-color: #0c0f1d;
+    background: $background-color;
+
+    &:hover {
+      filter: brightness(1.3);
+    }
+  }
 }
 
 .icon {
@@ -247,5 +259,9 @@ onMounted(async () => {
   position: absolute;
   top: calc(calc(50%) - calc($icon-size / 2));
   left: calc(calc(50%) - calc($icon-size / 2));
+
+  &:hover {
+    filter: brightness(1.1);
+  }
 }
 </style>
