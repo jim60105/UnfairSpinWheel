@@ -13,8 +13,9 @@ jobs:
 
       # publishes Blazor project to the release-folder
       - name: npm build
-        run: npm ci &&
-             npm run build
+        run: npm ci && npm run build
+        env:
+          VITE_GIT_HASH: ${{ github.sha }}
 
       # copy index.html to 404.html to serve the same file when a file is not found
       - name: copy index.html to 404.html
