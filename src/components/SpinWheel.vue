@@ -107,10 +107,10 @@ const fontName = ['Mochiy Pop P One'];
 const properties = {
   // debug: import.meta.env.DEV,
   isInteractive: false,
-  radius: 0.47,
+  radius: 0.48,
   rotationResistance: 0,
-  itemLabelRadius: 0.93,
-  itemLabelRadiusMax: 0.45,
+  itemLabelRadius: 0.92,
+  itemLabelRadiusMax: 0.3,
   itemLabelRotation: 180,
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
@@ -194,21 +194,7 @@ const openCongratulationDialog = ($event) => {
   });
 };
 
-async function loadFonts(fontNames = []) {
-  // Fail silently if browser doesn't support font loading.
-  if (!('fonts' in document)) return;
-
-  const fontLoading = [];
-  for (const i of fontNames) {
-    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
-  }
-
-  await Promise.all(fontLoading);
-}
-
-onMounted(async () => {
-  await loadFonts(fontName);
-
+onMounted(() => {
   watch(Items, () => (wheel.items = Items.value));
   watch(LabelLength, () => {
     wheel.itemLabelRadiusMax = 1 - LabelLength.value;
@@ -226,6 +212,11 @@ onMounted(async () => {
     stopAndClearSound;
     openCongratulationDialog($event);
   };
+
+  // Workaround for itemLabelRadiusMax not working on first load.
+  setTimeout(() => {
+    wheel.itemLabelRadiusMax = 1 - LabelLength.value;
+  }, 50);
 });
 </script>
 
