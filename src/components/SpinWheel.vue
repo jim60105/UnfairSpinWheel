@@ -99,7 +99,6 @@ const sidebarService = inject('SidebarService');
 
 const fontName = ['Mochiy Pop P One'];
 
-// 1. Configure the wheel's properties:
 const properties = {
   // debug: import.meta.env.DEV,
   isInteractive: false,
@@ -134,29 +133,9 @@ const properties = {
   items: []
 };
 
-// 2. Decide where you want it to go:
 const container = ref();
 
 let wheel = undefined;
-
-async function loadFonts(fontNames = []) {
-  // Fail silently if browser doesn't support font loading.
-  if (!('fonts' in document)) return;
-
-  const fontLoading = [];
-  for (const i of fontNames) {
-    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
-  }
-
-  await Promise.all(fontLoading);
-}
-
-const spin = () => {
-  wheel.onCurrentIndexChange = playSound;
-
-  wheel.rotationResistance = -500;
-  wheel.spin(wheel.rotationSpeed + random.int(400, 1200));
-};
 
 const stopAndClearSound = () => {
   wheel.onCurrentIndexChange = undefined;
@@ -169,6 +148,29 @@ const playSound = () => {
   const audio = new Audio(`/sound/${TickSound.value.value}`);
   audio.volume = 0.3;
   audio.play();
+};
+
+const spin = () => {
+  wheel.onCurrentIndexChange = () => {
+    playSound();
+
+    // Change rotation resistance based on current speed.
+    // Provide a more entertaining performance.
+    switch (true) {
+      case wheel.rotationSpeed < 400:
+        wheel.rotationResistance = -100;
+        break;
+      case wheel.rotationSpeed < 100:
+        wheel.rotationResistance = -30;
+        break;
+      case wheel.rotationSpeed < 30:
+        wheel.rotationResistance = -10;
+        break;
+    }
+  };
+
+  wheel.rotationResistance = -400;
+  wheel.spin(wheel.rotationSpeed + random.int(800, 1200));
 };
 
 const dialog = useDialog();
@@ -186,6 +188,18 @@ const openCongratulationDialog = ($event) => {
     }
   });
 };
+
+async function loadFonts(fontNames = []) {
+  // Fail silently if browser doesn't support font loading.
+  if (!('fonts' in document)) return;
+
+  const fontLoading = [];
+  for (const i of fontNames) {
+    if (typeof i === 'string') fontLoading.push(document.fonts.load('1em ' + i));
+  }
+
+  await Promise.all(fontLoading);
+}
 
 onMounted(async () => {
   await loadFonts(fontName);
