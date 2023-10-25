@@ -1,6 +1,6 @@
 <template>
   <div class="congrats" ref="congrats" @click="close">
-    <h1 ref="h1" class="bounce-in-fwd text-8xl">{{ dialogRef?.data.item.label }}</h1>
+    <div ref="label" class="bounce-in-fwd text-8xl label">{{ dialogRef?.data.item.label }}</div>
 
     <div v-for="i in 20" :key="i" class="blob pi pi-star-fill" :class="'blob-' + i"></div>
   </div>
@@ -15,7 +15,7 @@ const dialogRef = inject<DynamicDialogInstance>('dialogRef') as unknown as
   | Ref<DynamicDialogInstance>
   | undefined;
 const congrats = ref();
-const h1 = ref();
+const label = ref();
 
 const playSound = () => {
   if (!CongratulationSound.value) return;
@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-h1 {
+.label {
   color: white;
   z-index: 2;
 }
