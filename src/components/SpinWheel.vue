@@ -14,6 +14,11 @@
     }"
   />
   <div ref="container" class="flex spin-container -mt-5">
+    <picture>
+      <source srcset="/img/image.avif" type="image/avif" />
+      <source srcset="/img/image.webp" type="image/webp" />
+      <img src="/img/image.png" class="image" alt="background image" />
+    </picture>
     <div
       class="icon"
       @click="spin"
@@ -129,7 +134,7 @@ const properties = {
   lineWidth: 1,
   lineColor: '#fff',
   // image: './img/icon.png',
-  overlayImage: './img/image.png',
+  // overlayImage: './img/image.png',
   items: []
 };
 
@@ -207,7 +212,6 @@ onMounted(async () => {
   watch(Items, () => (wheel.items = Items.value));
   watch(LabelLength, () => {
     wheel.itemLabelRadiusMax = 1 - LabelLength.value;
-    console.log(1 - LabelLength.value);
   });
 
   wheel = new Wheel(container.value, {
@@ -243,6 +247,28 @@ onMounted(async () => {
   }
 }
 
+.image {
+  object-position: center;
+  object-fit: contain;
+
+  aspect-ratio: 1/1;
+  width: 130vw;
+  height: 90vh;
+
+  position: absolute;
+  top: calc(calc(50%) - calc(90vh / 2));
+  left: calc(calc(50%) - calc(130vw / 2));
+
+  @media (min-width: map-get($breakpoints, 'sm')) {
+    height: 100vh;
+    top: calc(calc(50%) - calc(100vh / 2));
+  }
+  @media (min-width: map-get($breakpoints, 'md')) {
+    height: 110vh;
+    top: calc(calc(50%) - calc(110vh / 2));
+  }
+}
+
 .button-container {
   margin-top: -5.5rem;
 
@@ -266,7 +292,11 @@ onMounted(async () => {
   width: $icon-size;
   height: $icon-size;
   border-radius: 50%;
-  background-image: url('/img/icon.png');
+  background-image: image-set(
+    '/img/icon.avif' type('image/avif'),
+    '/img/icon.webp' type('image/webp'),
+    '/img/icon.png' type('image/png')
+  );
   background-size: contain;
   // background-color: rgba(1, 1, 1, 0.5);
 
