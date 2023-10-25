@@ -3,7 +3,7 @@
     :model-value="GroupLabel"
     :options="GroupLabels"
     class="mt-4 z-1"
-    @update:model-value="itemService.changeGroupLabel"
+    @update:model-value="itemService?.changeGroupLabel"
     :pt="{
       input: {
         class: 'text-xl sm:text-4xl md:text-6xl'
@@ -76,7 +76,7 @@
         outlined
         class="w-full"
         size="large"
-        @click="sidebarService.openSidebar"
+        @click="sidebarService?.openSidebar"
         :pt="{
           icon: {
             class: 'flex-auto flex justify-content-end'
@@ -90,19 +90,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, inject, watch } from 'vue';
 import random from 'random';
 import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 import { useDialog } from 'primevue/usedialog';
 import { TickSound, LabelLength } from '@/services/SettingService';
-import { GroupLabel, GroupLabels, Items } from '@/services/ItemService';
+import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
+import type { SidebarService } from '@/services/SidebarService';
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
 
-const itemService = inject('ItemService');
-const sidebarService = inject('SidebarService');
-
-const fontName = ['Mochiy Pop P One'];
+const itemService = inject<ItemService>('ItemService');
+const sidebarService = inject<SidebarService>('SidebarService');
 
 const properties = {
   // debug: import.meta.env.DEV,
@@ -115,7 +114,7 @@ const properties = {
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
   itemLabelBaselineOffset: -0.07,
-  itemLabelFont: fontName.join(', '),
+  itemLabelFont: 'Mochiy Pop P One',
   itemLabelFontSizeMax: 55,
   itemBackgroundColors: [
     '#fdc963',
@@ -140,9 +139,11 @@ const properties = {
 
 const container = ref();
 
-let wheel = undefined;
+let wheel: Wheel | undefined = undefined;
 
 const stopAndClearSound = () => {
+  if (!wheel) return;
+
   wheel.onCurrentIndexChange = undefined;
   wheel.stop();
 };
@@ -156,7 +157,11 @@ const playSound = () => {
 };
 
 const spin = () => {
+  if (!wheel) return;
+
   wheel.onCurrentIndexChange = () => {
+    if (!wheel) return;
+
     playSound();
 
     // Change rotation resistance based on current speed.
@@ -179,7 +184,11 @@ const spin = () => {
 };
 
 const dialog = useDialog();
-const openCongratulationDialog = ($event) => {
+const openCongratulationDialog = ($event: {
+  type: 'rest';
+  currentIndex: number;
+  rotation: number;
+}) => {
   dialog.open(CongratulationDialog, {
     props: {
       modal: true,
@@ -189,15 +198,15 @@ const openCongratulationDialog = ($event) => {
       dismissableMask: true
     },
     data: {
-      item: Items.value[$event.currentIndex]
+      item: Items.value![$event.currentIndex]
     }
   });
 };
 
 onMounted(() => {
-  watch(Items, () => (wheel.items = Items.value));
-  watch(LabelLength, () => {
-    wheel.itemLabelRadiusMax = 1 - LabelLength.value;
+  watch(Items, (newValue) => (wheel!.items = newValue!));
+  watch(LabelLength, (newValue) => {
+    wheel!.itemLabelRadiusMax = 1 - newValue;
   });
 
   wheel = new Wheel(container.value, {
@@ -215,7 +224,7 @@ onMounted(() => {
 
   // Workaround for itemLabelRadiusMax not working on first load.
   setTimeout(() => {
-    wheel.itemLabelRadiusMax = 1 - LabelLength.value;
+    wheel!.itemLabelRadiusMax = 1 - LabelLength.value;
   }, 50);
 });
 </script>
