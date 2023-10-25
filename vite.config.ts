@@ -23,6 +23,12 @@ export default defineConfig({
         theme_color: '#212f56',
         icons: [
           {
+            src: 'img/icons/maskable_icon.png',
+            sizes: '743x743',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
             src: 'img/icons/windows11/SmallTile.scale-100.png',
             sizes: '71x71'
           },
