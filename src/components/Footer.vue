@@ -24,10 +24,19 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 footer {
   font-family: 'Rock Salt';
 
   background-image: linear-gradient(to right, black 0%, transparent 50%);
+
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>
