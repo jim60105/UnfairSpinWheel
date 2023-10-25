@@ -32,6 +32,7 @@
               outlined
               aria-label="Remove group"
               @click="removeGroup"
+              tabindex="-1"
             />
             <Dropdown
               :model-value="GroupLabel"
@@ -56,12 +57,14 @@
           </div>
         </div>
         <Divider />
-        <ItemInputGroup
-          :class="['col-12']"
-          v-for="item in Items"
-          :key="item._id"
-          :modelValue="item"
-        ></ItemInputGroup>
+        <div v-focustrap>
+          <ItemInputGroup
+            :class="['col-12']"
+            v-for="item in Items"
+            :key="item._id"
+            :modelValue="item"
+          ></ItemInputGroup>
+        </div>
         <div class="p-inputgroup col-12">
           <Button
             ref="addButton"
@@ -75,51 +78,54 @@
         </div>
       </TabPanel>
       <TabPanel header="Settings">
-        <div class="col-12">
-          <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
-          <Dropdown
-            v-model="TickSound"
-            inputId="dd-sound"
-            :options="TickSounds"
-            optionLabel="label"
-            optionGroupLabel="label"
-            optionGroupChildren="items"
-            class="w-full"
-          />
-        </div>
-        <div class="col-12">
-          <label for="dd-sound" class="block mb-2">Select a Congratulation Sound</label>
-          <Dropdown
-            v-model="CongratulationSound"
-            inputId="dd-sound"
-            :options="CongratulationSounds"
-            optionLabel="label"
-            optionGroupLabel="label"
-            optionGroupChildren="items"
-            class="w-full"
-          />
-        </div>
-        <div class="col-12">
-          <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
-          <Slider
-            v-model="LabelLength"
-            inputId="sl-labelLength"
-            :min="0.3"
-            :max="0.75"
-            :step="0.01"
-          />
+        <div v-focustrap>
+          <div class="col-12">
+            <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
+            <Dropdown
+              v-model="TickSound"
+              inputId="dd-sound"
+              :options="TickSounds"
+              optionLabel="label"
+              optionGroupLabel="label"
+              optionGroupChildren="items"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
+            <label for="dd-sound" class="block mb-2">Select a Congratulation Sound</label>
+            <Dropdown
+              v-model="CongratulationSound"
+              inputId="dd-sound"
+              :options="CongratulationSounds"
+              optionLabel="label"
+              optionGroupLabel="label"
+              optionGroupChildren="items"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
+            <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
+            <Slider
+              v-model="LabelLength"
+              inputId="sl-labelLength"
+              :min="0.3"
+              :max="0.75"
+              :step="0.01"
+            />
+          </div>
         </div>
       </TabPanel>
     </TabView>
 
     <Dialog v-model:visible="showRenameGroupDialog" modal dismissableMask header="Header">
       <template #container>
-        <form class="surface-card border-round shadow-2 p-4 max-w-screen" onsubmit="return false;">
+        <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
           <div class="text-900 font-medium mb-2 text-xl">Rename Group</div>
           <div class="flex mb-4 flex-column lg:flex-row">
             <span class="p-input-icon-left">
               <i class="pi pi-pencil" />
               <InputText
+                autofocus
                 v-model="renameGroupName"
                 placeholder="New Group Name"
                 class="w-20rem max-w-full"
@@ -139,12 +145,13 @@
     </Dialog>
     <Dialog v-model:visible="showAddGroupDialog" modal dismissableMask header="Header">
       <template #container>
-        <form class="surface-card border-round shadow-2 p-4 max-w-screen" onsubmit="return false;">
+        <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
           <div class="text-900 font-medium mb-2 text-xl">Add Group</div>
           <div class="flex mb-4 flex-column lg:flex-row">
             <span class="p-input-icon-left">
-              <i class="pi pi-pencil" />
+              <i class="pi pi-plus" />
               <InputText
+                autofocus
                 v-model="addGroupName"
                 placeholder="New Group Name"
                 class="w-20rem max-w-full"

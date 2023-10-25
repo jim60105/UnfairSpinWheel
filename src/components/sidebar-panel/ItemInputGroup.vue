@@ -1,8 +1,16 @@
 <template>
   <div class="p-inputgroup">
-    <Button icon="pi pi-trash" severity="danger" outlined aria-label="Remove" @click="removeItem" />
+    <Button
+      icon="pi pi-trash"
+      severity="danger"
+      outlined
+      aria-label="Remove"
+      @click="removeItem"
+      tabindex="-1"
+    />
     <InputText
-      :modelValue="label"
+      ref="focusMe"
+      :model-value="label"
       @blur="updateLabel($event)"
       @submit="updateLabel($event)"
     ></InputText>
@@ -32,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { inject, ref, onMounted } from 'vue';
 import { ItemService } from '@/services/ItemService';
 
 const props = defineProps(['modelValue']);
@@ -41,6 +49,7 @@ const itemService = inject<ItemService>('ItemService');
 
 const label = ref(props.modelValue.label);
 const weight = ref(props.modelValue.weight);
+const focusMe = ref();
 
 function updateLabel(value: Event) {
   const input = value.target as HTMLInputElement;
@@ -60,6 +69,10 @@ function updateWeight(value: Number) {
 function removeItem() {
   itemService?.removeItem(props.modelValue);
 }
+
+onMounted(() => {
+  focusMe.value.$el.focus();
+});
 </script>
 
 <style scoped></style>

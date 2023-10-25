@@ -22,11 +22,14 @@
     <div
       class="icon"
       @click="spin"
+      @keyup.enter="spin"
+      @keyup.space="spin"
       v-tooltip.bottom="{
         value: `↻ Spin!`,
         class: 'text-xl',
         escape: true
       }"
+      tabindex="0"
     ></div>
   </div>
   <div class="grid button-container">

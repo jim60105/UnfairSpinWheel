@@ -23,6 +23,7 @@ import Dialog from 'primevue/dialog';
 import DynamicDialog from 'primevue/dynamicdialog';
 import DialogService from 'primevue/dialogservice';
 import Ripple from 'primevue/ripple';
+import FocusTrap from 'primevue/focustrap';
 
 //theme
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
@@ -74,6 +75,7 @@ app.component('Dialog', Dialog);
 app.component('DynamicDialog', DynamicDialog);
 app.use(DialogService);
 app.directive('ripple', Ripple);
+app.directive('focustrap', FocusTrap);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);

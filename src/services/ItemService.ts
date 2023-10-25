@@ -113,6 +113,9 @@ export class ItemService {
     item: PouchDB.Core.ExistingDocument<IItem>
   ): Promise<PouchDB.Core.Response> {
     const doc = await this.db.get(item._id);
+    if (doc.label === item.label && doc.weight === item.weight)
+      return Promise.resolve({} as PouchDB.Core.Response);
+
     doc.label = item.label;
     doc.weight = item.weight;
     const result = await this.db.put(item);
