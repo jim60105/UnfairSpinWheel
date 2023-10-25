@@ -2,12 +2,14 @@ import { ref, watch } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 
-export const TickSound = ref<{
+type AudioSetting = {
   label: string;
   value: string;
-}>();
+};
 
-export const TickSounds = [
+export const TickSound = ref<AudioSetting>();
+
+export const TickSounds: { label: string; items: AudioSetting[] }[] = [
   {
     label: 'Sound Effect',
     items: [
@@ -30,12 +32,9 @@ export const TickSounds = [
   }
 ];
 
-export const CongratulationSound = ref<{
-  label: string;
-  value: string;
-}>();
+export const CongratulationSound = ref<AudioSetting>();
 
-export const CongratulationSounds = [
+export const CongratulationSounds: { label: string; items: AudioSetting[] }[] = [
   {
     label: 'Sound Effect',
     items: [
@@ -74,6 +73,16 @@ export class SettingService {
     await this.initCongratulationSound();
   }
 
+  private prefetchAudio(audio: AudioSetting | undefined) {
+    if (!audio) return;
+
+    const hint = document.createElement('link');
+    hint.rel = 'prefetch';
+    hint.as = 'audio';
+    hint.href = `/sound/${audio.value}`;
+    document.head.appendChild(hint);
+  }
+
   private async initLabelLength() {
     try {
       LabelLength.value = (await this.getSetting('labelLength')).value;
@@ -103,6 +112,7 @@ export class SettingService {
       // Don't await
       this.addSetting({ key: 'tickSound', value: firstItem });
     }
+    this.prefetchAudio(TickSound.value);
 
     watch(TickSound, async (newValue) => {
       try {
@@ -112,6 +122,7 @@ export class SettingService {
       } catch (e) {
         await this.addSetting({ key: 'tickSound', value: newValue });
       }
+      this.prefetchAudio(newValue!);
     });
   }
 
@@ -124,6 +135,7 @@ export class SettingService {
       // Don't await
       this.addSetting({ key: 'congratulationSound', value: firstItem });
     }
+    this.prefetchAudio(CongratulationSound.value);
 
     watch(CongratulationSound, async (newValue) => {
       try {
@@ -133,6 +145,7 @@ export class SettingService {
       } catch (e) {
         await this.addSetting({ key: 'congratulationSound', value: newValue });
       }
+      this.prefetchAudio(CongratulationSound.value);
     });
   }
 
