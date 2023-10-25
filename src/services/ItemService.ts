@@ -45,6 +45,7 @@ export class ItemService {
       })
     ).docs.sort((a, b) => a.order - b.order);
 
+  private syncGroups = async () => (GroupLabels.value = await this.getGroupLabels());
   private syncItems = async () => (Items.value = await this.getItems());
 
   public addItem = async (item?: IItem): Promise<PouchDB.Core.Response> => {
@@ -56,6 +57,7 @@ export class ItemService {
         order: (await this.getItemCount()) ?? 0
       };
     const result = await this.db.post(item);
+    await this.syncGroups();
     await this.syncItems();
     return result;
   };
@@ -91,8 +93,20 @@ export class ItemService {
   public async resetGroupLabel() {
     const firstItem = await this.getFirstItem();
     GroupLabel.value = firstItem.group;
-    GroupLabels.value = await this.getGroupLabels();
+    await this.syncGroups();
     await this.syncItems();
+  }
+
+  public async renameGroup(oldGroupLabel: string, newGroupLabel: string) {
+    if (newGroupLabel === oldGroupLabel) return;
+
+    const items: PouchDB.Core.ExistingDocument<IItem & PouchDB.Core.ChangesMeta>[] =
+      await this.getItemByGroupLabel(oldGroupLabel);
+    items.forEach((item) => (item.group = newGroupLabel));
+    await this.db.bulkDocs(items);
+
+    await this.syncGroups();
+    await this.changeGroupLabel(newGroupLabel);
   }
 
   public async updateItem(

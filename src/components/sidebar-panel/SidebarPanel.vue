@@ -30,16 +30,28 @@
               icon="pi pi-trash"
               severity="danger"
               outlined
-              aria-label="Remove"
+              aria-label="Remove group"
               @click="removeGroup"
             />
             <Dropdown
               :model-value="GroupLabel"
               inputId="dd-group"
-              editable
               :options="GroupLabels"
-              class="w-full"
               @update:model-value="itemService.changeGroupLabel"
+            />
+            <Button
+              icon="pi pi-pencil"
+              severity="info"
+              outlined
+              aria-label="Rename group"
+              @click="showRenameGroupDialog = true"
+            />
+            <Button
+              icon="pi pi-plus"
+              severity="success"
+              outlined
+              aria-label="Add group"
+              @click="showAddGroupDialog = true"
             />
           </div>
         </div>
@@ -55,6 +67,8 @@
             ref="addButton"
             class="w-full"
             icon="pi pi-plus"
+            severity="success"
+            outlined
             aria-label="Add item"
             @click="addItem"
           />
@@ -97,11 +111,62 @@
         </div>
       </TabPanel>
     </TabView>
+
+    <Dialog v-model:visible="showRenameGroupDialog" modal dismissableMask header="Header">
+      <template #container>
+        <form class="surface-card border-round shadow-2 p-4 max-w-screen" onsubmit="return false;">
+          <div class="text-900 font-medium mb-2 text-xl">Rename Group</div>
+          <div class="flex mb-4 flex-column lg:flex-row">
+            <span class="p-input-icon-left">
+              <i class="pi pi-pencil" />
+              <InputText
+                v-model="renameGroupName"
+                placeholder="New Group Name"
+                class="w-20rem max-w-full"
+              />
+            </span>
+          </div>
+          <Button
+            type="submit"
+            class="confirmButton"
+            icon="pi pi-check"
+            label="Ok"
+            severity="success"
+            @click="renameGroup"
+          ></Button>
+        </form>
+      </template>
+    </Dialog>
+    <Dialog v-model:visible="showAddGroupDialog" modal dismissableMask header="Header">
+      <template #container>
+        <form class="surface-card border-round shadow-2 p-4 max-w-screen" onsubmit="return false;">
+          <div class="text-900 font-medium mb-2 text-xl">Add Group</div>
+          <div class="flex mb-4 flex-column lg:flex-row">
+            <span class="p-input-icon-left">
+              <i class="pi pi-pencil" />
+              <InputText
+                v-model="addGroupName"
+                placeholder="New Group Name"
+                class="w-20rem max-w-full"
+              />
+            </span>
+          </div>
+          <Button
+            type="submit"
+            class="confirmButton"
+            icon="pi pi-check"
+            label="Ok"
+            severity="success"
+            @click="addGroup"
+          ></Button>
+        </form>
+      </template>
+    </Dialog>
   </Sidebar>
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue';
+import { inject, onMounted, ref, watch } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
@@ -137,6 +202,33 @@ const removeGroup = ($event: Event) => {
       }
     });
 };
+
+const showRenameGroupDialog = ref(false);
+const renameGroupName = ref(GroupLabel.value);
+const renameGroup = async () => {
+  await itemService.renameGroup(GroupLabel.value!, renameGroupName.value!);
+  showRenameGroupDialog.value = false;
+};
+
+const showAddGroupDialog = ref(false);
+const addGroupName = ref('');
+const addGroup = async () => {
+  await itemService.changeGroupLabel(addGroupName.value);
+  await itemService.addItem();
+  GroupLabels.value = await itemService.getGroupLabels();
+  showAddGroupDialog.value = false;
+  addGroupName.value = '';
+};
+
+onMounted(() => {
+  watch(GroupLabel, () => {
+    renameGroupName.value = GroupLabel.value;
+  });
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+.confirmButton {
+  float: right;
+}
+</style>
