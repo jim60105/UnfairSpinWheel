@@ -107,6 +107,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+### Npm packages dependencies
+
+- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random
+- Apache-2.0 Licensed: PouchDB
+
 ### Images
 
 All the images were generated using DALL·E 3 by [Image Creator from Microsoft Bing](https://www.bing.com/images/create) and are used in accordance with the [Bing Conversational Experiences and Image Creator Terms](https://www.bing.com/new/termsofuse).
