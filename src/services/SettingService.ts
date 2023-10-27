@@ -47,17 +47,17 @@ export const CongratulationSounds: { label: string; items: AudioSetting[] }[] = 
   {
     label: 'Funny Voice',
     items: [
-      { label: '中~大~獎~ (Chinese: Hitting the jackpot)', value: '中大獎.mp3' },
+      { label: '中~大~獎~ (Chinese)', value: '中大獎.mp3' },
       {
-        label: "那個橡皮擦我不要了 (Chinese: I don't want that eraser anymore)",
+        label: '那個橡皮擦我不要了 (Chinese)',
         value: '350b8fc91c2e4ca4b7b0652f6eee1a42.mp3'
       },
-      { label: '不是我！ (Chinese: Not me!)', value: '不是我笑.mp3' }
+      { label: '不是我！ (Chinese)', value: '不是我笑.mp3' }
     ]
   }
 ];
 
-export const LabelLength = ref<number>(0.45);
+export const LabelLength = ref<number>(0.75);
 
 export class SettingService {
   private db: PouchDB.Database<ISetting> = new PouchDB('setting');
@@ -87,7 +87,7 @@ export class SettingService {
     try {
       LabelLength.value = (await this.getSetting('labelLength')).value;
     } catch (e) {
-      LabelLength.value = 0.45;
+      LabelLength.value = 0.75;
       // Don't await
       this.addSetting({ key: 'labelLength', value: LabelLength.value });
     }

@@ -22,7 +22,7 @@
         }
       }"
     >
-      <TabPanel header="Items">
+      <TabPanel header="📋 Items">
         <div class="col-12">
           <label for="dd-group" class="block mb-2">Select a Group</label>
           <div class="p-inputgroup">
@@ -77,7 +77,7 @@
           />
         </div>
       </TabPanel>
-      <TabPanel header="Settings">
+      <TabPanel header="⚙️ Settings">
         <div v-focustrap>
           <div class="col-12">
             <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>

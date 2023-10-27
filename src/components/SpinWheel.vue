@@ -13,7 +13,7 @@
       }
     }"
   />
-  <div ref="container" class="flex spin-container -mt-5">
+  <div ref="container" class="flex spin-container">
     <picture>
       <source srcset="/img/image.avif" type="image/avif" />
       <source srcset="/img/image.webp" type="image/webp" />
@@ -32,65 +32,6 @@
       tabindex="0"
     ></div>
   </div>
-  <div class="grid button-container">
-    <div class="col">
-      <Button
-        label="Spin!"
-        icon="pi pi-refresh"
-        severity="success"
-        outlined
-        class="w-full"
-        size="large"
-        @click="spin"
-        :pt="{
-          icon: {
-            class: 'flex-auto flex justify-content-end'
-          },
-          label: {
-            class: 'text-left'
-          }
-        }"
-      />
-    </div>
-    <div class="col">
-      <Button
-        label="Stop!"
-        icon="pi pi-stop"
-        severity="danger"
-        outlined
-        class="w-full"
-        size="large"
-        @click="stopAndClearSound"
-        :pt="{
-          icon: {
-            class: 'flex-auto flex justify-content-end'
-          },
-          label: {
-            class: 'text-left'
-          }
-        }"
-      />
-    </div>
-    <div class="col-12">
-      <Button
-        icon="pi pi-palette"
-        label="Customize"
-        severity="info"
-        outlined
-        class="w-full"
-        size="large"
-        @click="sidebarService?.openSidebar"
-        :pt="{
-          icon: {
-            class: 'flex-auto flex justify-content-end'
-          },
-          label: {
-            class: 'text-left'
-          }
-        }"
-      />
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -100,11 +41,9 @@ import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
 import { useDialog } from 'primevue/usedialog';
 import { TickSound, LabelLength } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
-import type { SidebarService } from '@/services/SidebarService';
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
 
 const itemService = inject<ItemService>('ItemService');
-const sidebarService = inject<SidebarService>('SidebarService');
 
 const properties = {
   // debug: import.meta.env.DEV,
@@ -240,6 +179,8 @@ onMounted(() => {
   width: 130vw;
   height: 90vh;
 
+  margin-top: -20px;
+  margin-bottom: -10vh;
   position: relative;
 
   @media (min-width: map-get($breakpoints, 'sm')) {
