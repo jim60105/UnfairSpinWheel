@@ -81,7 +81,7 @@ But our hearts can be biased. Maybe tonight's dinner will be McDonald's after al
 </p>
 
 Want to make your online draws more interactive and engaging?  
-Look no further than the Unfair Spin Wheel! 
+Look no further than the Unfair Spin Wheel!
 
 This tool is completely free and adds a fun twist to your livestream content.  
 Give it a try and see how it can spice up your audience's experience.
@@ -91,7 +91,7 @@ Give it a try and see how it can spice up your audience's experience.
 Let us know how you use our spin wheel!  
 [Share your creative ideas with us](https://github.com/jim60105/UnfairSpinWheel/discussions/categories/show-and-tell) so we can feature them here.
 
-Enjoy spinning!
+Happy spinning!
 
 ## 📝 License
 
@@ -109,7 +109,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
 ### Npm packages dependencies
 
-- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random
+- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random, adaltas/node-csv
 - Apache-2.0 Licensed: PouchDB
 
 ### Images

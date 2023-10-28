@@ -100,7 +100,19 @@
             />
           </div>
         </template>
-        <Textarea v-model="textArea" v-else class="m-2" />
+        <div v-else class="m-2">
+          <Textarea v-model="textArea" />
+          <small class="text-color-secondary"
+            >This feature uses
+            <a
+              href="https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules"
+              target="_blank"
+              rel="noopener"
+              >the CSV syntax</a
+            >
+            with two columns.</small
+          >
+        </div>
       </TabPanel>
       <TabPanel header="⚙️ Settings">
         <div v-focustrap>
@@ -200,6 +212,8 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
+import { parse } from 'csv-parse/browser/esm/sync';
+import { stringify } from 'csv-stringify/browser/esm/sync';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
 import {
@@ -210,8 +224,11 @@ import {
   CongratulationSounds
 } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
+import type { IItem } from '@/interface/IItem';
+import { useToast } from 'primevue/usetoast';
 
 const itemService = inject<ItemService>('ItemService')!;
+const toast = useToast();
 
 const addButton = ref();
 const confirm = useConfirm();
@@ -254,6 +271,7 @@ const addGroup = async () => {
   addGroupName.value = '';
 };
 
+let badCSV: string | undefined = undefined;
 onMounted(() => {
   watch(GroupLabel, () => {
     renameGroupName.value = GroupLabel.value;
@@ -262,20 +280,40 @@ onMounted(() => {
   watch(bulkEditMode, async (newValue) => {
     if (newValue) {
       textArea.value =
-        Items.value?.map((item) => `${item.label.replace(',', '\\,')},${item.weight}`).join('\n') ??
-        '';
+        badCSV ?? (Items.value ? stringify(Items.value!, { columns: ['label', 'weight'] }) : '');
+      badCSV = undefined;
       console.debug('Bulk edit mode on');
     } else {
       console.debug('Bulk edit mode off');
-      const items = textArea.value
-        .split('\n')
-        .map((line) => line.split(','))
-        .map(([label, weight]) => ({
-          label: label.replace('\\,', ','),
-          weight: +weight || 1,
+
+      let items: IItem[] = [];
+      try {
+        items = parse(textArea.value.trim(), {
+          columns: ['label', 'weight'],
+          skipEmptyLines: true,
+          trim: true
+        }).map(({ label, weight }: { label: string; weight: string }) => ({
+          label: label,
+          weight: +weight < 1 ? 1 : +weight,
           group: GroupLabel.value!,
           order: -1
         }));
+        toast.removeAllGroups();
+      } catch (error) {
+        const e = error as Error;
+        console.error('Error parsing items from textarea', e);
+        toast.add({
+          severity: 'error',
+          summary: 'CSV parsed failed!',
+          detail: e.message
+        });
+
+        badCSV = textArea.value;
+        bulkEditMode.value = true;
+        return;
+      }
+      console.debug('Items parsed from textarea', items);
+
       await itemService.cleanUpGroup(GroupLabel.value!);
       await itemService.addItems(items);
     }

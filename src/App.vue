@@ -1,4 +1,5 @@
 <template>
+  <Toast position="bottom-left" />
   <ConfirmPopup></ConfirmPopup>
   <ScrollPanel class="h-screen">
     <div class="max-w-screen overflow-x-hidden overflow-y-hidden">

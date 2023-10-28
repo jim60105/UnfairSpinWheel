@@ -12,6 +12,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "csv": "^6.3.5",
     "events": "^3.3.0",
     "pouchdb-browser": "^8.0.1",
     "pouchdb-find": "^8.0.1",

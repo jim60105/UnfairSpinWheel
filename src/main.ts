@@ -26,6 +26,8 @@ import Ripple from 'primevue/ripple';
 import FocusTrap from 'primevue/focustrap';
 import ToggleButton from 'primevue/togglebutton';
 import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 //theme
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
@@ -80,6 +82,8 @@ app.directive('ripple', Ripple);
 app.directive('focustrap', FocusTrap);
 app.component('ToggleButton', ToggleButton);
 app.component('Textarea', Textarea);
+app.component('Toast', Toast);
+app.use(ToastService);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
