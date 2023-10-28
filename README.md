@@ -5,7 +5,8 @@
 </p>
 
 <p align="center">
-The world is unfair, and so is our spin wheel.
+The world is unfair, and so is our spin wheel.<br>
+<a target="_blank" href="https://unfair.spin-wheel.click">https://unfair.spin-wheel.click</a>
 </p>
 
 Get ready for an exciting ride at Unfair Spin Wheel!
@@ -24,12 +25,22 @@ Our game is unlike any other out there, as you have the power to control the odd
 
 Set the weight for each item on the wheel.
 
-The spin may seem random, but your settings can actually sway the outcome, making the game a bit "unfair".
+The spin is random, but your settings can actually sway the outcome, making the game a bit "unfair".
+
+### 📝 Bulk Edit Mode
+
+<p>
+<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/04c10dca-2a43-4264-af79-d2bc24d28c6a" height="400" />
+</p>
+
+With Bulk Edit Mode, importing a ton of items is a breeze.
+
+Plus, no need to worry about missing weight data - we'll take care of it by adding ",1" for you automatically.
 
 ### 🔊 Customizable Sound Effects
 
 <p>
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/6dfc533a-a459-4266-801d-e98850b8d2c0" height="300" />
+<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/6dfc533a-a459-4266-801d-e98850b8d2c0" height="250" />
 </p>
 
 Customize your gaming experience by tweaking the sound effects.
@@ -51,12 +62,11 @@ It's all saved automatically in the browser, so it's always there for your next 
 ## 🎲 How to Play
 
 1. To play the Unfair Spin Wheel game, head over to our website at [unfair.spin-wheel.click](https://unfair.spin-wheel.click).
-2. Once you're there, simply click on the "Customize" button at the bottom of the page to open the side panel.
-3. From there, you can adjust the weight of each item on the wheel to your liking.
+2. Once you're there, simply click on the "<<" button at the right of the page to open the side panel.
+3. From there, you can adjust the weight of each item to your liking.
 4. If you want to add some extra fun, don't forget to customize the sound effects under the "Settings" tab.
 5. And finally, when you're ready, just give the wheel a good spin by clicking on it.
-
-Enjoy the game!
+6. Enjoy the game!
 
 ## 📎 Usage scenarios
 
@@ -108,6 +118,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 ### Npm packages dependencies
+
+We rely on these awesome open source projects as the foundation for our projects.
 
 - MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random, adaltas/node-csv
 - Apache-2.0 Licensed: PouchDB
