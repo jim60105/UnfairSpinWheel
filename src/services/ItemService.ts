@@ -56,8 +56,28 @@ export class ItemService {
         weight: 1,
         order: (await this.getItemCount()) ?? 0
       };
-    const result = await this.db.post(item);
+
+    const doc = item as PouchDB.Core.ExistingDocument<IItem>;
+    doc._id = '';
+    doc._rev = '';
+    const result = await this.db.post(doc);
     await this.syncGroups();
+    await this.syncItems();
+    return result;
+  };
+
+  public addItems = async (
+    items: IItem[]
+  ): Promise<(PouchDB.Core.Error | PouchDB.Core.Response)[]> => {
+    let count = await this.getItemCount();
+    const docs = items.map((item) => ({
+      group: item.group,
+      label: item.label,
+      weight: item.weight,
+      order: count++
+    }));
+    const result = await this.db.bulkDocs(docs);
+
     await this.syncItems();
     return result;
   };
@@ -134,12 +154,15 @@ export class ItemService {
   public removeGroup = async (groupLabel: string) => {
     if (groupLabel === this._firstItem?.group) this._firstItem = undefined;
 
+    await this.cleanUpGroup(groupLabel);
+    await this.resetGroupLabel();
+  };
+
+  public cleanUpGroup = async (groupLabel: string) => {
     const items: PouchDB.Core.ExistingDocument<IItem & PouchDB.Core.ChangesMeta>[] =
       await this.getItemByGroupLabel(groupLabel);
     items.forEach((item) => (item._deleted = true));
     await this.db.bulkDocs(items);
-
-    await this.resetGroupLabel();
     await this.syncItems();
   };
 }
