@@ -280,7 +280,8 @@ onMounted(() => {
   watch(bulkEditMode, async (newValue) => {
     if (newValue) {
       textArea.value =
-        badCSV ?? (Items.value ? stringify(Items.value!, { columns: ['label', 'weight'] }) : '');
+        badCSV ??
+        (Items.value ? stringify(Items.value!, { columns: ['label', 'weight'], eof: false }) : '');
       badCSV = undefined;
       console.debug('Bulk edit mode on');
     } else {
