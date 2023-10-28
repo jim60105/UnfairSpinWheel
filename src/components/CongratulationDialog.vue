@@ -1,6 +1,11 @@
 <template>
   <div class="congrats" ref="congrats" @click="close">
-    <div ref="label" class="bounce-in-fwd text-8xl label">{{ dialogRef?.data.item.label }}</div>
+    <div
+      ref="label"
+      class="bounce-in-fwd text-8xl label text-center max-w-screen overflow-x-hidden"
+    >
+      {{ dialogRef?.data.item.label }}
+    </div>
 
     <div v-for="i in 20" :key="i" class="blob pi pi-star-fill" :class="'blob-' + i"></div>
   </div>
