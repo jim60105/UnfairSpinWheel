@@ -176,7 +176,7 @@ onMounted(() => {
 
 .spin-container {
   aspect-ratio: 1/1;
-  width: 130vw;
+  width: 200vw;
   height: 90vh;
 
   margin-top: -20px;
@@ -196,12 +196,12 @@ onMounted(() => {
   object-fit: contain;
 
   aspect-ratio: 1/1;
-  width: 130vw;
+  width: 200vw;
   height: 90vh;
 
   position: absolute;
   top: calc(calc(50%) - calc(90vh / 2));
-  left: calc(calc(50%) - calc(130vw / 2));
+  left: calc(calc(50%) - calc(200vw / 2));
 
   @media (min-width: map-get($breakpoints, 'sm')) {
     height: 100vh;
