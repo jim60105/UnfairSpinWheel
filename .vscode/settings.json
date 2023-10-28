@@ -66,8 +66,10 @@
     "tabview",
     "tada",
     "toastservice",
+    "togglebutton",
     "useconfirm",
     "usedialog",
+    "usetoast",
     "VITE"
   ]
 }

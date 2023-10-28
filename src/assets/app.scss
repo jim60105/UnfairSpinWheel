@@ -24,3 +24,12 @@ body {
   text-align: center;
   font-weight: 700;
 }
+
+:not(li) > a {
+  color: var(--primary-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

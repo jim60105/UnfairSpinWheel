@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <footer class="fixed bottom-0 left-0 m-2 mb-1 text-xs overflow-hidden w-full">
-    <a :href="url" target="_blank"
+    <a :href="url" target="_blank" rel="noopener"
       >{{ version }}<i class="pi pi-github vertical-align-middle m-2"></i>AGPL-3.0 Licensed</a
     >
     / Copyright © 2023 Jim60105
@@ -29,14 +29,5 @@ footer {
   font-family: 'Rock Salt';
 
   background-image: linear-gradient(to right, black 0%, transparent 50%);
-
-  a {
-    color: var(--primary-color);
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 </style>
