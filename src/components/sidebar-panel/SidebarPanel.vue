@@ -57,25 +57,50 @@
           </div>
         </div>
         <Divider />
-        <div v-focustrap>
-          <ItemInputGroup
-            :class="['col-12']"
-            v-for="item in Items"
-            :key="item._id"
-            :modelValue="item"
-          ></ItemInputGroup>
-        </div>
         <div class="p-inputgroup col-12">
-          <Button
-            ref="addButton"
-            class="w-full"
-            icon="pi pi-plus"
-            severity="success"
-            outlined
-            aria-label="Add item"
-            @click="addItem"
+          <ToggleButton
+            v-model="bulkEditMode"
+            class="w-full border-round"
+            onLabel="Save"
+            offLabel="Bulk Edit"
+            onIcon="pi pi-check"
+            offIcon="pi pi-pencil"
+            :pt="{
+              icon: {
+                class: ['flex', 'flex-auto', 'flex-row-reverse']
+              },
+              label: {
+                class: ['flex']
+              }
+            }"
           />
         </div>
+        <template v-if="!bulkEditMode">
+          <div
+            v-focustrap="{
+              disabled: Items?.length === 0
+            }"
+          >
+            <ItemInputGroup
+              :class="['col-12']"
+              v-for="item in Items"
+              :key="item._id"
+              :modelValue="item"
+            ></ItemInputGroup>
+          </div>
+          <div class="p-inputgroup col-12">
+            <Button
+              ref="addButton"
+              class="w-full"
+              icon="pi pi-plus"
+              severity="success"
+              outlined
+              aria-label="Add item"
+              @click="addItem"
+            />
+          </div>
+        </template>
+        <Textarea v-model="textArea" v-else class="m-2" />
       </TabPanel>
       <TabPanel header="⚙️ Settings">
         <div v-focustrap>
@@ -190,6 +215,8 @@ const itemService = inject<ItemService>('ItemService')!;
 
 const addButton = ref();
 const confirm = useConfirm();
+const bulkEditMode = ref(false);
+const textArea = ref('');
 
 async function addItem() {
   await itemService.addItem();
@@ -231,11 +258,40 @@ onMounted(() => {
   watch(GroupLabel, () => {
     renameGroupName.value = GroupLabel.value;
   });
+
+  watch(bulkEditMode, async (newValue) => {
+    if (newValue) {
+      textArea.value =
+        Items.value?.map((item) => `${item.label.replace(',', '\\,')},${item.weight}`).join('\n') ??
+        '';
+      console.debug('Bulk edit mode on');
+    } else {
+      console.debug('Bulk edit mode off');
+      const items = textArea.value
+        .split('\n')
+        .map((line) => line.split(','))
+        .map(([label, weight]) => ({
+          label: label.replace('\\,', ','),
+          weight: +weight || 1,
+          group: GroupLabel.value!,
+          order: -1
+        }));
+      await itemService.cleanUpGroup(GroupLabel.value!);
+      await itemService.addItems(items);
+    }
+  });
 });
 </script>
 
 <style scoped>
 .confirmButton {
   float: right;
+}
+
+textarea {
+  width: -webkit-fill-available;
+  resize: vertical;
+  min-height: 50vh;
+  font-size: larger;
 }
 </style>
