@@ -288,11 +288,17 @@ onMounted(() => {
 
       let items: IItem[] = [];
       try {
-        items = parse(textArea.value.trim(), {
-          columns: ['label', 'weight'],
-          skipEmptyLines: true,
-          trim: true
-        }).map(({ label, weight }: { label: string; weight: string }) => ({
+        items = parse(
+          textArea.value
+            .split('\n')
+            .map((line) => (line.indexOf(',') === -1 ? `${line},1` : line))
+            .join('\n'),
+          {
+            columns: ['label', 'weight'],
+            skipEmptyLines: true,
+            trim: true
+          }
+        ).map(({ label, weight }: { label: string; weight: string }) => ({
           label: label,
           weight: +weight < 1 ? 1 : +weight,
           group: GroupLabel.value!,
