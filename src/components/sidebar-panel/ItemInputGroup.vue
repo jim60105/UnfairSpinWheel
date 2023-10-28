@@ -53,15 +53,19 @@ const focusMe = ref();
 
 function updateLabel(value: Event) {
   const input = value.target as HTMLInputElement;
-  label.value = input.value;
   const item = props.modelValue;
+  if (input.value === item.label) return;
+
+  label.value = input.value;
   item.label = input.value;
   itemService?.updateItem(item);
 }
 
 function updateWeight(value: Number) {
-  weight.value = value;
   const item = props.modelValue;
+  if (value === item.weight) return;
+
+  weight.value = value;
   item.weight = value;
   itemService?.updateItem(item);
 }
