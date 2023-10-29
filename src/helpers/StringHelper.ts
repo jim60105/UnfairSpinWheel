@@ -5,13 +5,21 @@ import pako from 'pako';
 
 export class StringHelper {
   public static compress = (input: string) =>
-    btoa(String.fromCodePoint(...pako.deflate(input, { level: 9 })));
+    btoa(String.fromCodePoint(...pako.deflate(input)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
 
-  public static decompress = (input: string) =>
-    pako.inflate(
-      Uint8Array.from(atob(input), (m) => m.codePointAt(0) || 0),
+  public static decompress = (input: string) => {
+    let str = input.replace(/-/g, '+').replace(/_/g, '/');
+    while (str.length % 4 !== 0) {
+      str += '=';
+    }
+    return pako.inflate(
+      Uint8Array.from(atob(str), (m) => m.codePointAt(0) || 0),
       { to: 'string' }
     );
+  };
 
   public static csvStringify = (input?: any[]) => {
     const items = input ? input : Items.value;

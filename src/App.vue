@@ -104,13 +104,15 @@ const inputGroup = async () => {
 };
 
 onMounted(async () => {
-  const hash = window.location.hash.substring(1);
-  if (hash) {
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get('data');
+  const group = params.get('group') ?? 'New Group Name';
+  if (data) {
     try {
-      inputGroupName.value = decodeURI(hash.substring(hash.lastIndexOf('#') + 1));
+      inputGroupName.value = decodeURIComponent(group);
       console.debug('inputGroupName', inputGroupName.value);
-      const decompressed = StringHelper.decompress(hash.substring(0, hash.lastIndexOf('#')));
 
+      const decompressed = StringHelper.decompress(data);
       inputItems = StringHelper.csvParse(decompressed);
       console.debug('inputItems', inputItems);
 

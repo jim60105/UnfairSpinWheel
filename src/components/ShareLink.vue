@@ -1,7 +1,7 @@
 <template>
   <div
     class="shareon"
-    :data-url="`${origin}#${getCompressedCSV}#${encodeURI(GroupLabel ?? '')}`"
+    :data-url="`${origin}?group=${encodeURIComponent(GroupLabel ?? '')}&data=${getCompressedCSV}`"
     data-hashtags="UnfairSpinWheel"
     data-text="Hey there! I just found this fun spin wheel and thought you might enjoy it too. Check it out here!"
     v-tooltip.bottom="{
@@ -50,6 +50,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-/* Your component's styles here */
-</style>
+<style scoped></style>
