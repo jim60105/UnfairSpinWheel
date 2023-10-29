@@ -100,7 +100,18 @@ const inputGroup = async () => {
   await itemService.changeGroupLabel(inputGroupName.value);
   showInputGroupDialog.value = false;
   inputGroupName.value = '';
-  window.location.hash = '';
+
+  // Remove query string
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.delete('data');
+  searchParams.delete('group');
+  var url =
+    window.location.protocol +
+    '//' +
+    window.location.host +
+    window.location.pathname +
+    (searchParams.size ? '?' + searchParams.toString() : '');
+  window.history.pushState({ path: url }, '', url);
 };
 
 onMounted(async () => {
