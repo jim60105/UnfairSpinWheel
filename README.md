@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-The world is unfair, and so is our spin wheel.<br>
-<a target="_blank" href="https://unfair.spin-wheel.click">https://unfair.spin-wheel.click</a>
+  The world is unfair, and so is our spin wheel.<br>
+  <a target="_blank" href="https://unfair.spin-wheel.click">https://unfair.spin-wheel.click</a>
 </p>
 
 Get ready for an exciting ride at Unfair Spin Wheel!
@@ -20,7 +20,7 @@ Our game is unlike any other out there, as you have the power to control the odd
 ### ⚖️ Weighted Spins
 
 <p>
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/f46abb58-8e81-4d4e-94a7-2474d1e7c9d2" height="350" />
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/f46abb58-8e81-4d4e-94a7-2474d1e7c9d2" height="350" />
 </p>
 
 Set the weight for each item on the wheel.
@@ -30,7 +30,7 @@ The spin is random, but your settings can actually sway the outcome, making the 
 ### 📝 Bulk Edit Mode
 
 <p>
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/04c10dca-2a43-4264-af79-d2bc24d28c6a" height="400" />
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/04c10dca-2a43-4264-af79-d2bc24d28c6a" height="400" />
 </p>
 
 With Bulk Edit Mode, importing a ton of items is a breeze.
@@ -40,7 +40,7 @@ Plus, no need to worry about missing weight data - we'll take care of it by addi
 ### 🔊 Customizable Sound Effects
 
 <p>
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/6dfc533a-a459-4266-801d-e98850b8d2c0" height="250" />
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/6dfc533a-a459-4266-801d-e98850b8d2c0" height="250" />
 </p>
 
 Customize your gaming experience by tweaking the sound effects.
@@ -55,7 +55,7 @@ Switch up the ticking and congratulatory sounds to make your gameplay truly one-
   </a>
 </p>
 
-We have the amazing <b>PouchDB</b> to handle all your data!
+We have the amazing **PouchDB** to handle all your data!
 
 It's all saved automatically in the browser, so it's always there for your next gaming session.
 
@@ -73,7 +73,7 @@ It's all saved automatically in the browser, so it's always there for your next 
 ### What to eat for dinner?
 
 <p>
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0e2d324c-7345-4f32-bf6a-4066f55c9d21" height="350" />
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0e2d324c-7345-4f32-bf6a-4066f55c9d21" height="350" />
 </p>
 
 Let's tackle the age-old question: **What's for dinner?**
