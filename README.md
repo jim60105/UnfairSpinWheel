@@ -59,6 +59,17 @@ We have the amazing **PouchDB** to handle all your data!
 
 It's all saved automatically in the browser, so it's always there for your next gaming session.
 
+### 🔗 Sharing with your friends
+
+<p>
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0346dc9f-5a6d-4816-a49d-9bd089748870" height="70" />
+</p>
+
+Share your fun spinner with your friends!
+
+It's worth mentioning that your spinner data is stored in the URL.  
+This is a pure frontend application, we won't store your data.
+
 ## 🎲 How to Play
 
 1. To play the Unfair Spin Wheel game, head over to our website at [unfair.spin-wheel.click](https://unfair.spin-wheel.click).
