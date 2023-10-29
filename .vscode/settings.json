@@ -58,10 +58,15 @@
     "inputwrapper",
     "Mochiy",
     "noround",
+    "odnoklassniki",
+    "pako",
+    "pinterest",
     "primeflex",
     "primeicons",
     "primevue",
     "scrollpanel",
+    "shareon",
+    "speeddial",
     "tabpanel",
     "tabview",
     "tada",
@@ -70,6 +75,7 @@
     "useconfirm",
     "usedialog",
     "usetoast",
-    "VITE"
+    "VITE",
+    "vkontakte"
   ]
 }

@@ -27,19 +27,103 @@
     rounded
     icon="pi pi-angle-double-left"
     aria-label="Open sidebar"
-    class="overflow-visible"
+    class="overflow-visible sidebar-button"
     @click="sidebarService?.openSidebar"
     :pt="{
       icon: { style: { fontSize: 'xx-large' } }
     }"
   />
   <DynamicDialog />
+  <Dialog v-model:visible="showInputGroupDialog" modal dismissableMask header="Header">
+    <template #container>
+      <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
+        <div class="text-900 font-medium mb-2 text-xl">Input Group</div>
+        <p class="min-w-min text-color-secondary">
+          <span class="white-space-nowrap"
+            >Hey, your new spinner has the same name as your group.</span
+          >
+          <br />
+          <span class="white-space-nowrap"
+            >Please assign another group name, or else
+            <span class="text-yellow-300">we will combine them.</span></span
+          >
+        </p>
+        <div class="flex mb-4 flex-column lg:flex-row">
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-file-import" />
+            <InputText
+              autofocus
+              v-model="inputGroupName"
+              placeholder="New Group Name"
+              :pt="{
+                root: { class: 'w-full' }
+              }"
+            />
+          </span>
+        </div>
+        <Button
+          type="submit"
+          class="confirm-button"
+          icon="pi pi-check"
+          label="Ok"
+          severity="success"
+          @click="inputGroup"
+        ></Button>
+      </form>
+    </template>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import type { SidebarService } from '@/services/SidebarService';
+import { ItemService } from '@/services/ItemService';
+import { StringHelper } from '@/helpers/StringHelper';
+
 const sidebarService = inject<SidebarService>('SidebarService');
+const itemService = inject<ItemService>('ItemService');
+
+let inputItems: { label: string; weight: number }[] = [];
+const showInputGroupDialog = ref(false);
+const inputGroupName = ref('');
+const inputGroup = async () => {
+  if (!itemService) return;
+
+  await itemService.addItems(
+    inputItems.map((item) => ({
+      label: item.label,
+      weight: +item.weight,
+      group: inputGroupName.value,
+      order: -1
+    }))
+  );
+  await itemService.changeGroupLabel(inputGroupName.value);
+  showInputGroupDialog.value = false;
+  inputGroupName.value = '';
+  window.location.hash = '';
+};
+
+onMounted(async () => {
+  const hash = window.location.hash.substring(1);
+  if (hash) {
+    try {
+      inputGroupName.value = decodeURI(hash.substring(hash.lastIndexOf('#') + 1));
+      console.debug('inputGroupName', inputGroupName.value);
+      const decompressed = StringHelper.decompress(hash.substring(0, hash.lastIndexOf('#')));
+
+      inputItems = StringHelper.csvParse(decompressed);
+      console.debug('inputItems', inputItems);
+
+      if ((await itemService?.getItemByGroupLabel(inputGroupName.value))?.length) {
+        showInputGroupDialog.value = true;
+      } else {
+        await inputGroup();
+      }
+    } catch (e) {
+      console.error('Failed to parsed data from url segment!', e);
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -56,6 +140,10 @@ const sidebarService = inject<SidebarService>('SidebarService');
   }
 }
 
+.confirm-button {
+  float: right;
+}
+
 @mixin afterBg {
   content: '';
   position: absolute;
@@ -66,7 +154,7 @@ const sidebarService = inject<SidebarService>('SidebarService');
   border-radius: 50%;
 }
 
-button {
+.sidebar-button {
   position: fixed;
   top: calc(50% - 25px);
   right: 1rem;

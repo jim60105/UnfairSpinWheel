@@ -121,7 +121,7 @@ You should have received a copy of the GNU Affero General Public License along w
 
 We rely on these awesome open source projects as the foundation for our projects.
 
-- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random, adaltas/node-csv
+- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random, adaltas/node-csv, pako, shareon
 - Apache-2.0 Licensed: PouchDB
 
 ### Images
@@ -132,7 +132,8 @@ Source: [Logo](https://www.bing.com/images/create/logo2c-website-logo2c-flat-des
 
 ### Sound Effects
 
-The Funny Voices are powered by [SoundButtons](https://sound-buttons.click/) project. Copyright belongs to the original artists.  
+The [SoundButtons](https://sound-buttons.click) project is the driving force behind the Funny Voices, with all copyright belonging to the original artists.
+
 The remaining sound effects are from [Pixabay](https://pixabay.com/), and used in accordance with their [Pixabay Terms of Service](https://pixabay.com/service/terms/) license.
 
 These amazing materials take our game to a whole new level!

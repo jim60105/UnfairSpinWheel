@@ -78,6 +78,7 @@ export class ItemService {
     }));
     const result = await this.db.bulkDocs(docs);
 
+    await this.syncGroups();
     await this.syncItems();
     return result;
   };

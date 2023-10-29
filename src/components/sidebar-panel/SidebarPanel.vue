@@ -158,20 +158,23 @@
       <template #container>
         <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
           <div class="text-900 font-medium mb-2 text-xl">Rename Group</div>
+          <p class="min-w-min text-color-secondary">Change the name, change your luck.</p>
           <div class="flex mb-4 flex-column lg:flex-row">
-            <span class="p-input-icon-left">
+            <span class="p-input-icon-left w-full">
               <i class="pi pi-pencil" />
               <InputText
                 autofocus
                 v-model="renameGroupName"
                 placeholder="New Group Name"
-                class="w-20rem max-w-full"
+                :pt="{
+                  root: { class: 'w-full' }
+                }"
               />
             </span>
           </div>
           <Button
             type="submit"
-            class="confirmButton"
+            class="confirm-button"
             icon="pi pi-check"
             label="Ok"
             severity="success"
@@ -184,20 +187,23 @@
       <template #container>
         <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
           <div class="text-900 font-medium mb-2 text-xl">Add Group</div>
+          <p class="min-w-min text-color-secondary">What should we name this new spinner?</p>
           <div class="flex mb-4 flex-column lg:flex-row">
-            <span class="p-input-icon-left">
+            <span class="p-input-icon-left w-full">
               <i class="pi pi-plus" />
               <InputText
                 autofocus
                 v-model="addGroupName"
                 placeholder="New Group Name"
-                class="w-20rem max-w-full"
+                :pt="{
+                  root: { class: 'w-full' }
+                }"
               />
             </span>
           </div>
           <Button
             type="submit"
-            class="confirmButton"
+            class="confirm-button"
             icon="pi pi-check"
             label="Ok"
             severity="success"
@@ -212,8 +218,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
-import { parse } from 'csv-parse/browser/esm/sync';
-import { stringify } from 'csv-stringify/browser/esm/sync';
+import { useToast } from 'primevue/usetoast';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
 import { VisibleSidebar } from '@/services/SidebarService';
 import {
@@ -225,7 +230,7 @@ import {
 } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 import type { IItem } from '@/interface/IItem';
-import { useToast } from 'primevue/usetoast';
+import { StringHelper } from '@/helpers/StringHelper';
 
 const itemService = inject<ItemService>('ItemService')!;
 const toast = useToast();
@@ -279,9 +284,7 @@ onMounted(() => {
 
   watch(bulkEditMode, async (newValue) => {
     if (newValue) {
-      textArea.value =
-        badCSV ??
-        (Items.value ? stringify(Items.value!, { columns: ['label', 'weight'], eof: false }) : '');
+      textArea.value = badCSV ?? StringHelper.csvStringify();
       badCSV = undefined;
       console.debug('Bulk edit mode on');
     } else {
@@ -289,17 +292,7 @@ onMounted(() => {
 
       let items: IItem[] = [];
       try {
-        items = parse(
-          textArea.value
-            .split('\n')
-            .map((line) => (line.indexOf(',') === -1 ? `${line},1` : line))
-            .join('\n'),
-          {
-            columns: ['label', 'weight'],
-            skipEmptyLines: true,
-            trim: true
-          }
-        ).map(({ label, weight }: { label: string; weight: string }) => ({
+        items = StringHelper.csvParse(textArea.value, true).map(({ label, weight }) => ({
           label: label,
           weight: +weight < 1 ? 1 : +weight,
           group: GroupLabel.value!,
@@ -329,7 +322,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.confirmButton {
+.confirm-button {
   float: right;
 }
 

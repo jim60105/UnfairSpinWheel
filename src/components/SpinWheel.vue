@@ -13,6 +13,7 @@
       }
     }"
   />
+  <ShareLink class="w-full flex justify-content-center z-1 mt-3" />
   <div ref="container" class="flex spin-container">
     <picture>
       <source srcset="/img/image.avif" type="image/avif" />
@@ -179,7 +180,7 @@ onMounted(() => {
   width: 200vw;
   height: 90vh;
 
-  margin-top: -20px;
+  margin-top: -3.5rem;
   margin-bottom: -10vh;
   position: relative;
 
