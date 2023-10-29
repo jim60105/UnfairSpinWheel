@@ -22,8 +22,8 @@
     <a class="reddit"></a>
     <a class="teams"></a>
     <a class="telegram"></a>
-    <a class="tumblr"></a>
-    <a class="viber"></a>
+    <!-- <a class="tumblr"></a>
+    <a class="viber"></a> -->
     <!-- <a class="vkontakte"></a> -->
     <!-- <a class="whatsapp"></a> -->
     <a class="copy-url"></a>
@@ -31,22 +31,32 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { init } from 'shareon';
 import { GroupLabel, Items } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
+import type { IItem } from '@/interface/IItem';
 
 const origin = window.location.origin;
 
 const getCompressedCSV = ref('');
 
-onMounted(() => {
-  init();
+const updateShareLink = (newItems: PouchDB.Core.ExistingDocument<IItem>[] | undefined) => {
+  getCompressedCSV.value = StringHelper.compress(StringHelper.csvStringify(newItems));
+};
 
-  getCompressedCSV.value = StringHelper.compress(StringHelper.csvStringify());
-  watch(Items, (newItems) => {
-    getCompressedCSV.value = StringHelper.compress(StringHelper.csvStringify(newItems));
+onMounted(async () => {
+  watch(getCompressedCSV, init, {
+    // Trigger after the DOM is updated
+    // Shareon get values from data-url attribute
+    flush: 'post'
   });
+  watch(Items, updateShareLink);
+
+  updateShareLink(Items.value);
+
+  await nextTick();
+  init();
 });
 </script>
 
