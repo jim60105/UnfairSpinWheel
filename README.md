@@ -15,7 +15,9 @@ Our game is unlike any other out there, as you have the power to control the odd
 
 ## 👀 Eye-catching features✨
 
-<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/d017f5e8-dec8-4e2a-b750-a92ac11308b0" height="350" />
+<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/8d2c2965-ac94-4dab-a401-28bdd99485aa" height="350" />
+<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0d7350ea-b1e2-480a-b3a0-0895fdf98671" height="350" />
+<img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/4399cf17-9bc7-4f2c-8aa3-1aa43ebec240" height="350" />
 
 ### ⚖️ Weighted Spins
 
@@ -81,7 +83,7 @@ This is a pure frontend application, we won't store your data.
 
 ## 📎 Usage scenarios
 
-### What to eat for dinner?
+### What's for dinner?
 
 <p>
   <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0e2d324c-7345-4f32-bf6a-4066f55c9d21" height="350" />
@@ -106,6 +108,22 @@ Look no further than the Unfair Spin Wheel!
 
 This tool is completely free and adds a fun twist to your livestream content.  
 Give it a try and see how it can spice up your audience's experience.
+
+### World Population Spinner
+
+<p>
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/38b261f3-2383-4d2a-b824-19e9db5a0a1b" height="350" />
+</p>
+
+If you were reborn, which country would you be assigned to?
+
+Click here to get the data for this population spin wheel.  
+👉 [World Population Spinner Data](https://unfair.spin-wheel.click?group=%E4%B8%96%E7%95%8C%E4%BA%BA%E5%8F%A3&data=eJxdWNlWIzsSfPdX3Mfpc2rOKalKtfwda4MxxgbTZjNbN4buy2JsNrO0-ZixyuWn-wsTkZKhZ3iTrJJSkZERKWz91r6cBypWSaZD_FXGw-uy0Ru_vBS3m3a5b7fWbafGBSo1smAy2uBMFJkolgkre9jbt7L7Pn45CnSa-qX26d4evxTtnj08D3SsZBbT3VXbWLOrv2S1StJstho7BDqMwsRNXB_btZOiVg1UkmeRC-99aTJaxpYIKYldyPb7T3xoW91A6Vy7M4qdbtG5wkTsoywbAzuqlXetQKkwyd2Hx4sIJFChid1X5emPyf33orfNyDCtXCDl45qt7wR5HvvAqgfFUQcAjYevnxjlBleUnzvH5dydXX4MMqPd3cZva0VnB2OlMlkyeuInWRyZXMK9-8ZxkoWZjMtaX8ZpqBP3-62MEy0gVgCovd0H5gw0Uak_uL4zPcQY-BmXql_27AJAByZLBcDK5Olqsj0MjNG5mX1y3AqMirXbotW1c5ceAaPC2IWzuzIePgdxpkKMkwrgnjSuJ9W9IE4TF1G50OMncWoSglmZ7r4XJ8_29SkAaLHxU5PV0Wfq4xnsk8WGfR5M57eDWGdZMgOsVrXLtQDMy9Vs1XKt3L3mlGOD0OMddwy4k0fyO5dEaQrwON78VdwfkBxRkmXGb1SuD-xql9tHSehORHS2t170d4Io1onOYnw72OOhnVteplYdv_Xwm1IOqJsqNiU5QbBcrjy52J1eY0kU5XJ0uVmdtucwTtx4en41Hn31VRLpJJeMlBuX42EViEs02nO6fD-f3NeDKMwiLeP-KeAuHp7sYBjoPHI0AQGKuzWAiikl1K_YC2x0Mdk8YmgaSdf-aMBLuFCMayf4QUnVVYrRXXE_CHQSOaLZdeGDNpkv4fbc9KU73f8asJKy2aE7XdazZMErBuUCDNVRlMps8W13VuGR1mmoYgZBLmptHF6IZbqyjmzZ-ilmVeaAHS7aZhWXR02gGAMy3mV274WfqzzT7vKt1bL9i6ipPM18aPuz4s0TlyeoBc91laJyV-oVu7E0aXXs2X6gMu04bk-PABzAIZwqTSPH_PoT6aRAcxybVxCRu4Zsl5o88_CSrT_nOeX4z-1BHPkBs5FxcB9f2eNt2_uJqTCnhGGqCzWAxGVOGsrRAXWTexmVutCeRwhNTkSatK9bX5SY8sJ8cAFSsoowJUpVKbcGSB3igBCa1NXp4JBahrGobGWy8YrbTB6vZXvs7Wb_nv8UdGqWSxjox72gNy7HIO3qr2JvgVMOr8n9UrEDQ1GxY7dtnOE2GHuyAPJidwN7k4VQ2MjJW_1J8hgaLZUC-trloYzdbYfr5couxrF2NbN5WjaXqD8qjJy4IFBksKh1JkuPmFVuI3vTmC7-RgroGHmSU20r49duWUX9Q9GTjNoC1q9iM7Ird24ENmyDhQwq90BBA8p5bKJBGIa49_vTi3JtjPGGN1xEKJP75mfScuWitt0LwCenwIKUv-ePywDiTIUgOBSq1GvgpL5sr5u23w9SE9OKwLO9YtgL0jjPlDuOtOtcB6kW5Cq2d8MqRLlFntNgs09ukidRJhZ6CPA9hZNchL_CkoM2NwWoxOjIuEp3BgwyB3BbiZkZdzUGkSRlK6hCntI6Zz3BoWg-UIVnCAeMR6fGFRw-tEcL4itpFhtnlPblsjh4w4wDuWjfMrbDU86QG5Vy7YoFCMNKeNb0dYMgX8LSYmfiCBgCP35rMlkmlvKjJsEJP7z5LzcOQLeMPxfrf7PAMEyTDz__dHKjQ9mFAg-9PLvgqeAr3JsVImmubfm-Js7FacD8JupF7Ck39MRKsXQAXNyM-LaYIm6LshdQPsRE1vjuqLy7B75ghlgkFgrbLjYR8KQKD4ZBfOT-HZ_DM1UmaVhfJsQgrhO7OEwpxRXgApqi1_HljP3ILzolyOcWl6sr5cMlJbDVBV2gvn_RSB8uYaSZ41r7qhi8inOljh2wRs--yCjZsdzaQ73DxCKHMg442yd2zaUgUnmUujplB-lCRBOSms_OALD6-SxxRXZZm-492psDNJW5o2T9lAqn01juhqotB0_iaKmWNMDvudXZPvgIW4PPCdD1Sf_O01bHhu7J8IrO9XThB01LZibbu7M1Ok9Tlww2hNVdupZOPugGjGahwvyVN07kcvlxegL7BPScBD7l0uVMXPNQKEyC_76WYepSyyMGi7AEwOFTewSJNmEcJeZT_UkLGKIyWSz5fjibzrf-8Ab0U5wvDvt2eFj0IYNRJmHY-iKMlg1AYw13Ic5sliPnVLYxYO0OD3EjTKZycXAX3c_MNiPtEvrzlIbdfZf-G46dOuWgZdMXwtQtazeL9-Mgy4W65d3vYu_G1QuUThS43DxAnjAClzBq1XAKEwHt1VK9dTobulogxCqhibfnJqMze_cYpMpdc3TH7ipJleyIoLa20BLQbhNF2yAdUTE0dZB6tAxp0pAU-mTx48aenGId887uloUDV0Snyglmd_RUXmxBdjAj_g5SjV_bqOTIYI9y_hHXwe7F4K4YvLMpixPXpfQfy-YayzR2bgvEePM4zCBYIh2tVZZtlPEB5bemL5yx2GJAULFfb3lR5AcyTmb9D4aotpwhNK8AWXHYYWkZr53o1lbWaSOz-hIN5csKtg91RnuNpl6eG_0rWD9Xfz7csjDxjTASiu5qHY1hHKOHxH3bLKnRBsIAN4l2D1WIBkaJ_iObjuI5-kaunnYGs-4B2oeLT3c6vBP6I-3aAtqKYzOT7BWgd0wZ-uPZ6cy4WWWgKAvh3ewxgWbb9xZs1nFo0V5hZkHykzcIKOAZD-flvcc7z-akQwoz0BwcOuOTU7nCpC4BFVbrlecaP01oq1-9is7AQiswXThnh5L4kpN-Jpx1ksNrtpGwBm3kqYD81k_59JEOgSGgQY3Q_R288RxcIMkr0r61-CGUIDLsByBbdGFYW4oiTCrTdg2f-OgQdZqgExkVy9-4JepZp7joMy-VQDK1JG655jjI7c4bDOL2DbckmJDfJPUX_0yjSf9QNFTGDdtxf6ZJ5MInb9O9BzFmvJ-UsPj-mV2AXyVljpJiz4O2rNGUfSMTaZIPSM4WghzoqlmmNQQEH7IrfUgiq8utiGESEftwhghi4RGFpAIvvCjQwxXbveLbOZfvvaKm0BqJBdzX5cnHR69_XP_Lkf5jiy8opAgZcBM04csR_6uRxlAIJomis4fnm4asyoP8_7jBHyI2dYRB56gs9KkHkybbfbk9037t_n2hsrSCVkdI5IhlQOMKdRftFFIDvvdA-TZVUEmvh3D4mvQdR7OJtTIO_7gSs4uquLuFNIApX4IcrPrjx8n-TTn3SFCFwHgLfAlMnsqlWWgQlNr7f-bm2Zf8uCkOR4gDufB0OTz_Nz3jxfcISLVR4vGtAbvxWBz63D_KZ6AkiaZHIlrv6FvrRWOfCL8-Uo9yXsx9xfXsXSSav78JLAk4S4vCrzVoBxolNlZoXogY7v39odxasIPTIENh0TqFKv-8rfIfTUc7_7xVZ8TKI_-vqqJzxUbzrG1vG_jFPr7ReyvABlctFz54ln7K_PTnBlujzm4Q_Rdzkiwt)
+
+> [!WARNING]  
+> We didn't preload it in the example because it's a little... lacking in performance.  
+> When there are too many items, it requires more resources to draw the wheel.  
+> This can lead to a decrease in fps on certain mobile devices.
 
 ### And more...
 
