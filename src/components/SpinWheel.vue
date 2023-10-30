@@ -57,7 +57,8 @@ const properties = {
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
   itemLabelBaselineOffset: -0.07,
-  itemLabelFont: 'Mochiy Pop P One',
+  // Check app.scss
+  itemLabelFont: '"Mochiy Pop P One", "ZCOOL KuaiLe", "Jua"',
   itemLabelFontSizeMax: 55,
   itemBackgroundColors: [
     '#fdc963',
