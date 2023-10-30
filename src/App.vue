@@ -37,16 +37,14 @@
   <Dialog v-model:visible="showInputGroupDialog" modal dismissableMask header="Header">
     <template #container>
       <form class="surface-card border-round shadow-2 p-4 max-w-screen" @submit.prevent>
-        <div class="text-900 font-medium mb-2 text-xl">Input Group</div>
-        <p class="min-w-min text-color-secondary">
-          <span class="white-space-nowrap"
-            >Hey, your new spinner has the same name as your group.</span
-          >
-          <br />
-          <span class="white-space-nowrap"
-            >Please assign another group name, or else
-            <span class="text-yellow-300">we will combine them.</span></span
-          >
+        <div class="text-900 font-medium mb-2 text-xl">Import Group</div>
+        <p class="text-color-secondary w-24rem">
+          Hey, your new spinner has the same name as
+          <span class="white-space-nowrap">one of your existing groups.</span>
+        </p>
+        <p class="text-color-secondary w-24rem">
+          Please assign another group name, or else
+          <span class="text-yellow-300 white-space-nowrap">we will combine them.</span>
         </p>
         <div class="flex mb-4 flex-column lg:flex-row">
           <span class="p-input-icon-left w-full">
@@ -65,7 +63,7 @@
           type="submit"
           class="confirm-button"
           icon="pi pi-check"
-          label="Ok"
+          :label="GroupLabels.indexOf(inputGroupName) > -1 ? 'Merge' : 'Import'"
           severity="success"
           @click="inputGroup"
         ></Button>
@@ -77,7 +75,7 @@
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
 import type { SidebarService } from '@/services/SidebarService';
-import { ItemService } from '@/services/ItemService';
+import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
 
 const sidebarService = inject<SidebarService>('SidebarService');
