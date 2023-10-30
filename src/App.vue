@@ -44,7 +44,7 @@
         </p>
         <p class="text-color-secondary w-24rem">
           Please assign another group name, or else
-          <span class="text-yellow-300 white-space-nowrap">we will combine them.</span>
+          <span class="text-red-300 white-space-nowrap">it will be replaced.</span>
         </p>
         <div class="flex mb-4 flex-column lg:flex-row">
           <span class="p-input-icon-left w-full">
@@ -63,8 +63,8 @@
           type="submit"
           class="confirm-button"
           icon="pi pi-check"
-          :label="GroupLabels.indexOf(inputGroupName) > -1 ? 'Merge' : 'Import'"
-          severity="success"
+          :label="GroupLabels.indexOf(inputGroupName) > -1 ? 'Replace' : 'Import'"
+          :severity="GroupLabels.indexOf(inputGroupName) > -1 ? 'danger' : 'success'"
           @click="inputGroup"
         ></Button>
       </form>
@@ -87,6 +87,7 @@ const inputGroupName = ref('');
 const inputGroup = async () => {
   if (!itemService) return;
 
+  await itemService.cleanUpGroup(inputGroupName.value);
   await itemService.addItems(
     inputItems.map((item) => ({
       label: item.label,
@@ -126,6 +127,7 @@ onMounted(async () => {
       console.debug('inputItems', inputItems);
 
       if ((await itemService?.getItemByGroupLabel(inputGroupName.value))?.length) {
+        inputGroupName.value += ' (1)';
         showInputGroupDialog.value = true;
       } else {
         await inputGroup();
