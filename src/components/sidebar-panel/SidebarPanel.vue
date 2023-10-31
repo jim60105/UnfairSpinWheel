@@ -118,27 +118,63 @@
         <div v-focustrap>
           <div class="col-12">
             <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
-            <Dropdown
-              v-model="TickSound"
-              inputId="dd-sound"
-              :options="TickSounds"
-              optionLabel="label"
-              optionGroupLabel="label"
-              optionGroupChildren="items"
-              class="w-full"
-            />
+            <div class="grid">
+              <div class="col-8">
+                <Dropdown
+                  v-model="TickSound"
+                  inputId="dd-sound"
+                  :options="TickSounds"
+                  optionLabel="label"
+                  optionGroupLabel="label"
+                  optionGroupChildren="items"
+                  class="w-full"
+                />
+              </div>
+              <div class="col-4">
+                <FileUpload
+                  mode="basic"
+                  accept="audio/*,.webm"
+                  customUpload
+                  auto
+                  @uploader="customBase64Uploader($event, 'TickSound')"
+                  :pt="{
+                    chooseButton: {
+                      class: 'w-full'
+                    }
+                  }"
+                />
+              </div>
+            </div>
           </div>
           <div class="col-12">
-            <label for="dd-sound" class="block mb-2">Select a Congratulation Sound</label>
-            <Dropdown
-              v-model="CongratulationSound"
-              inputId="dd-sound"
-              :options="CongratulationSounds"
-              optionLabel="label"
-              optionGroupLabel="label"
-              optionGroupChildren="items"
-              class="w-full"
-            />
+            <label for="dd-sound" class="block mb-2">Select a Congratulatory Sound</label>
+            <div class="grid">
+              <div class="col-8">
+                <Dropdown
+                  v-model="CongratulationSound"
+                  inputId="dd-sound"
+                  :options="CongratulationSounds"
+                  optionLabel="label"
+                  optionGroupLabel="label"
+                  optionGroupChildren="items"
+                  class="w-full"
+                />
+              </div>
+              <div class="col-4">
+                <FileUpload
+                  mode="basic"
+                  accept="audio/*,.webm"
+                  customUpload
+                  auto
+                  @uploader="customBase64Uploader($event, 'CongratulationSound')"
+                  :pt="{
+                    chooseButton: {
+                      class: 'w-full'
+                    }
+                  }"
+                />
+              </div>
+            </div>
           </div>
           <div class="col-12">
             <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
@@ -217,6 +253,7 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
+import type { FileUploadUploaderEvent } from 'primevue/fileupload';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { ItemService, GroupLabel, GroupLabels, Items } from '@/services/ItemService';
@@ -274,6 +311,33 @@ const addGroup = async () => {
   GroupLabels.value = await itemService.getGroupLabels();
   showAddGroupDialog.value = false;
   addGroupName.value = '';
+};
+
+const customBase64Uploader = async (
+  event: FileUploadUploaderEvent,
+  mode: 'TickSound' | 'CongratulationSound'
+) => {
+  const file = Array.isArray(event.files) ? event.files[0] : event.files;
+  const reader = new FileReader();
+  let blob = await fetch(window.URL.createObjectURL(file)).then((r) => r.blob()); //blob:url
+
+  reader.readAsDataURL(blob);
+
+  reader.onloadend = function () {
+    const base64data = reader.result;
+    console.debug('Sound uploaded', base64data);
+    if (mode === 'TickSound') {
+      TickSound.value = {
+        label: file.name,
+        value: base64data as string
+      };
+    } else if (mode === 'CongratulationSound') {
+      CongratulationSound.value = {
+        label: file.name,
+        value: base64data as string
+      };
+    }
+  };
 };
 
 let badCSV: string | undefined = undefined;

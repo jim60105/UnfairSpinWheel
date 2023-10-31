@@ -95,7 +95,10 @@ const stopAndClearSound = () => {
 const playSound = () => {
   if (!TickSound.value) return;
 
-  const audio = new Audio(`/sound/${TickSound.value.value}`);
+  var src = TickSound.value.value.startsWith('data:')
+    ? TickSound.value.value
+    : `/sound/${TickSound.value.value}`;
+  const audio = new Audio(src);
   audio.volume = 0.3;
   audio.play();
 };

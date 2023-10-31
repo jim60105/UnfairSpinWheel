@@ -25,7 +25,10 @@ const label = ref();
 const playSound = () => {
   if (!CongratulationSound.value) return;
 
-  const audio = new Audio(`/sound/${CongratulationSound.value.value}`);
+  var src = CongratulationSound.value.value.startsWith('data:')
+    ? CongratulationSound.value.value
+    : `/sound/${CongratulationSound.value.value}`;
+  const audio = new Audio(src);
   audio.volume = 0.7;
   audio.play();
 };

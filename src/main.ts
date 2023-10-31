@@ -28,6 +28,7 @@ import ToggleButton from 'primevue/togglebutton';
 import Textarea from 'primevue/textarea';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import FileUpload from 'primevue/fileupload';
 
 //theme
 import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
@@ -86,6 +87,7 @@ app.component('ToggleButton', ToggleButton);
 app.component('Textarea', Textarea);
 app.component('Toast', Toast);
 app.use(ToastService);
+app.component('FileUpload', FileUpload);
 
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
