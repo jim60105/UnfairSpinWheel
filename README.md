@@ -42,12 +42,14 @@ Plus, no need to worry about missing weight data - we'll take care of it by addi
 ### 🔊 Customizable Sound Effects
 
 <p>
-  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/6dfc533a-a459-4266-801d-e98850b8d2c0" height="250" />
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/0f97ac2a-d9d9-496d-853c-5062243fa740" height="150" />
 </p>
 
-Customize your gaming experience by tweaking the sound effects.
+Customize your gaming experience by tweaking the sound effects!  
+While we offer a range of preloaded sounds, but you can also upload your own to truly make it one-of-a-kind.
 
-Switch up the ticking and congratulatory sounds to make your gameplay truly one-of-a-kind.
+Well, I shouldn't have said "upload".  
+Your audio file didn't actually go up to any server or anything like that. It's simply saved right here in your browser, just like your spinner data.
 
 ### 💾 Automatic Data Storage
 
