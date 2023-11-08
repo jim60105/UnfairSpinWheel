@@ -36,6 +36,10 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import 'shareon/css';
 import '@/assets/app.scss';
+import '@/assets/OBS.scss';
+if (navigator.userAgent.indexOf('OBS') !== -1) {
+  document.body.classList.add('obs');
+}
 
 import SpinWheel from '@/components/SpinWheel.vue';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';

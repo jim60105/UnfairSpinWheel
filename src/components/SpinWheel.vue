@@ -1,5 +1,6 @@
 <template>
   <Dropdown
+    id="group-dropdown"
     :model-value="GroupLabel"
     :options="GroupLabels"
     class="mt-4 z-1"
@@ -191,6 +192,7 @@ onMounted(() => {
   @media (min-width: map-get($breakpoints, 'sm')) {
     height: 100vh;
   }
+
   @media (min-width: map-get($breakpoints, 'md')) {
     height: 110vh;
   }
@@ -212,6 +214,7 @@ onMounted(() => {
     height: 100vh;
     top: calc(calc(50%) - calc(100vh / 2));
   }
+
   @media (min-width: map-get($breakpoints, 'md')) {
     height: 110vh;
     top: calc(calc(50%) - calc(110vh / 2));

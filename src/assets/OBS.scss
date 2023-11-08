@@ -1,0 +1,36 @@
+body.obs {
+  background: transparent;
+
+  .p-scrollpanel-content {
+    overflow: hidden;
+  }
+
+  .p-scrollpanel-bar,
+  .header,
+  .shareon,
+  #group-dropdown {
+    display: none !important;
+  }
+
+  .spin-container {
+    position: absolute !important;
+    left: -50vw;
+    top: 2.5vh;
+  }
+
+  footer {
+    text-align: center;
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.7) 50%,
+      transparent 100%
+    );
+    margin-bottom: 4.5rem !important;
+  }
+
+  .p-dialog-mask {
+    background-color: transparent !important;
+    background-image: radial-gradient(circle closest-side, var(--maskbg), transparent);
+  }
+}
