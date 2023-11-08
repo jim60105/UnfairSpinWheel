@@ -115,7 +115,7 @@ const inputGroup = async () => {
 };
 
 onMounted(async () => {
-  if (import.meta.env.PROD) {
+  if (import.meta.env.PROD && navigator.userAgent.indexOf('OBS') === -1) {
     gtag('config', import.meta.env.VITE_GA_TRACKING_ID);
 
     (function (c: any, l: Document, a: string, r: string, i: string, t: any, y: any) {
