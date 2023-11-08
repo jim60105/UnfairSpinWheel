@@ -17,6 +17,7 @@ jobs:
         env:
           VITE_GIT_HASH: ${{ github.sha }}
           VITE_GA_TRACKING_ID: ${{ secrets.GA_TRACKING_ID }}
+          VITE_CLARITY_TRACKING_ID: ${{ secrets.CLARITY_TRACKING_ID }}
 
       - name: copy index.html to 404.html
         run: cp dist/index.html dist/404.html
