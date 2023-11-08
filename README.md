@@ -74,6 +74,32 @@ Share your fun spinner with your friends!
 It's worth mentioning that your spinner data is stored in the URL.  
 This is a pure frontend application, we won't store your data.
 
+### 🎥 OBS mode
+
+<p>
+  <img src="https://github.com/jim60105/UnfairSpinWheel/assets/16995691/04c0051f-1710-44be-aa3d-cdcc442c14c5" height="500" />
+</p>
+
+Attention streamers!  
+We've got something special just for you - our OBS mode!
+
+Open our site in OBS using the browser source, and the layout will seamlessly blend with your livestream.
+
+<details>
+<summary>
+Full instructions
+</summary>
+  
+1. In OBS, go ahead and add the source called **"Browser"**.  
+![2023-11-09 04 26 26](https://github.com/jim60105/UnfairSpinWheel/assets/16995691/20574952-81be-498e-bc32-4931cb4caa67)
+2. Type in the URL `https://unfair.spin-wheel.click/` and adjust the Width and Height to `800`  
+![2023-11-09 04 27 13](https://github.com/jim60105/UnfairSpinWheel/assets/16995691/2d094da8-62cb-4a26-86ab-ef534aca0445)
+3. Make use of the **"Interact"** feature to navigate through the website.  
+![2023-11-09 04 35 18](https://github.com/jim60105/UnfairSpinWheel/assets/16995691/2d907293-10e0-46ca-8586-526496aa86ee)
+
+</div>
+</details>
+
 ## 🎲 How to Play
 
 1. To play the Unfair Spin Wheel game, head over to our website at [unfair.spin-wheel.click](https://unfair.spin-wheel.click).
