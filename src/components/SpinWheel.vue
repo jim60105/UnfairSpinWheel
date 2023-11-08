@@ -241,13 +241,20 @@ onMounted(() => {
   width: $icon-size;
   height: $icon-size;
   border-radius: 50%;
-  background-image: image-set(
-    '/img/icon.avif' type('image/avif'),
-    '/img/icon.webp' type('image/webp'),
-    '/img/icon.png' type('image/png')
+
+  background-image: url(/img/icon.png);
+  background-image: -webkit-image-set(
+    url(/img/icon.avif) type('image/avif'),
+    url(/img/icon.webp) type('image/webp'),
+    url(/img/icon.png) type('image/png')
   );
+  background-image: image-set(
+    url(/img/icon.avif) type('image/avif'),
+    url(/img/icon.webp) type('image/webp'),
+    url(/img/icon.png) type('image/png')
+  );
+
   background-size: contain;
-  // background-color: rgba(1, 1, 1, 0.5);
 
   position: absolute;
   top: calc(calc(50%) - calc($icon-size / 2));
