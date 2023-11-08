@@ -77,6 +77,7 @@ import { inject, onMounted, ref } from 'vue';
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
+declare let gtag: any;
 
 const sidebarService = inject<SidebarService>('SidebarService');
 const itemService = inject<ItemService>('ItemService');
@@ -114,6 +115,10 @@ const inputGroup = async () => {
 };
 
 onMounted(async () => {
+  if (import.meta.env.PROD) {
+    gtag('config', import.meta.env.VITE_GA_TRACKING_ID);
+  }
+
   const params = new URLSearchParams(window.location.search);
   const data = params.get('data');
   const group = params.get('group') ?? 'New Group Name';
