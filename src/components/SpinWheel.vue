@@ -59,7 +59,8 @@ const properties = {
   itemLabelColors: ['#fff'],
   itemLabelBaselineOffset: -0.07,
   // Check app.scss
-  itemLabelFont: '"Mochiy Pop P One", "ZCOOL KuaiLe", "Jua"',
+  itemLabelFont:
+    '"Mochiy Pop P One", "Paytone One", "Jua", "Unbounded", "Noto Sans TC", "Noto Sans SC"',
   itemLabelFontSizeMax: 55,
   itemBackgroundColors: [
     '#fdc963',
