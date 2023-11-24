@@ -58,9 +58,9 @@ const properties = {
   itemLabelAlign: 'left',
   itemLabelColors: ['#fff'],
   itemLabelBaselineOffset: -0.07,
-  // Check app.scss
+  // Should also change app.scss
   itemLabelFont:
-    '"Mochiy Pop P One", "Paytone One", "Jua", "Unbounded", "Noto Sans TC", "Noto Sans SC"',
+    '"Suez One", "Mochiy Pop P One", "Jua", "Unbounded", "Mitr", "Noto Sans TC", "Noto Sans SC", "Noto Sans Lao", "Noto Color Emoji"',
   itemLabelFontSizeMax: 55,
   itemBackgroundColors: [
     '#fdc963',
