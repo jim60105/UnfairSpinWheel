@@ -4,6 +4,8 @@
     <a :href="url" target="_blank" rel="noopener"
       >{{ version }}<i class="pi pi-github vertical-align-middle m-2"></i>AGPL-3.0 Licensed</a
     >
+    /
+    <a :href="privacyUrl" target="_blank" rel="noopener">Privacy Policy</a>
     / Copyright © 2023 Jim60105
   </footer>
 </template>
@@ -15,6 +17,7 @@ const hash: string | undefined = import.meta.env.VITE_GIT_HASH;
 const baseUrl = 'https://github.com/jim60105/UnfairSpinWheel';
 const version = ref('v.DEVELOP');
 const url = ref(baseUrl);
+const privacyUrl = baseUrl + '/blob/master/privacy-policy.md';
 
 onMounted(() => {
   if (hash) {
