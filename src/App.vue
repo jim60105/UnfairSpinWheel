@@ -125,6 +125,16 @@ onMounted(async () => {
     window.gtag = (...args: any[]) => {
       console.debug('gtag', ...args);
     };
+  } else if (navigator.globalPrivacyControl) {
+    // Don't track if user has enabled Global Privacy Control
+    window.gtag = () => {};
+    console.log(
+      '%cWe can see that you have enabled the Global Privacy Control, indicating that you do not wish to have your information sold or shared.',
+      'font-weight:bold; color: lightgreen;',
+      '\nYour privacy is important to us, and we completely honor your choice.',
+      'As a result, we have deactivated Google Analytics and Microsoft Clarity. 😉'
+    );
+    return;
   } else if (navigator.userAgent.indexOf('OBS') > 0) {
     // Don't track in OBS mode to reduce performance impact
     window.gtag = () => {};
