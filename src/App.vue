@@ -77,7 +77,12 @@ import { inject, onMounted, ref } from 'vue';
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
-declare let gtag: any;
+
+declare global {
+  interface Navigator {
+    globalPrivacyControl?: boolean;
+  }
+}
 
 const sidebarService = inject<SidebarService>('SidebarService');
 const itemService = inject<ItemService>('ItemService');
@@ -115,9 +120,33 @@ const inputGroup = async () => {
 };
 
 onMounted(async () => {
-  if (import.meta.env.PROD && navigator.userAgent.indexOf('OBS') === -1) {
-    gtag('config', import.meta.env.VITE_GA_TRACKING_ID);
+  if (import.meta.env.DEV) {
+    // Add dummy gtag for dev
+    window.gtag = (...args: any[]) => {
+      console.debug('gtag', ...args);
+    };
+  } else if (navigator.userAgent.indexOf('OBS') > 0) {
+    // Don't track in OBS mode to reduce performance impact
+    window.gtag = () => {};
+  } else if (import.meta.env.PROD) {
+    // Setup GA
+    (function (id) {
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
 
+      document.head.appendChild(gtagScript);
+
+      const dataLayerScript = document.createElement('script');
+      dataLayerScript.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${id}');`;
+      document.head.appendChild(dataLayerScript);
+    })(import.meta.env.VITE_GA_TRACKING_ID);
+
+    // Setup Clarity
     (function (c: any, l: Document, a: string, r: string, i: string, t: any, y: any) {
       c[a] =
         c[a] ||

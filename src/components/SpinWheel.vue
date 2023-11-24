@@ -85,6 +85,7 @@ const properties = {
 
 const container = ref();
 
+let spinCount = 0;
 let wheel: Wheel | undefined = undefined;
 
 const stopAndClearSound = () => {
@@ -169,6 +170,13 @@ onMounted(() => {
   wheel.onRest = ($event) => {
     stopAndClearSound;
     openCongratulationDialog($event);
+  };
+
+  wheel.onSpin = () => {
+    gtag('event', 'spin');
+    gtag('event', 'spin_count', {
+      count: ++spinCount
+    });
   };
 
   // Workaround for itemLabelRadiusMax not working on first load.
