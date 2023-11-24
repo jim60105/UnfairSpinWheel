@@ -396,4 +396,8 @@ textarea {
   min-height: 50vh;
   font-size: larger;
 }
+
+h2 {
+  font-weight: 400;
+}
 </style>

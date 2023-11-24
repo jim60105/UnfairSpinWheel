@@ -52,7 +52,18 @@ import { SidebarService } from '@/services/SidebarService';
 import { SettingService } from '@/services/SettingService';
 
 const app = createApp(App);
-app.use(PrimeVue, { ripple: true });
+app.use(PrimeVue, {
+  ripple: true,
+  pt: {
+    tabPanel: {
+      headerTitle: {
+        style: {
+          fontWeight: '400'
+        }
+      }
+    }
+  }
+});
 app.use(ConfirmationService);
 
 // PouchDB
