@@ -59,7 +59,8 @@
         <Divider />
         <div class="p-inputgroup col-12">
           <ToggleButton
-            v-model="bulkEditMode"
+            :modelValue="bulkEditMode"
+            @change="toggleBulkEditMode"
             class="w-full border-round"
             onLabel="Save"
             offLabel="Bulk Edit"
@@ -186,6 +187,22 @@
               :step="0.01"
             />
           </div>
+          <div class="col-12">
+            <label for="sl-labelLength" class="block mb-2">Fair mode</label>
+            <ToggleButton
+              v-model="Fairmode"
+              @change="
+                () => {
+                  itemService.syncItems();
+                }
+              "
+              :pt="{
+                root: {
+                  class: 'w-full'
+                }
+              }"
+            />
+          </div>
         </div>
       </TabPanel>
     </TabView>
@@ -263,7 +280,8 @@ import {
   TickSounds,
   LabelLength,
   CongratulationSound,
-  CongratulationSounds
+  CongratulationSounds,
+  Fairmode
 } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 import type { IItem } from '@/interface/IItem';
@@ -289,7 +307,7 @@ const removeGroup = ($event: Event) => {
     confirm.require({
       target: $event.target || undefined,
       message: 'Are you sure you want to delete this group?',
-      icon: 'pi pi-exclamation-triangle',
+      icon: 'pi pi-exclamation-triangle text-yellow-400',
       accept: async () => {
         await itemService.removeGroup(GroupLabel.value!);
       }
@@ -340,47 +358,68 @@ const customBase64Uploader = async (
   };
 };
 
+const toggleBulkEditMode = async ($event: Event) => {
+  if (!bulkEditMode.value && Fairmode.value && $event.target instanceof HTMLElement) {
+    confirm.require({
+      target: $event.target || undefined,
+      message: 'The item weights will be LOST if you perform bulk edits in fair mode!',
+      icon: 'pi pi-exclamation-triangle text-yellow-400',
+      defaultFocus: 'reject',
+      accept: async () => {
+        bulkEditMode.value = true;
+        await changeBulkEditMode();
+      },
+      reject: () => {
+        bulkEditMode.value = false;
+      }
+    });
+  } else {
+    bulkEditMode.value = !bulkEditMode.value;
+    await changeBulkEditMode();
+  }
+};
+
+const changeBulkEditMode = async () => {
+  if (bulkEditMode.value) {
+    textArea.value = badCSV ?? StringHelper.csvStringify();
+    badCSV = undefined;
+    console.debug('Bulk edit mode on');
+  } else {
+    console.debug('Bulk edit mode off');
+
+    let items: IItem[] = [];
+    try {
+      items = StringHelper.csvParse(textArea.value, true).map(({ label, weight }) => ({
+        label: label,
+        weight: +weight < 1 ? 1 : +weight,
+        group: GroupLabel.value!,
+        order: -1
+      }));
+      toast.removeAllGroups();
+    } catch (error) {
+      const e = error as Error;
+      console.error('Error parsing items from textarea', e);
+      toast.add({
+        severity: 'error',
+        summary: 'CSV parsed failed!',
+        detail: e.message
+      });
+
+      badCSV = textArea.value;
+      bulkEditMode.value = true;
+      return;
+    }
+    console.debug('Items parsed from textarea', items);
+
+    await itemService.cleanUpGroup(GroupLabel.value!);
+    await itemService.addItems(items);
+  }
+};
+
 let badCSV: string | undefined = undefined;
 onMounted(() => {
   watch(GroupLabel, () => {
     renameGroupName.value = GroupLabel.value;
-  });
-
-  watch(bulkEditMode, async (newValue) => {
-    if (newValue) {
-      textArea.value = badCSV ?? StringHelper.csvStringify();
-      badCSV = undefined;
-      console.debug('Bulk edit mode on');
-    } else {
-      console.debug('Bulk edit mode off');
-
-      let items: IItem[] = [];
-      try {
-        items = StringHelper.csvParse(textArea.value, true).map(({ label, weight }) => ({
-          label: label,
-          weight: +weight < 1 ? 1 : +weight,
-          group: GroupLabel.value!,
-          order: -1
-        }));
-        toast.removeAllGroups();
-      } catch (error) {
-        const e = error as Error;
-        console.error('Error parsing items from textarea', e);
-        toast.add({
-          severity: 'error',
-          summary: 'CSV parsed failed!',
-          detail: e.message
-        });
-
-        badCSV = textArea.value;
-        bulkEditMode.value = true;
-        return;
-      }
-      console.debug('Items parsed from textarea', items);
-
-      await itemService.cleanUpGroup(GroupLabel.value!);
-      await itemService.addItems(items);
-    }
   });
 });
 </script>

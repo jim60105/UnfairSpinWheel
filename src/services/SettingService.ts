@@ -60,6 +60,8 @@ export const CongratulationSounds: Ref<{ label: string; items: AudioSetting[] }[
 
 export const LabelLength = ref<number>(0.75);
 
+export const Fairmode = ref<boolean>(false);
+
 export class SettingService {
   private db: PouchDB.Database<ISetting> = new PouchDB('setting');
 
@@ -72,6 +74,7 @@ export class SettingService {
     await this.initLabelLength();
     await this.initTickSound();
     await this.initCongratulationSound();
+    await this.initFairmode();
   };
 
   private prefetchAudio = (audio: AudioSetting | undefined) => {
@@ -179,6 +182,26 @@ export class SettingService {
       this.prefetchAudio(CongratulationSound.value);
     });
   };
+
+  async initFairmode() {
+    try {
+      Fairmode.value = (await this.getSetting('fairmode')).value;
+    } catch (e) {
+      Fairmode.value = false;
+      // Don't await
+      this.addSetting({ key: 'fairmode', value: false });
+    }
+
+    watch(Fairmode, async (newValue) => {
+      try {
+        const doc = await this.getSetting('fairmode');
+        doc.value = newValue;
+        await this.updateSetting(doc);
+      } catch (e) {
+        await this.addSetting({ key: 'fairmode', value: newValue });
+      }
+    });
+  }
 
   public getSettings = async (): Promise<PouchDB.Core.ExistingDocument<ISetting>[]> =>
     (await this.db.allDocs<ISetting>({ include_docs: true })).rows.map((row) => row.doc!);

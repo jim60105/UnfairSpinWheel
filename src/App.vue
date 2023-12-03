@@ -1,16 +1,33 @@
 <template>
   <Toast position="bottom-left" />
-  <ConfirmPopup></ConfirmPopup>
+  <ConfirmPopup id="confirm" aria-label="popup">
+    <template #message="slotProps">
+      <div class="flex flex-column align-items-center w-full gap-3 p-3">
+        <i class="text-6xl" :class="slotProps.message.icon"></i>
+        <span>{{ slotProps.message.message }}</span>
+      </div>
+    </template>
+  </ConfirmPopup>
   <ScrollPanel class="h-screen">
     <div class="max-w-screen overflow-x-hidden overflow-y-hidden">
       <div class="grid header text-center">
         <h1 class="col-12 mb-0 text-4xl sm:text-5xl md:text-6xl">
-          Unfair <span class="white-space-nowrap">Spin Wheel</span>
+          <span v-if="!Fairmode">Unfair</span><span v-else>Fair</span>&nbsp;<span
+            class="white-space-nowrap"
+            >Spin Wheel</span
+          >
         </h1>
-        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl">
-          <span class="white-space-nowrap">The world is unfair,</span>
-          &nbsp;
-          <span class="white-space-nowrap">and so is our spin wheel.</span>
+        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl" v-if="!Fairmode">
+          <span class="white-space-nowrap">The world is unfair,</span>&nbsp;<span
+            class="white-space-nowrap"
+            >and so is our spin wheel.</span
+          >
+        </p>
+        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl" v-else>
+          <span class="white-space-nowrap">Though the world is unfair,</span>&nbsp;<span
+            class="white-space-nowrap"
+            >fortune smiles on our spin wheel.</span
+          >
         </p>
       </div>
       <div class="flex flex-wrap justify-content-center mb-4">
@@ -77,6 +94,7 @@ import { inject, onMounted, ref } from 'vue';
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
+import { Fairmode } from '@/services/SettingService';
 
 declare global {
   interface Navigator {

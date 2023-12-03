@@ -70,13 +70,13 @@ app.use(ConfirmationService);
 // https://pouchdb.com/guides/databases.html
 PouchDB.plugin(PouchDBFind);
 
-const itemService = new ItemService();
-await itemService.init();
-app.provide('ItemService', itemService);
-
 const settingService = new SettingService();
 await settingService.init();
 app.provide('SettingService', settingService);
+
+const itemService = new ItemService();
+await itemService.init();
+app.provide('ItemService', itemService);
 
 const sidebarService = new SidebarService();
 app.provide('SidebarService', sidebarService);

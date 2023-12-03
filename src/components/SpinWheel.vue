@@ -154,7 +154,7 @@ const openCongratulationDialog = ($event: {
 };
 
 onMounted(() => {
-  watch(Items, (newValue) => (wheel!.items = newValue!));
+  watch(Items, (newValue) => (wheel!.items = newValue || []));
   watch(LabelLength, (newValue) => {
     wheel!.itemLabelRadiusMax = 1 - newValue;
   });
