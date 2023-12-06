@@ -17,7 +17,6 @@
       content="Try this incredible spin wheel tool designed specifically for online draws. It's completely free, open-source, and without any annoying ads."
       property="og:description"
     />
-
     <meta content="@jim60105" name="twitter:site" />
     <meta content="@jim60105" name="twitter:creator" />
     <meta content="summary_large_image" name="twitter:card" />
@@ -48,12 +47,27 @@
       href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap&text=晚餐吃什麼火鍋牛肉麵排館拉便當店自助夜市速食中"
       rel="stylesheet"
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://www.clarity.ms https://www.googletagmanager.com 'sha256-DVHIm4jEISfvYtABTo5E+Piaf5vEfx5Ulc4JnIrs8S0=' 'sha256-WLabSr9y3wAoM+7HPDTID5A5Ir9qt9v0QmU8EbwH5UY=' 'wasm-unsafe-eval'; img-src 'self' data:; child-src 'none'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' blob:; frame-src 'none'; media-src 'self' data: blob:; worker-src 'self' blob:; manifest-src 'self';"
+    />
     <script>
       // This is for PouchDB:
       // https://stackoverflow.com/a/77061427/8706033
       // According to the documentation, this should not be defined in vite config
       // https://vitejs.dev/config/shared-options.html#define
       window.global = window;
+    </script>
+    <script>
+      // I have discovered that there are malicious individuals who are directly proxying our website and collecting user information to send back to the server.
+      // Therefore, we'll check the host when loading the webpage and redirect users to the correct website when they access the proxy site.
+      if (
+        !window.location.hostname.endsWith('spin-wheel.click') &&
+        window.location.hostname !== 'localhost'
+      ) {
+        window.location.href =
+          'https://unfair.spin-wheel.click' + window.location.pathname + window.location.search;
+      }
     </script>
   </head>
   <body>
