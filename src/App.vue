@@ -152,7 +152,6 @@ onMounted(async () => {
       '\nYour privacy is important to us, and we completely honor your choice.',
       'As a result, we have deactivated Google Analytics and Microsoft Clarity. 😉'
     );
-    return;
   } else if (navigator.userAgent.indexOf('OBS') > 0) {
     // Don't track in OBS mode to reduce performance impact
     window.gtag = () => {};
