@@ -23,7 +23,7 @@
     "random": "^4.1.0",
     "shareon": "^2.3.0",
     "spin-wheel": "^4.3.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.9"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.3",
