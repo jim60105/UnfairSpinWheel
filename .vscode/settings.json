@@ -83,5 +83,10 @@
     "VITE",
     "vkontakte",
     "ZCOOL"
-  ]
+  ],
+  "[javascript][typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  }
 }
