@@ -194,3 +194,5 @@ The [SoundButtons](https://sound-buttons.click) project is the driving force beh
 The remaining sound effects are from [Pixabay](https://pixabay.com/), and used in accordance with their [Pixabay Terms of Service](https://pixabay.com/service/terms/) license.
 
 These amazing materials take our game to a whole new level!
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjim60105%2FUnfairSpinWheel.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjim60105%2FUnfairSpinWheel?ref=badge_small) [![CodeFactor](https://www.codefactor.io/repository/github/jim60105/unfairspinwheel/badge)](https://www.codefactor.io/repository/github/jim60105/unfairspinwheel)
