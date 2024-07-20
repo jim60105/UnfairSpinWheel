@@ -77,15 +77,21 @@ export class SettingService {
     await this.initFairmode();
   };
 
-  private prefetchAudio = (audio: AudioSetting | undefined) => {
-    if (!audio) return;
-    if (audio.value.startsWith('data:')) return;
+  private prefetchAudio = (audioSetting: AudioSetting | undefined) => {
+    if (!audioSetting) return;
+    if (audioSetting.value.startsWith('data:')) return;
 
-    const hint = document.createElement('link');
-    hint.rel = 'prefetch';
-    hint.as = 'audio';
-    hint.href = `/sound/${audio.value}`;
-    document.head.appendChild(hint);
+    const src = `/sound/${audioSetting.value}`;
+
+    // const hint = document.createElement('link');
+    // hint.rel = 'prefetch';
+    // hint.as = 'audio';
+    // hint.href = src;
+    // document.head.appendChild(hint);
+
+    // Actively preload audio files
+    const audio = new Audio(src);
+    audio.preload = 'auto';
   };
 
   private initLabelLength = async () => {
