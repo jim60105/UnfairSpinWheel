@@ -130,7 +130,7 @@ const spin = () => {
   };
 
   wheel.rotationResistance = -400;
-  wheel.spin(wheel.rotationSpeed + random.int(800, 1200));
+  wheel.spin(wheel.rotationSpeed + random.int(1000, 1600));
 };
 
 const dialog = useDialog();
