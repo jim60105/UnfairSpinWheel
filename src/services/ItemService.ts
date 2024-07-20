@@ -9,13 +9,14 @@ export const GroupLabels = ref<string[]>([]);
 export const Items = ref<PouchDB.Core.ExistingDocument<IItem>[]>();
 
 export class ItemService {
-  private db: PouchDB.Database<IItem> = new PouchDB('item');
+  // https://pouchdb.com/guides/compact-and-destroy.html#auto-compaction
+  private db: PouchDB.Database<IItem> = new PouchDB('item', { auto_compaction: true });
 
   async init() {
-    const dbInfo = await this.db.info();
-    if (dbInfo.doc_count !== 0) {
-      this.db.compact();
-    }
+    // const dbInfo = await this.db.info();
+    // if (dbInfo.doc_count !== 0) {
+    //   this.db.compact();
+    // }
 
     await this.resetGroupLabel();
     Items.value = await this.getItems();
