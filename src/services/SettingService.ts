@@ -50,6 +50,11 @@ export const CongratulationSounds: Ref<{ label: string; items: AudioSetting[] }[
     items: [
       { label: '中~大~獎~ (Chinese)', value: '中大獎.mp3' },
       {
+        label: '喔中了！中了！中了！中了！ (Chinese)',
+        value: '喔中了中了中了中了中了中了中了.mp3'
+      },
+      { label: '我真的是爽翻天你知道嗎 (Chinese)', value: '我真的是爽翻天你知道嗎.mp3' },
+      {
         label: '那個橡皮擦我不要了 (Chinese)',
         value: '350b8fc91c2e4ca4b7b0652f6eee1a42.mp3'
       },
