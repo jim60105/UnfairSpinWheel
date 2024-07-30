@@ -164,7 +164,7 @@ Happy spinning!
 
 ### Code
 
-[![AGPL-3.0](/src/assets/agplv3-with-text-162x68.png)](./LICENSE)
+<img src="https://github.com/user-attachments/assets/a2601433-bd6b-4218-a99f-038248bfc9a9" alt="agplv3" width="300" />
 
 [GNU AFFERO GENERAL PUBLIC LICENSE Version 3](./LICENSE)
 
@@ -189,7 +189,9 @@ Source: [Logo](https://www.bing.com/images/create/logo2c-website-logo2c-flat-des
 
 ### Sound Effects
 
-The [SoundButtons](https://sound-buttons.click) project is the driving force behind the Funny Voices, with all copyright belonging to the original artists.
+<a href="https://sound-buttons.click" target="_blank"><img src="https://github.com/user-attachments/assets/3771e2e9-cc9c-4c4d-a14a-f66f32e973c7" alt="SoundButtons" width="300" /></a>
+
+The [SoundButtons project](https://github.com/sound-buttons) is the driving force behind the Funny Voices, with all copyright belonging to the original artists.
 
 The remaining sound effects are from [Pixabay](https://pixabay.com/), and used in accordance with their [Pixabay Terms of Service](https://pixabay.com/service/terms/) license.
 
