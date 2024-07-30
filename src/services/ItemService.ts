@@ -70,8 +70,6 @@ export class ItemService {
       };
 
     const doc = item as PouchDB.Core.ExistingDocument<IItem>;
-    doc._id = '';
-    doc._rev = '';
     const result = await this.db.post(doc);
     await this.syncGroups();
     await this.syncItems();
