@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { ref, onMounted, inject, watch } from 'vue';
 import random from 'random';
-import { Wheel } from 'spin-wheel/dist/spin-wheel-esm';
+import { Wheel, type WheelProps } from 'spin-wheel';
 import { useDialog } from 'primevue/usedialog';
 import { TickSound, LabelLength } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
@@ -47,7 +47,7 @@ import CongratulationDialog from '@/components/CongratulationDialog.vue';
 
 const itemService = inject<ItemService>('ItemService');
 
-const properties = {
+const properties: WheelProps = {
   // debug: import.meta.env.DEV,
   isInteractive: false,
   radius: 0.48,
@@ -78,8 +78,6 @@ const properties = {
   rotationSpeedMax: 2000,
   lineWidth: 1,
   lineColor: '#fff',
-  // image: './img/icon.png',
-  // overlayImage: './img/image.png',
   items: []
 };
 
@@ -91,7 +89,7 @@ let wheel: Wheel | undefined = undefined;
 const stopAndClearSound = () => {
   if (!wheel) return;
 
-  wheel.onCurrentIndexChange = undefined;
+  wheel.onCurrentIndexChange = () => {};
   wheel.stop();
 };
 
