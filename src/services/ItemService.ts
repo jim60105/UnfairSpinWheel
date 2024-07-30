@@ -43,7 +43,9 @@ export class ItemService {
       await this.db.find({
         selector: {
           group: groupLabel
-        }
+        },
+        // default is 25
+        limit: 10000
       })
     ).docs
       .sort((a, b) => a.order - b.order)
