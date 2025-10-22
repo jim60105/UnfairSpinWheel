@@ -190,18 +190,17 @@
           <div class="col-12">
             <label for="sl-donateThreshold" class="block mb-2">抖內門檻</label>
             <div class="grid">
-              <div class="col-3">
+              <div class="col-12 mb-2">
                 <InputNumber
                   v-model="DonateThreshold"
                   inputId="in-donateThreshold"
                   :min="30"
                   :max="3000"
-                  :step="0.01"
                   :useGrouping="false"
                   class="w-full"
                 />
               </div>
-              <div class="col-9">
+              <div class="col-12">
                 <Slider
                   v-model="DonateThreshold"
                   inputId="sl-donateThreshold"
