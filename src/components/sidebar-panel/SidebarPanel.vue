@@ -188,7 +188,7 @@
             />
           </div>
           <div class="col-12">
-            <label for="sl-donateThreshold" class="block mb-2">抖內門檻</label>
+            <label for="sl-donateThreshold" class="block mb-2">抖內門檻（超過才會觸發）</label>
             <div class="grid">
               <div class="col-12">
                 <Slider
