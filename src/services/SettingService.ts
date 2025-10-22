@@ -8,6 +8,9 @@ type AudioSetting = {
   value: string;
 };
 
+const SETTING_KEY_LABEL_LENGTH = 'labelLength';
+const SETTING_KEY_DONATE_THRESHOLD = 'donateThreshold';
+
 export const TickSound = ref<AudioSetting>();
 
 export const TickSounds: Ref<{ label: string; items: AudioSetting[] }[]> = ref([
@@ -64,6 +67,7 @@ export const CongratulationSounds: Ref<{ label: string; items: AudioSetting[] }[
 ]);
 
 export const LabelLength = ref<number>(0.75);
+export const DonateThreshold = ref<number>(30);
 
 export const Fairmode = ref<boolean>(false);
 
@@ -77,6 +81,7 @@ export class SettingService {
     }
 
     await this.initLabelLength();
+    await this.initDonateThreshold();
     await this.initTickSound();
     await this.initCongratulationSound();
     await this.initFairmode();
@@ -99,23 +104,46 @@ export class SettingService {
     audio.preload = 'auto';
   };
 
+
   private initLabelLength = async () => {
     try {
-      LabelLength.value = (await this.getSetting('labelLength')).value;
+      LabelLength.value = (await this.getSetting(SETTING_KEY_LABEL_LENGTH)).value;
     } catch (e) {
       LabelLength.value = 0.75;
       // Don't await
-      this.addSetting({ key: 'labelLength', value: LabelLength.value });
+      this.addSetting({ key: SETTING_KEY_LABEL_LENGTH, value: LabelLength.value });
     }
 
     watch(LabelLength, async (newValue) => {
       throttle(async () => {
         try {
-          const doc = await this.getSetting('labelLength');
+          const doc = await this.getSetting(SETTING_KEY_LABEL_LENGTH);
           doc.value = newValue;
           await this.updateSetting(doc, true);
         } catch (e) {
-          await this.addSetting({ key: 'labelLength', value: newValue });
+          await this.addSetting({ key: SETTING_KEY_LABEL_LENGTH, value: newValue });
+        }
+      })();
+    });
+  };
+
+  private initDonateThreshold = async () => {
+    try {
+      DonateThreshold.value = (await this.getSetting(SETTING_KEY_DONATE_THRESHOLD)).value;
+    } catch (e) {
+      DonateThreshold.value = 30;
+      // Don't await
+      this.addSetting({ key: SETTING_KEY_DONATE_THRESHOLD, value: DonateThreshold.value });
+    }
+
+    watch(DonateThreshold, async (newValue) => {
+      throttle(async () => {
+        try {
+          const doc = await this.getSetting(SETTING_KEY_DONATE_THRESHOLD);
+          doc.value = newValue;
+          await this.updateSetting(doc, true);
+        } catch (e) {
+          await this.addSetting({ key: SETTING_KEY_DONATE_THRESHOLD, value: newValue });
         }
       })();
     });

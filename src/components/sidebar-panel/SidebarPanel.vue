@@ -188,7 +188,17 @@
             />
           </div>
           <div class="col-12">
-            <label for="sl-labelLength" class="block mb-2">公平模式</label>
+            <label for="sl-donateThreshold" class="block mb-2">抖內門檻</label>
+            <Slider
+              v-model="DonateThreshold"
+              inputId="sl-donateThreshold"
+              :min="30"
+              :max="3000"
+              :step="0.01"
+            />
+          </div>
+          <div class="col-12">
+            <label for="sl-fairmode" class="block mb-2">公平模式</label>
             <ToggleButton
               v-model="Fairmode"
               @change="
@@ -279,6 +289,7 @@ import {
   TickSound,
   TickSounds,
   LabelLength,
+  DonateThreshold,
   CongratulationSound,
   CongratulationSounds,
   Fairmode
