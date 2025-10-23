@@ -162,8 +162,8 @@ const showDonationNotification = (donationData: any) => {
   toast.add({
     severity: 'success',
     summary: '收到贊助！',
-    detail: `${donationData.name} 贊助了 $${donationData.amount}： ${donationData.message}`,
-    life: 5000  // 5 秒後自動消失
+    detail: `${donationData.name} 贊助了 $${donationData.amount} } 💬 ${donationData.message}`,
+    life: 300000  // 5 分鐘後自動消失
   });
 };
 
