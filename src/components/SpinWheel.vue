@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, inject, watch } from 'vue';
+import { useToast } from 'primevue/usetoast';
 import random from 'random';
 import { Wheel, type WheelProps } from 'spin-wheel';
 import { useDialog } from 'primevue/usedialog';
@@ -88,6 +89,81 @@ const container = ref();
 
 let spinCount = 0;
 let wheel: Wheel | undefined = undefined;
+let ws: WebSocket | undefined = undefined;
+
+// ===== WebSocket 相關功能 =====
+
+const OPAY_TOKEN = 'C9573BA6EAE2711888B45CE60E3AF6BC';
+const WS_URL = `wss://neoripyon.leafwind.tw/donations/ws/${OPAY_TOKEN}`;
+
+const connectWebSocket = () => {
+  console.log('🔌 正在連接 WebSocket...');
+
+  ws = new WebSocket(WS_URL);
+
+  ws.onopen = () => {
+    console.log('✅ WebSocket 已連接');
+  };
+
+  ws.onmessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      console.log('📨 收到 WebSocket 訊息:', data);
+      
+      // 處理不同類型的事件
+      if (data.type === 'connected') {
+        console.log(`✅ 已連接到頻道: ${data.channel}`);
+      } else if (data.type === 'donation') {
+        // 收到贊助通知 -> 觸發轉盤
+        handleDonation(data.data);
+      }
+    } catch (error) {
+      console.error('❌ 解析 WebSocket 訊息失敗:', error);
+    }
+  };
+
+  ws.onerror = (error) => {
+    console.error('❌ WebSocket 錯誤:', error);
+  };
+
+  ws.onclose = (event) => {
+    console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
+    
+    // 5 秒後自動重連
+    setTimeout(() => {
+      console.log('🔄 嘗試重新連接...');
+      connectWebSocket();
+    }, 5000);
+  };
+};
+
+const handleDonation = (donationData: {
+  donate_id: string;
+  name: string;
+  amount: number;
+  message: string;
+  timestamp: number;
+}) => {
+  console.log('🎉 收到贊助:', donationData);
+
+  // 顯示贊助訊息（可選）
+  showDonationNotification(donationData);
+
+  // 觸發轉盤
+  spin();
+};
+
+const showDonationNotification = (donationData: any) => {
+  console.log(`💰 ${donationData.name} 贊助了 $${donationData.amount}！`);
+  console.log(`💬 留言: ${donationData.message}`);
+
+  toast.add({
+    severity: 'success',
+    summary: '收到贊助！',
+    detail: `${donationData.name} 贊助了 $${donationData.amount}： ${donationData.message}`,
+    life: 5000  // 5 秒後自動消失
+  });
+};
 
 const stopAndClearSound = () => {
   if (!wheel) return;
@@ -134,6 +210,7 @@ const spin = () => {
   wheel.spin(wheel.rotationSpeed + random.int(1000, 1600));
 };
 
+const toast = useToast();
 const dialog = useDialog();
 const openCongratulationDialog = ($event: {
   type: 'rest';
