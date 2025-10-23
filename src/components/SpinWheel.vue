@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, inject, watch } from 'vue';
+import { ref, onMounted, onUnmounted, inject, watch } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import random from 'random';
 import { Wheel, type WheelProps } from 'spin-wheel';
@@ -90,6 +90,8 @@ const container = ref();
 let spinCount = 0;
 let wheel: Wheel | undefined = undefined;
 let ws: WebSocket | undefined = undefined;
+
+console.log('🚀 Script setup 已執行');
 
 // ===== WebSocket 相關功能 =====
 
@@ -232,11 +234,15 @@ const openCongratulationDialog = ($event: {
 };
 
 onMounted(() => {
+  console.log('✅ onMounted 已執行');
+
+  // 監聽 Items 變化
   watch(Items, (newValue) => (wheel!.items = newValue || []));
   watch(LabelLength, (newValue) => {
     wheel!.itemLabelRadiusMax = 1 - newValue;
   });
 
+  // 初始化轉盤
   wheel = new Wheel(container.value, {
     ...properties,
     items: Items.value,
@@ -261,6 +267,17 @@ onMounted(() => {
   setTimeout(() => {
     wheel!.itemLabelRadiusMax = 1 - LabelLength.value;
   }, 50);
+
+  // 連接 WebSocket
+  connectWebSocket();
+});
+
+onUnmounted(() => {
+  // 清理 WebSocket 連接
+  if (ws) {
+    ws.close();
+    ws = undefined;
+  }
 });
 </script>
 
