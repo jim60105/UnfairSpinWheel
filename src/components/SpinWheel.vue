@@ -156,13 +156,13 @@ const handleDonation = (donationData: {
 };
 
 const showDonationNotification = (donationData: any) => {
-  console.log(`💰 ${donationData.name} 贊助了 $${donationData.amount}！`);
+  console.log(`💰 ${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount}！`);
   console.log(`💬 留言: ${donationData.message}`);
 
   toast.add({
     severity: 'success',
     summary: '收到贊助！',
-    detail: `${donationData.name} 贊助了 $${donationData.amount} } 💬 ${donationData.message}`,
+    detail: `${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount} } 💬 ${donationData.message}`,
     life: 300000  // 5 分鐘後自動消失
   });
 };
