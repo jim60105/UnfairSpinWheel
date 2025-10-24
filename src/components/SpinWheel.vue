@@ -162,7 +162,7 @@ const showDonationNotification = (donationData: any) => {
   toast.add({
     severity: 'success',
     summary: '收到贊助！',
-    detail: `${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount} } 💬 ${donationData.message}`,
+    detail: `${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount} 💬 ${donationData.message}`,
     life: 300000  // 5 分鐘後自動消失
   });
 };
