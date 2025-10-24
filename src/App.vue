@@ -1,5 +1,5 @@
 <template>
-  <Toast position="bottom-left" />
+  <Toast position="top-right" />
   <ConfirmPopup id="confirm" aria-label="popup">
     <template #message="slotProps">
       <div class="flex flex-column align-items-center w-full gap-3 p-3">
