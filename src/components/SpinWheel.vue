@@ -99,6 +99,9 @@ console.log('🚀 Script setup 已執行');
 const OPAY_TOKEN = 'C9573BA6EAE2711888B45CE60E3AF6BC';
 const WS_URL_PREFIX = `wss://neoripyon.leafwind.tw/donations/ws`;
 
+let reconnectDelay = 10000; // Start with 10 seconds
+const MAX_RECONNECT_DELAY = 300000; // 300 seconds (5 minutes)
+
 const connectWebSocket = (uuid?: string) => {
   console.log('🔌 正在連接 WebSocket...\n📝 uuid：', uuid || '預設');
 
@@ -132,12 +135,16 @@ const connectWebSocket = (uuid?: string) => {
 
   ws.onclose = (event) => {
     console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
-    
-    // 5 秒後自動重連
+
+    // Calculate next delay with exponential backoff
+    const nextDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+    console.log(`🔄 嘗試重新連接，等待 ${nextDelay / 1000} 秒...`);
+
     setTimeout(() => {
-      console.log('🔄 嘗試重新連接...');
+      reconnectDelay = nextDelay;
+      console.log('🔄 嘗試重新連接，等待 10 秒...');
       connectWebSocket(uuid);
-    }, 5000);
+    }, reconnectDelay);
   };
 };
 
