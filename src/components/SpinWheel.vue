@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, inject, watch } from 'vue';
+import { ref, onMounted, onUnmounted, inject, watch, nextTick } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import random from 'random';
 import { Wheel, type WheelProps } from 'spin-wheel';
@@ -97,12 +97,13 @@ console.log('🚀 Script setup 已執行');
 // ===== WebSocket 相關功能 =====
 
 const OPAY_TOKEN = 'C9573BA6EAE2711888B45CE60E3AF6BC';
-const WS_URL = `wss://neoripyon.leafwind.tw/donations/ws/${OPAY_TOKEN}`;
+const WS_URL_PREFIX = `wss://neoripyon.leafwind.tw/donations/ws`;
 
-const connectWebSocket = () => {
-  console.log('🔌 正在連接 WebSocket...');
+const connectWebSocket = (uuid?: string) => {
+  console.log('🔌 正在連接 WebSocket...\n📝 uuid：', uuid || '預設');
 
-  ws = new WebSocket(WS_URL);
+  const wsUrl = uuid ? `${WS_URL_PREFIX}/${uuid}` : `${WS_URL_PREFIX}/${OPAY_TOKEN}`;
+  ws = new WebSocket(wsUrl);
 
   ws.onopen = () => {
     console.log('✅ WebSocket 已連接');
@@ -135,7 +136,7 @@ const connectWebSocket = () => {
     // 5 秒後自動重連
     setTimeout(() => {
       console.log('🔄 嘗試重新連接...');
-      connectWebSocket();
+      connectWebSocket(uuid);
     }, 5000);
   };
 };
@@ -234,26 +235,8 @@ const openCongratulationDialog = ($event: {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
   console.log('✅ onMounted 已執行');
-
-  // Add toast notification for UUID
-  if (uuid) {
-    toast.add({
-      severity: 'info',
-      summary: '已載入設定',
-      detail: `使用設定檔: ${uuid}`,
-      life: 10000
-    });
-  }
-  else {
-    toast.add({
-      severity: 'error',
-      summary: '錯誤',
-      detail: `${uuid} 格式錯誤`,
-      life: 10000
-    });
-  }
 
   // 監聽 Items 變化
   watch(Items, (newValue) => (wheel!.items = newValue || []));
@@ -287,8 +270,28 @@ onMounted(() => {
     wheel!.itemLabelRadiusMax = 1 - LabelLength.value;
   }, 50);
 
+  // Add toast notification for UUID
+  // Show toast after a small delay
+  await nextTick();
+  if (uuid) {
+    toast.add({
+      severity: 'info',
+      summary: '已載入設定',
+      detail: `使用設定檔: ${uuid}`,
+      life: 10000
+    });
+  }
+  else {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: `${uuid} 格式錯誤`,
+      life: 10000
+    });
+  }
+
   // 連接 WebSocket
-  connectWebSocket();
+  connectWebSocket(uuid);
 });
 
 onUnmounted(() => {
