@@ -109,6 +109,22 @@ const connectWebSocket = (uuid?: string) => {
 
   try {
     ws = new WebSocket(wsUrl);
+
+    ws.onerror = (error) => {
+      console.error('❌ WebSocket 錯誤:', error);
+    };
+
+    ws.onclose = (event) => {
+      console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
+      console.log(`🔄 嘗試重新連接，等待 ${reconnectDelay / 1000} 秒...`);
+
+      setTimeout(() => {
+      // 下一次的延遲時間 *= 2，最大不超過 MAX_RECONNECT_DELAY
+        reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+        connectWebSocket(uuid);
+      }, reconnectDelay);
+    };
+
     ws.onopen = () => {
       console.log('✅ WebSocket 已連接');
     };
@@ -130,20 +146,6 @@ const connectWebSocket = (uuid?: string) => {
       }
     };
 
-    ws.onerror = (error) => {
-      console.error('❌ WebSocket 錯誤:', error);
-    };
-
-    ws.onclose = (event) => {
-      console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
-      console.log(`🔄 嘗試重新連接，等待 ${reconnectDelay / 1000} 秒...`);
-
-      setTimeout(() => {
-      // 下一次的延遲時間 *= 2，最大不超過 MAX_RECONNECT_DELAY
-        reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
-        connectWebSocket(uuid);
-      }, reconnectDelay);
-    };
   } catch (error) {
     if (ws?.onerror) {
       // Catch the constructor fail event
