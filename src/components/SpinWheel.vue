@@ -107,50 +107,42 @@ const connectWebSocket = (uuid?: string) => {
 
   const wsUrl = uuid ? `${WS_URL_PREFIX}/${uuid}` : `${WS_URL_PREFIX}/${OPAY_TOKEN}`;
 
-  try {
-    ws = new WebSocket(wsUrl);
+  ws = new WebSocket(wsUrl);
+  ws.onopen = () => {
+    console.log('✅ WebSocket 已連接');
+  };
 
-    ws.onerror = (error) => {
-      console.error('❌ WebSocket 錯誤:', error);
-    };
-
-    ws.onclose = (event) => {
-      console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
-      console.log(`🔄 嘗試重新連接，等待 ${reconnectDelay / 1000} 秒...`);
-
-      setTimeout(() => {
-      // 下一次的延遲時間 *= 2，最大不超過 MAX_RECONNECT_DELAY
-        reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
-        connectWebSocket(uuid);
-      }, reconnectDelay);
-    };
-
-    ws.onopen = () => {
-      console.log('✅ WebSocket 已連接');
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        console.log('📨 收到 WebSocket 訊息:', data);
-        
-        // 處理不同類型的事件
-        if (data.type === 'connected') {
-          console.log(`✅ 已連接到頻道: ${data.channel}`);
-        } else if (data.type === 'donation') {
-          // 收到贊助通知 -> 觸發轉盤
-          handleDonation(data.data);
-        }
-      } catch (error) {
-        console.error('❌ 解析 WebSocket 訊息失敗:', error);
+  ws.onmessage = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      console.log('📨 收到 WebSocket 訊息:', data);
+      
+      // 處理不同類型的事件
+      if (data.type === 'connected') {
+        console.log(`✅ 已連接到頻道: ${data.channel}`);
+      } else if (data.type === 'donation') {
+        // 收到贊助通知 -> 觸發轉盤
+        handleDonation(data.data);
       }
-    };
-
-  } catch (error) {
-    if (ws?.onerror) {
-      // Catch the constructor fail event
-      ws.onerror(new ErrorEvent('error', { error }));
+    } catch (error) {
+      console.error('❌ 解析 WebSocket 訊息失敗:', error);
     }
+  };
+
+  ws.onerror = (error) => {
+    console.error('❌ WebSocket 錯誤:', error);
+  };
+
+  ws.onclose = (event) => {
+    console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
+    console.log(`🔄 嘗試重新連接，等待 ${reconnectDelay / 1000} 秒...`);
+
+    setTimeout(() => {
+    // 下一次的延遲時間 *= 2，最大不超過 MAX_RECONNECT_DELAY
+      reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+      connectWebSocket(uuid);
+    }, reconnectDelay);
+
   }
 
 };
