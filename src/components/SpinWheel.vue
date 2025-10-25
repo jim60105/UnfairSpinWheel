@@ -50,6 +50,7 @@ import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemServ
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
 
 const itemService = inject<ItemService>('ItemService');
+const uuid = inject<string | undefined>('uuid');
 
 const properties: WheelProps = {
   // debug: import.meta.env.DEV,
@@ -235,6 +236,24 @@ const openCongratulationDialog = ($event: {
 
 onMounted(() => {
   console.log('✅ onMounted 已執行');
+
+  // Add toast notification for UUID
+  if (uuid) {
+    toast.add({
+      severity: 'info',
+      summary: '已載入設定',
+      detail: `使用設定檔: ${uuid}`,
+      life: 10000
+    });
+  }
+  else {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: `${uuid} 格式錯誤`,
+      life: 10000
+    });
+  }
 
   // 監聽 Items 變化
   watch(Items, (newValue) => (wheel!.items = newValue || []));
