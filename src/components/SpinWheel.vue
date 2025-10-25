@@ -135,14 +135,11 @@ const connectWebSocket = (uuid?: string) => {
 
   ws.onclose = (event) => {
     console.log('🔌 WebSocket 已斷開:', event.code, event.reason);
-
-    // Calculate next delay with exponential backoff
-    const nextDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
-    console.log(`🔄 嘗試重新連接，等待 ${nextDelay / 1000} 秒...`);
+    console.log(`🔄 嘗試重新連接，等待 ${reconnectDelay / 1000} 秒...`);
 
     setTimeout(() => {
-      reconnectDelay = nextDelay;
-      console.log('🔄 嘗試重新連接，等待 10 秒...');
+    // 下一次的延遲時間 *= 2，最大不超過 MAX_RECONNECT_DELAY
+      reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
       connectWebSocket(uuid);
     }, reconnectDelay);
   };
@@ -307,6 +304,7 @@ onUnmounted(() => {
     ws.close();
     ws = undefined;
   }
+  reconnectDelay = 10000; // Reset to initial delay
 });
 </script>
 
