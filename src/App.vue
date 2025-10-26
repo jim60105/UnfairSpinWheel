@@ -1,5 +1,5 @@
 <template>
-  <Toast position="top-right" />
+  <Toast :position="ToastLocation" />
   <ConfirmPopup id="confirm" aria-label="popup">
     <template #message="slotProps">
       <div class="flex flex-column align-items-center w-full gap-3 p-3">
@@ -87,6 +87,7 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
+import { ToastLocation } from '@/services/SettingService';
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';

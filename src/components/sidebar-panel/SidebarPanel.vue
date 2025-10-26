@@ -212,6 +212,17 @@
             </div>
           </div>
           <div class="col-12">
+            <label for="dd-toastLocation" class="block mb-2">通知位置</label>
+            <Dropdown
+              v-model="ToastLocation"
+              :options="toastLocations"
+              optionLabel="label"
+              optionValue="value"
+              inputId="dd-toastLocation"
+              class="w-full"
+            />
+          </div>
+          <div class="col-12">
             <label for="sl-fairmode" class="block mb-2">公平模式</label>
             <ToggleButton
               v-model="Fairmode"
@@ -306,7 +317,8 @@ import {
   DonateThreshold,
   CongratulationSound,
   CongratulationSounds,
-  Fairmode
+  Fairmode,
+  ToastLocation,
 } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 import type { IItem } from '@/interface/IItem';
@@ -314,6 +326,13 @@ import { StringHelper } from '@/helpers/StringHelper';
 
 const itemService = inject<ItemService>('ItemService')!;
 const toast = useToast();
+
+const toastLocations = [
+  { label: '右上', value: 'top-right' },
+  { label: '左上', value: 'top-left' },
+  { label: '右下', value: 'bottom-right' },
+  { label: '左下', value: 'bottom-left' }
+];
 
 const addButton = ref();
 const confirm = useConfirm();

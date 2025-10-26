@@ -10,6 +10,12 @@ type AudioSetting = {
 
 const SETTING_KEY_LABEL_LENGTH = 'labelLength';
 const SETTING_KEY_DONATE_THRESHOLD = 'donateThreshold';
+const SETTING_KEY_TOAST_LOCATION = 'toastLocation';
+
+// Define all possible toast locations
+export type ToastLocation = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+// Define 'top-right' as the default location, and make it as a reference to auto update UI
+export const ToastLocation = ref<ToastLocation>('top-right');
 
 export const TickSound = ref<AudioSetting>();
 
@@ -85,6 +91,7 @@ export class SettingService {
     await this.initTickSound();
     await this.initCongratulationSound();
     await this.initFairmode();
+    await this.initToastLocation();
   };
 
   private prefetchAudio = (audioSetting: AudioSetting | undefined) => {
@@ -122,6 +129,28 @@ export class SettingService {
           await this.updateSetting(doc, true);
         } catch (e) {
           await this.addSetting({ key: SETTING_KEY_LABEL_LENGTH, value: newValue });
+        }
+      })();
+    });
+  };
+
+  private initToastLocation = async () => {
+    try {
+      ToastLocation.value = (await this.getSetting(SETTING_KEY_TOAST_LOCATION)).value;
+    } catch (e) {
+      ToastLocation.value = 'top-right';
+      // Don't await
+      this.addSetting({ key: SETTING_KEY_TOAST_LOCATION, value: ToastLocation.value });
+    }
+
+    watch(ToastLocation, async (newValue) => {
+      throttle(async () => {
+        try {
+          const doc = await this.getSetting(SETTING_KEY_TOAST_LOCATION);
+          doc.value = newValue;
+          await this.updateSetting(doc, true);
+        } catch (e) {
+          await this.addSetting({ key: SETTING_KEY_TOAST_LOCATION, value: newValue });
         }
       })();
     });
