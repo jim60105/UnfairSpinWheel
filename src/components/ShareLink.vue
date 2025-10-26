@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="!FocusMode"
     class="shareon"
     :data-url="`${origin}?group=${encodeURIComponent(GroupLabel ?? '')}&data=${getCompressedCSV}`"
     data-hashtags="UnfairSpinWheel"
@@ -35,6 +36,7 @@ import { nextTick, onMounted, ref, watch } from 'vue';
 import { init } from 'shareon';
 import { GroupLabel, Items } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
+import { FocusMode } from '@/services/SettingService';
 import type { IItem } from '@/interface/IItem';
 
 const origin = window.location.origin;
