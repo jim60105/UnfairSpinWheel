@@ -99,6 +99,7 @@ function updateCongratulationSound(value: AudioSetting) {
   congratulationSound.value = value;
   item.congratulationSound = value;
   itemService?.updateItem(item);
+  prefetchAudio(value); // prefetch when sound changes
 }
 
 function removeItem() {
