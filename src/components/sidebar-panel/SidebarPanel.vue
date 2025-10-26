@@ -334,6 +334,16 @@ const toastLocations = [
   { label: '左下', value: 'bottom-left' }
 ];
 
+watch(ToastLocation, (newLocation) => {
+  // Show sample toast in the new location
+  toast.add({
+    severity: 'info',
+    summary: '位置預覽',
+    detail: `通知將會顯示在${toastLocations.find(l => l.value === newLocation)?.label}`,
+    life: 10000
+  });
+});
+
 const addButton = ref();
 const confirm = useConfirm();
 const bulkEditMode = ref(false);
