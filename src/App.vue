@@ -10,7 +10,7 @@
   </ConfirmPopup>
   <ScrollPanel class="h-screen">
     <div class="max-w-screen overflow-x-hidden overflow-y-hidden">
-      <div class="grid header text-center">
+      <div  v-show="!FocusMode" class="grid header text-center">
         <h1 class="col-12 mb-0 text-4xl sm:text-5xl md:text-6xl">
           <span v-if="!Fairmode">不公平</span><span v-else>公平</span><span
             class="white-space-nowrap"
@@ -30,7 +30,7 @@
         <SpinWheel></SpinWheel>
       </div>
     </div>
-    <Footer></Footer>
+    <Footer v-show="!FocusMode"></Footer>
   </ScrollPanel>
 
   <SidebarPanel></SidebarPanel>
@@ -87,7 +87,8 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
-import { ToastLocation } from '@/services/SettingService';
+import { ToastLocation, FocusMode } from '@/services/SettingService';
+
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';

@@ -238,6 +238,18 @@
               }"
             />
           </div>
+          <div class="col-12">
+            <label for="cb-focusMode" class="block mb-2">專注模式</label>
+            <ToggleButton
+              v-model="FocusMode"
+              inputId="cb-focusMode"
+              :pt="{
+                root: {
+                  class: 'w-full'
+                }
+              }"
+            />
+          </div>
         </div>
       </TabPanel>
     </TabView>
@@ -319,6 +331,7 @@ import {
   CongratulationSounds,
   Fairmode,
   ToastLocation,
+  FocusMode,
 } from '@/services/SettingService';
 import ItemInputGroup from '@/components/sidebar-panel/ItemInputGroup.vue';
 import type { IItem } from '@/interface/IItem';

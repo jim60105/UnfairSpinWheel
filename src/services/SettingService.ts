@@ -76,6 +76,7 @@ export const LabelLength = ref<number>(0.75);
 export const DonateThreshold = ref<number>(30);
 
 export const Fairmode = ref<boolean>(false);
+export const FocusMode = ref<boolean>(false);
 
 export class SettingService {
   private db: PouchDB.Database<ISetting> = new PouchDB('setting');
@@ -92,6 +93,7 @@ export class SettingService {
     await this.initCongratulationSound();
     await this.initFairmode();
     await this.initToastLocation();
+    await this.initFocusMode();
   };
 
   private prefetchAudio = (audioSetting: AudioSetting | undefined) => {
@@ -267,6 +269,26 @@ export class SettingService {
         await this.updateSetting(doc);
       } catch (e) {
         await this.addSetting({ key: 'fairmode', value: newValue });
+      }
+    });
+  }
+
+  async initFocusMode() {
+    try {
+      FocusMode.value = (await this.getSetting('focusMode')).value;
+    } catch (e) {
+      FocusMode.value = false;
+      // Don't await
+      this.addSetting({ key: 'focusMode', value: false });
+    }
+
+    watch(FocusMode, async (newValue) => {
+      try {
+        const doc = await this.getSetting('focusMode');
+        doc.value = newValue;
+        await this.updateSetting(doc);
+      } catch (e) {
+        await this.addSetting({ key: 'focusMode', value: newValue });
       }
     });
   }
