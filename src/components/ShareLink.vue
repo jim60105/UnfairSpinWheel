@@ -1,6 +1,6 @@
 <template>
+  <!-- v-show will not work, need to use style binding -->
   <div
-    v-show="!FocusMode"
     class="shareon"
     :style="{ display: FocusMode ? 'none !important' : '' }"
     :data-url="`${origin}?group=${encodeURIComponent(GroupLabel ?? '')}&data=${getCompressedCSV}`"

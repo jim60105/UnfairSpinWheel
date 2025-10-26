@@ -1,6 +1,8 @@
 <template>
+  <!-- v-show will not work, need to use style binding -->
   <Dropdown
     id="group-dropdown"
+    :style="{ display: FocusMode ? 'none !important' : '' }"
     :model-value="GroupLabel"
     :options="GroupLabels"
     class="mt-4 z-1"
@@ -48,6 +50,7 @@ import { useDialog } from 'primevue/usedialog';
 import { TickSound, LabelLength } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
+import { FocusMode } from '@/services/SettingService';
 
 const itemService = inject<ItemService>('ItemService');
 const uuid = inject<string | undefined>('uuid');
