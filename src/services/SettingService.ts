@@ -3,7 +3,7 @@ import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 import { throttle } from '@/helpers/UtilHelper';
 
-type AudioSetting = {
+export type AudioSetting = {
   label: string;
   value: string;
 };
