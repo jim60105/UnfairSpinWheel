@@ -46,7 +46,6 @@
       placeholder="音效"
       class="w-full md:w-14rem"
       @update:modelValue="updateCongratulationSound"
-      @change="updateCongratulationSound"
     />
   </div>
 </template>
