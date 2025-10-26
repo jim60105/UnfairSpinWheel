@@ -383,14 +383,14 @@ onUnmounted(() => {
 
   background-image: url(/img/icon.png);
   background-image: -webkit-image-set(
-    url(/img/icon.avif) type('image/avif'),
-    url(/img/icon.webp) type('image/webp'),
-    url(/img/icon.png) type('image/png')
+    url(/img/daifuku_maow.avif) type('image/avif'),
+    url(/img/daifuku_maow.webp) type('image/webp'),
+    url(/img/daifuku_maow.png) type('image/png')
   );
   background-image: image-set(
-    url(/img/icon.avif) type('image/avif'),
-    url(/img/icon.webp) type('image/webp'),
-    url(/img/icon.png) type('image/png')
+    url(/img/daifuku_maow.avif) type('image/avif'),
+    url(/img/daifuku_maow.webp) type('image/webp'),
+    url(/img/daifuku_maow.png) type('image/png')
   );
 
   background-size: contain;
