@@ -2,6 +2,7 @@
   <div
     v-show="!FocusMode"
     class="shareon"
+    :style="{ display: FocusMode ? 'none !important' : '' }"
     :data-url="`${origin}?group=${encodeURIComponent(GroupLabel ?? '')}&data=${getCompressedCSV}`"
     data-hashtags="UnfairSpinWheel"
     data-text="Hey there! I just found this fun spin wheel and thought you might enjoy it too. Check it out here!"
