@@ -456,12 +456,33 @@ const changeBulkEditMode = async () => {
 
     let items: IItem[] = [];
     try {
-      items = StringHelper.csvParse(textArea.value, true).map(({ label, weight }) => ({
-        label: label,
-        weight: +weight < 1 ? 1 : +weight,
-        group: GroupLabel.value!,
-        order: -1
-      }));
+      items = (StringHelper.csvParse(textArea.value, true) as Array<{
+        label: string;
+        weight: number;
+        congratulationSound?: string;
+      }>).map(({ label, weight, congratulationSound }) => {
+        const item: IItem = {
+          label: label,
+          weight: +weight < 1 ? 1 : +weight,
+          group: GroupLabel.value!,
+          order: -1
+        };
+        
+        // 處理第三欄
+        if (congratulationSound?.trim()) {
+          const found = CongratulationSounds.value
+            .flatMap(g => g.items)
+            .find(s => s.value === congratulationSound.trim());
+          
+          item.congratulationSound = found || {
+            label: congratulationSound.trim(),
+            value: congratulationSound.trim()
+          };
+        }
+        
+        return item;
+      });
+
       toast.removeAllGroups();
     } catch (error) {
       const e = error as Error;
