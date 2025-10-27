@@ -25,22 +25,26 @@ export class StringHelper {
     const items = input ? input : Items.value;
     if (!items || items?.length === 0) return '';
 
-    return stringify(items, { columns: ['label', 'weight'], eof: false });
+    // 將 AudioSetting 物件轉為字串
+    const processedItems = items.map(item => ({
+      label: item.label,
+      weight: item.weight,
+      congratulationSound: item.congratulationSound?.value || ''
+    }));
+
+    return stringify(processedItems, { 
+      columns: ['label', 'weight', 'congratulationSound'], 
+      eof: false 
+    });
   };
 
-  public static csvParse = (input: string, fixWeight: boolean = false) =>
-    parse(
-      fixWeight
-        ? input
-            .split('\n')
-            .map((line) => (line.indexOf(',') === -1 ? `${line},1` : line))
-            .join('\n')
-        : input,
-      {
-        columns: ['label', 'weight'],
-        skipEmptyLines: true,
-        trim: true,
-        cast: true
-      }
-    ) as { label: string; weight: number }[];
+  public static csvParse = (input: string, fixWeight: boolean = false) => {
+    return parse(input, {
+      columns: ['label', 'weight', 'congratulationSound'],
+      skipEmptyLines: true,
+      trim: true,
+      cast: true,
+      relax_column_count: true  // 允許欄位數量不同
+    });
+  };
 }

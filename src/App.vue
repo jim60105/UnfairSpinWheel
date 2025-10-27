@@ -12,22 +12,14 @@
     <div class="max-w-screen overflow-x-hidden overflow-y-hidden">
       <div  v-show="!FocusMode" class="grid header text-center">
         <h1 class="col-12 mb-0 text-4xl sm:text-5xl md:text-6xl">
-          <span v-if="!Fairmode">不公平</span><span v-else>公平</span><span
-            class="white-space-nowrap"
-            >事件轉盤</span
-          >
+          <span class="white-space-nowrap">事件轉盤</span>
         </h1>
-        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl" v-if="!Fairmode">
-          <span class="white-space-nowrap">特定事件會觸發自動轉盤</span
-          >
-        </p>
-        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl" v-else>
-          <span class="white-space-nowrap">特定事件會觸發自動轉盤（公平模式）</span
-          >
+        <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-2xl">
+          <span class="white-space-nowrap">特定事件會觸發自動轉盤</span>
         </p>
       </div>
       <div class="flex flex-wrap justify-content-center mb-4">
-        <SpinWheel></SpinWheel>
+        <SpinWheel ref="spinWheelRef"></SpinWheel>
       </div>
     </div>
     <Footer v-show="!FocusMode"></Footer>
@@ -86,13 +78,12 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref, provide } from 'vue';
 import { ToastLocation, FocusMode } from '@/services/SettingService';
 
 import type { SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
-import { Fairmode } from '@/services/SettingService';
 
 declare global {
   interface Navigator {
@@ -217,6 +208,10 @@ onMounted(async () => {
     }
   }
 });
+
+// provide sub module ref
+const spinWheelRef = ref();
+provide('spinWheelRef', spinWheelRef);
 </script>
 
 <style lang="scss" scoped>

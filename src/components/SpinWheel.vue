@@ -17,7 +17,7 @@
     }"
   />
   <ShareLink class="w-full flex justify-content-center z-1 mt-3" />
-  <div ref="container" class="flex spin-container">
+  <div ref="container" class="flex spin-container mt-3">
     <picture>
       <!--
       <source srcset="/img/image.avif" type="image/avif" />
@@ -47,7 +47,7 @@ import { useToast } from 'primevue/usetoast';
 import random from 'random';
 import { Wheel, type WheelProps } from 'spin-wheel';
 import { useDialog } from 'primevue/usedialog';
-import { TickSound, LabelLength } from '@/services/SettingService';
+import { TickSound, LabelLength, DonateThreshold } from '@/services/SettingService';
 import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
 import { FocusMode } from '@/services/SettingService';
@@ -156,14 +156,17 @@ const handleDonation = (donationData: {
   amount: number;
   message: string;
   timestamp: number;
+  platform: string;
 }) => {
   console.log('🎉 收到贊助:', donationData);
 
-  // 顯示贊助訊息（可選）
+  // 顯示贊助訊息
   showDonationNotification(donationData);
 
   // 觸發轉盤
-  spin();
+  if (donationData.amount >= DonateThreshold.value) {
+    spin();
+  }
 };
 
 const showDonationNotification = (donationData: any) => {
@@ -171,8 +174,8 @@ const showDonationNotification = (donationData: any) => {
   console.log(`💬 留言: ${donationData.message}`);
 
   toast.add({
-    severity: 'success',
-    summary: '收到贊助！',
+    severity: (donationData.amount >= DonateThreshold.value) ? 'success' : 'warn',
+    summary: (donationData.amount >= DonateThreshold.value) ? '收到贊助！' : '收到贊助（未達門檻）',
     detail: `${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount} 💬 ${donationData.message}`,
     life: 300000  // 5 分鐘後自動消失
   });
@@ -310,6 +313,12 @@ onUnmounted(() => {
     ws = undefined;
   }
   reconnectDelay = 10000; // Reset to initial delay
+});
+
+// 暴露函數給父組件
+defineExpose({
+  handleDonation,
+  spin
 });
 </script>
 

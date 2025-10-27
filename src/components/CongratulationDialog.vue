@@ -15,6 +15,7 @@
 import { inject, onMounted, ref, type Ref } from 'vue';
 import { CongratulationSound } from '@/services/SettingService';
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
+import type { AudioSetting } from '@/services/SettingService';
 
 const dialogRef = inject<DynamicDialogInstance>('dialogRef') as unknown as
   | Ref<DynamicDialogInstance>
@@ -23,11 +24,15 @@ const congrats = ref();
 const label = ref();
 
 const playSound = () => {
-  if (!CongratulationSound.value) return;
+  // 若沒有 item 自己的音效，則播放全域設定的音效
+  const itemSound = dialogRef?.value.data.item.congratulationSound as AudioSetting | undefined;
+  const soundToPlay = itemSound || CongratulationSound.value;
 
-  var src = CongratulationSound.value.value.startsWith('data:')
-    ? CongratulationSound.value.value
-    : `/sound/${CongratulationSound.value.value}`;
+  if (!soundToPlay) return;
+
+  var src = soundToPlay.value.startsWith('data:')
+    ? soundToPlay.value
+    : `/sound/${soundToPlay.value}`;
   const audio = new Audio(src);
   audio.volume = 0.7;
   audio.play();

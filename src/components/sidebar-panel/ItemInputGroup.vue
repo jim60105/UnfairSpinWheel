@@ -15,7 +15,6 @@
       @submit="updateLabel($event)"
     ></InputText>
     <InputNumber
-      v-if="!Fairmode"
       :modelValue="weight"
       @update:modelValue="updateWeight($event)"
       @change="updateWeight($event)"
@@ -29,7 +28,7 @@
       }"
       :pt="{
         input: {
-          style: { minWidth: '4em', maxWidth: '4em', borderRadius: '0', textAlign: 'center' }
+          style: { minWidth: '5em', maxWidth: '5em', borderRadius: '0', textAlign: 'center' }
         }
       }"
       :min="1"
@@ -37,13 +36,24 @@
       <template #incrementbuttonicon><i class="pi pi-plus"></i></template>
       <template #decrementbuttonicon><i class="pi pi-minus"></i></template>
     </InputNumber>
+    <Dropdown
+      v-model="congratulationSound"
+      :options="CongratulationSounds"
+      optionGroupLabel="label"
+      optionGroupChildren="items"
+      optionLabel="label"
+      placeholder="音效"
+      :style="{ maxWidth: '30%', minWidth: '6rem' }"
+      class="w-full md:w-14rem"
+      @update:modelValue="updateCongratulationSound"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { inject, ref, onMounted } from 'vue';
 import { ItemService } from '@/services/ItemService';
-import { Fairmode } from '@/services/SettingService';
+import { CongratulationSounds, type AudioSetting } from '@/services/SettingService';
 
 const props = defineProps(['modelValue']);
 
@@ -51,6 +61,7 @@ const itemService = inject<ItemService>('ItemService');
 
 const label = ref(props.modelValue.label);
 const weight = ref(props.modelValue.weight);
+const congratulationSound = ref(props.modelValue.congratulationSound);
 const focusMe = ref();
 
 function updateLabel(value: Event) {
@@ -72,12 +83,32 @@ function updateWeight(value: Number) {
   itemService?.updateItem(item);
 }
 
+function prefetchAudio(audioSetting: AudioSetting | undefined) {
+  if (!audioSetting) return;
+  if (audioSetting.value.startsWith('data:')) return;
+
+  const src = `/sound/${audioSetting.value}`;
+  const audio = new Audio(src);
+  audio.preload = 'auto';
+}
+
+function updateCongratulationSound(value: AudioSetting) {
+  const item = props.modelValue;
+  if (value === item.congratulationSound) return;
+
+  congratulationSound.value = value;
+  item.congratulationSound = value;
+  itemService?.updateItem(item);
+  prefetchAudio(value); // prefetch when sound changes
+}
+
 function removeItem() {
   itemService?.removeItem(props.modelValue);
 }
 
 onMounted(() => {
   focusMe.value.$el.focus();
+  prefetchAudio(props.modelValue.congratulationSound);
 });
 </script>
 

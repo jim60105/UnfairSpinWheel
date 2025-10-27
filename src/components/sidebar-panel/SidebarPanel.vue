@@ -148,7 +148,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label for="dd-sound" class="block mb-2">選中音效</label>
+            <label for="dd-sound" class="block mb-2">預設選中音效（會被個別選項設定取代）</label>
             <div class="grid">
               <div class="col-8">
                 <Dropdown
@@ -211,6 +211,7 @@
               </div>
             </div>
           </div>
+          <Divider />
           <div class="col-12">
             <label for="dd-toastLocation" class="block mb-2">通知位置</label>
             <Dropdown
@@ -223,23 +224,7 @@
             />
           </div>
           <div class="col-12">
-            <label for="sl-fairmode" class="block mb-2">公平模式</label>
-            <ToggleButton
-              v-model="Fairmode"
-              @change="
-                () => {
-                  itemService.syncItems();
-                }
-              "
-              :pt="{
-                root: {
-                  class: 'w-full'
-                }
-              }"
-            />
-          </div>
-          <div class="col-12">
-            <label for="cb-focusMode" class="block mb-2">專注模式</label>
+            <label for="cb-focusMode" class="block mb-2">專注模式（移除所有轉盤外的元素）</label>
             <ToggleButton
               v-model="FocusMode"
               inputId="cb-focusMode"
@@ -250,6 +235,38 @@
               }"
             />
           </div>
+        </div>
+      </TabPanel>
+      <TabPanel header="🎨 Demo">
+        <div class="col-12">
+          <label for="dd-group" class="block">選擇一個 Demo 功能</label>
+        </div>
+        <div class="col-12 mb-2">
+          <Button
+            label="測試通知"
+            icon="pi pi-bell"
+            severity="help"
+            @click="testToast"
+            class="w-full"
+          />
+        </div>
+        <div class="col-12 mb-1">
+          <Button
+            label="測試贊助通知"
+            icon="pi pi-gift"
+            severity="help"
+            @click="testDonationSucceed"
+            class="w-full"
+          />
+        </div>
+        <div class="col-12 mb-1">
+          <Button
+            label="測試贊助通知（小於門檻）"
+            icon="pi pi-gift"
+            severity="danger"
+            @click="testDonationFailed"
+            class="w-full"
+          />
         </div>
       </TabPanel>
     </TabView>
@@ -329,7 +346,6 @@ import {
   DonateThreshold,
   CongratulationSound,
   CongratulationSounds,
-  Fairmode,
   ToastLocation,
   FocusMode,
 } from '@/services/SettingService';
@@ -338,6 +354,7 @@ import type { IItem } from '@/interface/IItem';
 import { StringHelper } from '@/helpers/StringHelper';
 
 const itemService = inject<ItemService>('ItemService')!;
+const spinWheelRef = inject<any>('spinWheelRef');
 const toast = useToast();
 
 const toastLocations = [
@@ -356,6 +373,59 @@ watch(ToastLocation, (newLocation) => {
     life: 10000
   });
 });
+
+// 測試通知
+const testToast = () => {
+  toast.add({
+    severity: 'success',
+    summary: '測試通知',
+    detail: '這是一個測試通知訊息！',
+    life: 3000
+  });
+};
+
+// 測試贊助
+const testDonationSucceed = () => {
+  if (!spinWheelRef?.value) {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: '轉盤尚未初始化',
+      life: 3000
+    });
+    return;
+  }
+
+  spinWheelRef.value.handleDonation({
+    donate_id: 'test-' + Date.now(),
+    name: '測試贊助者',
+    amount: DonateThreshold.value + 10,
+    message: '這是測試贊助！',
+    timestamp: Date.now(),
+    platform: '蛋蛋子PAY'
+  });
+};
+
+const testDonationFailed = () => {
+  if (!spinWheelRef?.value) {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: '轉盤尚未初始化',
+      life: 3000
+    });
+    return;
+  }
+
+  spinWheelRef.value.handleDonation({
+    donate_id: 'test-' + Date.now(),
+    name: '測試贊助者',
+    amount: DonateThreshold.value - 10,
+    message: '這是金額小於要求的贊助！',
+    timestamp: Date.now(),
+    platform: '蛋蛋子PAY'
+  });
+};
 
 const addButton = ref();
 const confirm = useConfirm();
@@ -426,24 +496,8 @@ const customBase64Uploader = async (
 };
 
 const toggleBulkEditMode = async ($event: Event) => {
-  if (!bulkEditMode.value && Fairmode.value && $event.target instanceof HTMLElement) {
-    confirm.require({
-      target: $event.target || undefined,
-      message: 'The item weights will be LOST if you perform bulk edits in fair mode!',
-      icon: 'pi pi-exclamation-triangle text-yellow-400',
-      defaultFocus: 'reject',
-      accept: async () => {
-        bulkEditMode.value = true;
-        await changeBulkEditMode();
-      },
-      reject: () => {
-        bulkEditMode.value = false;
-      }
-    });
-  } else {
-    bulkEditMode.value = !bulkEditMode.value;
-    await changeBulkEditMode();
-  }
+  bulkEditMode.value = !bulkEditMode.value;
+  await changeBulkEditMode();
 };
 
 const changeBulkEditMode = async () => {
@@ -456,12 +510,38 @@ const changeBulkEditMode = async () => {
 
     let items: IItem[] = [];
     try {
-      items = StringHelper.csvParse(textArea.value, true).map(({ label, weight }) => ({
-        label: label,
-        weight: +weight < 1 ? 1 : +weight,
-        group: GroupLabel.value!,
-        order: -1
-      }));
+      items = (StringHelper.csvParse(textArea.value, true) as Array<{
+        label: string;
+        weight: number;
+        congratulationSound?: string;
+      }>).map(({ label, weight, congratulationSound }) => {
+        const item: IItem = {
+          label: label,
+          weight: +weight < 1 ? 1 : +weight,
+          group: GroupLabel.value!,
+          order: -1
+        };
+        
+        // 處理第三欄音效
+        if (congratulationSound?.trim()) {
+          const found = CongratulationSounds.value
+            .flatMap(g => g.items)
+            .find(s => s.value === congratulationSound.trim());
+          
+          item.congratulationSound = found || {
+            label: congratulationSound.trim(),
+            value: congratulationSound.trim()
+          };
+        } else {
+          // 若第三欄為空的，使用預設音效
+          if (CongratulationSound.value) {
+            item.congratulationSound = CongratulationSound.value;
+          }
+        }
+        
+        return item;
+      });
+
       toast.removeAllGroups();
     } catch (error) {
       const e = error as Error;

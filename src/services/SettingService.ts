@@ -3,7 +3,7 @@ import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 import { throttle } from '@/helpers/UtilHelper';
 
-type AudioSetting = {
+export type AudioSetting = {
   label: string;
   value: string;
 };
@@ -74,8 +74,6 @@ export const CongratulationSounds: Ref<{ label: string; items: AudioSetting[] }[
 
 export const LabelLength = ref<number>(0.75);
 export const DonateThreshold = ref<number>(30);
-
-export const Fairmode = ref<boolean>(false);
 export const FocusMode = ref<boolean>(false);
 
 export class SettingService {
@@ -91,7 +89,6 @@ export class SettingService {
     await this.initDonateThreshold();
     await this.initTickSound();
     await this.initCongratulationSound();
-    await this.initFairmode();
     await this.initToastLocation();
     await this.initFocusMode();
   };
@@ -252,26 +249,6 @@ export class SettingService {
       this.prefetchAudio(CongratulationSound.value);
     });
   };
-
-  async initFairmode() {
-    try {
-      Fairmode.value = (await this.getSetting('fairmode')).value;
-    } catch (e) {
-      Fairmode.value = false;
-      // Don't await
-      this.addSetting({ key: 'fairmode', value: false });
-    }
-
-    watch(Fairmode, async (newValue) => {
-      try {
-        const doc = await this.getSetting('fairmode');
-        doc.value = newValue;
-        await this.updateSetting(doc);
-      } catch (e) {
-        await this.addSetting({ key: 'fairmode', value: newValue });
-      }
-    });
-  }
 
   async initFocusMode() {
     try {

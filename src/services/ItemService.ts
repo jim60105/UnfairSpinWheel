@@ -2,7 +2,6 @@ import { ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { IItem } from '@/interface/IItem';
 import { templateItems } from '@/assets/TemplateData';
-import { Fairmode } from './SettingService';
 
 export const GroupLabel = ref<string>();
 export const GroupLabels = ref<string[]>([]);
@@ -51,9 +50,6 @@ export class ItemService {
       .sort((a, b) => a.order - b.order)
       .map((p) => {
         const copy = Object.assign({}, p);
-        if (Fairmode.value) {
-          copy.weight = 1;
-        }
         return copy;
       });
 
@@ -84,7 +80,8 @@ export class ItemService {
       group: item.group,
       label: item.label,
       weight: item.weight,
-      order: count++
+      order: count++,
+      congratulationSound: item.congratulationSound
     }));
     const result = await this.db.bulkDocs(docs);
 
@@ -148,7 +145,7 @@ export class ItemService {
       return Promise.resolve({} as PouchDB.Core.Response);
 
     doc.label = item.label;
-    if (!Fairmode.value) doc.weight = item.weight;
+    doc.weight = item.weight;
     const result = await this.db.put(item);
     await this.syncItems();
     return result;
