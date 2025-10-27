@@ -28,7 +28,7 @@
       }"
       :pt="{
         input: {
-          style: { minWidth: '4em', maxWidth: '4em', borderRadius: '0', textAlign: 'center' }
+          style: { minWidth: '3em', maxWidth: '3em', borderRadius: '0', textAlign: 'center' }
         }
       }"
       :min="1"
