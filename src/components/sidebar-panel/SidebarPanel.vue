@@ -239,9 +239,9 @@
       </TabPanel>
       <TabPanel header="🎨 Demo">
         <div class="col-12">
-          <label for="dd-group" class="block mb-3">選擇一個 Demo 功能</label>
+          <label for="dd-group" class="block">選擇一個 Demo 功能</label>
         </div>
-        <div class="col-12">
+        <div class="col-12 mb-2">
           <Button
             label="測試通知"
             icon="pi pi-bell"
@@ -250,7 +250,7 @@
             class="w-full"
           />
         </div>
-        <div class="col-12 mb-2">
+        <div class="col-12 mb-1">
           <Button
             label="測試贊助通知"
             icon="pi pi-gift"
@@ -259,7 +259,7 @@
             class="w-full"
           />
         </div>
-        <div class="col-12 mb-2">
+        <div class="col-12 mb-1">
           <Button
             label="測試贊助通知（小於門檻）"
             icon="pi pi-gift"
