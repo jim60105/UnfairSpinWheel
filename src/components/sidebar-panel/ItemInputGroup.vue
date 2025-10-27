@@ -46,11 +46,9 @@
       :style="{ maxWidth: '30%', minWidth: '6rem' }"
       class="w-full md:w-14rem"
       @update:modelValue="updateCongratulationSound"
-      @change="(e: any) => console.log('🔔 Dropdown change event:', e)"
     />
   </div>
 </template>
-
 <script setup lang="ts">
 import { inject, ref, onMounted } from 'vue';
 import { ItemService } from '@/services/ItemService';
@@ -64,6 +62,7 @@ const label = ref(props.modelValue.label);
 const weight = ref(props.modelValue.weight);
 const congratulationSound = ref(props.modelValue.congratulationSound);
 const focusMe = ref();
+// @change="(e: any) => console.log('🔔 Dropdown change event:', e)"
 
 function updateLabel(value: Event) {
   const input = value.target as HTMLInputElement;
@@ -94,7 +93,6 @@ function prefetchAudio(audioSetting: AudioSetting | undefined) {
 }
 
 function updateCongratulationSound(value: AudioSetting) {
-  console.log('🎵 updateCongratulationSound called!', value);
   const item = props.modelValue;
 
   // 比對音效的實際值，而不是物件參考
@@ -102,7 +100,7 @@ function updateCongratulationSound(value: AudioSetting) {
     console.log('same sound, return');
     return;
   }
-  console.log('update sound!');
+  console.log('update sound to: ', value.label);
 
   congratulationSound.value = value;
   item.congratulationSound = value;
@@ -115,9 +113,6 @@ function removeItem() {
 }
 
 onMounted(() => {
-  console.log('🎬 ItemInputGroup mounted');
-  console.log('📦 props.modelValue:', props.modelValue);
-  console.log('🎵 congratulationSound:', congratulationSound.value);
   focusMe.value.$el.focus();
   prefetchAudio(props.modelValue.congratulationSound);
 });
