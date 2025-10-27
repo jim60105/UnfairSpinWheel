@@ -156,6 +156,7 @@ const handleDonation = (donationData: {
   amount: number;
   message: string;
   timestamp: number;
+  platform: string;
 }) => {
   console.log('🎉 收到贊助:', donationData);
 
