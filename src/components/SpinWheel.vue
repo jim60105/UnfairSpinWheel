@@ -174,7 +174,7 @@ const showDonationNotification = (donationData: any) => {
   console.log(`💬 留言: ${donationData.message}`);
 
   toast.add({
-    severity: (donationData.amount >= DonateThreshold.value) ? 'success' : 'warning',
+    severity: (donationData.amount >= DonateThreshold.value) ? 'success' : 'warn',
     summary: (donationData.amount >= DonateThreshold.value) ? '收到贊助！' : '收到贊助（未達門檻）',
     detail: `${donationData.name} 從${donationData.platform}贊助了 $${donationData.amount} 💬 ${donationData.message}`,
     life: 300000  // 5 分鐘後自動消失
