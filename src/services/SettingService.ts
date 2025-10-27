@@ -2,13 +2,14 @@ import { ref, watch, type Ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 import { throttle } from '@/helpers/UtilHelper';
+import { GroupLabel } from '@/services/ItemService';
 
 export type AudioSetting = {
   label: string;
   value: string;
 };
 
-const SETTING_KEY_CURRENT_GROUP = 'currentGroup';
+const SETTING_KEY_GROUP_LABEL = 'groupLabel';
 const SETTING_KEY_LABEL_LENGTH = 'labelLength';
 const SETTING_KEY_DONATE_THRESHOLD = 'donateThreshold';
 const SETTING_KEY_TOAST_LOCATION = 'toastLocation';
@@ -87,7 +88,7 @@ export class SettingService {
       this.db.compact();
     }
 
-    await this.initCurrentGroup();
+    await this.initGroupLabel();
     await this.initLabelLength();
     await this.initDonateThreshold();
     await this.initTickSound();
@@ -113,23 +114,23 @@ export class SettingService {
     audio.preload = 'auto';
   };
 
-  private initCurrentGroup = async () => {
+  private initGroupLabel = async () => {
     try {
-      CurrentGroup.value = (await this.getSetting(SETTING_KEY_CURRENT_GROUP)).value;
+      CurrentGroup.value = (await this.getSetting(SETTING_KEY_GROUP_LABEL)).value;
     } catch (e) {
       CurrentGroup.value = undefined;
       // Don't await
-      this.addSetting({ key: SETTING_KEY_CURRENT_GROUP, value: CurrentGroup.value });
+      this.addSetting({ key: SETTING_KEY_GROUP_LABEL, value: CurrentGroup.value });
     }
 
-    watch(CurrentGroup, async (newValue) => {
+    watch(GroupLabel, async (newValue) => {
       throttle(async () => {
         try {
-          const doc = await this.getSetting(SETTING_KEY_CURRENT_GROUP);
+          const doc = await this.getSetting(SETTING_KEY_GROUP_LABEL);
           doc.value = newValue;
           await this.updateSetting(doc, true);
         } catch (e) {
-          await this.addSetting({ key: SETTING_KEY_CURRENT_GROUP, value: newValue });
+          await this.addSetting({ key: SETTING_KEY_GROUP_LABEL, value: newValue });
         }
       })();
     });

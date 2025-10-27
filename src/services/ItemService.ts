@@ -2,7 +2,6 @@ import { ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { IItem } from '@/interface/IItem';
 import { templateItems } from '@/assets/TemplateData';
-import { CurrentGroup } from '@/services/SettingService';
 
 export const GroupLabel = ref<string>();
 export const GroupLabels = ref<string[]>([]);
