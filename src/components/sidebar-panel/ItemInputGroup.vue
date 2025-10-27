@@ -46,6 +46,7 @@
       :style="{ maxWidth: '30%', minWidth: '6rem' }"
       class="w-full md:w-14rem"
       @update:modelValue="updateCongratulationSound"
+      @change="(e: any) => console.log('🔔 Dropdown change event:', e)"
     />
   </div>
 </template>
@@ -93,6 +94,7 @@ function prefetchAudio(audioSetting: AudioSetting | undefined) {
 }
 
 function updateCongratulationSound(value: AudioSetting) {
+  console.log('🎵 updateCongratulationSound called!', value);
   const item = props.modelValue;
 
   // 比對音效的實際值，而不是物件參考
