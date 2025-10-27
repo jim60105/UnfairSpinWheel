@@ -435,7 +435,7 @@ const changeBulkEditMode = async () => {
           order: -1
         };
         
-        // 處理第三欄
+        // 處理第三欄音效
         if (congratulationSound?.trim()) {
           const found = CongratulationSounds.value
             .flatMap(g => g.items)
@@ -445,6 +445,11 @@ const changeBulkEditMode = async () => {
             label: congratulationSound.trim(),
             value: congratulationSound.trim()
           };
+        } else {
+          // 若第三欄為空的，使用預設音效
+          if (CongratulationSound.value) {
+            item.congratulationSound = CongratulationSound.value;
+          }
         }
         
         return item;
