@@ -325,13 +325,6 @@ defineExpose({
 <style lang="scss" scoped>
 @import 'primeflex/core/_variables.scss';
 
-.wheel-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 250px);
-}
-
 .spin-container {
   aspect-ratio: 1/1;
   width: 200vw;
