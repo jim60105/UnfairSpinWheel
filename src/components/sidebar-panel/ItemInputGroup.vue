@@ -49,6 +49,7 @@
     />
   </div>
 </template>
+
 <script setup lang="ts">
 import { inject, ref, onMounted } from 'vue';
 import { ItemService } from '@/services/ItemService';
@@ -62,7 +63,6 @@ const label = ref(props.modelValue.label);
 const weight = ref(props.modelValue.weight);
 const congratulationSound = ref(props.modelValue.congratulationSound);
 const focusMe = ref();
-// @change="(e: any) => console.log('🔔 Dropdown change event:', e)"
 
 function updateLabel(value: Event) {
   const input = value.target as HTMLInputElement;
