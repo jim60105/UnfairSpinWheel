@@ -148,7 +148,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label for="dd-sound" class="block mb-2">選中音效</label>
+            <label for="dd-sound" class="block mb-2">預設選中音效（會被個別選項設定取代）</label>
             <div class="grid">
               <div class="col-8">
                 <Dropdown
@@ -211,6 +211,7 @@
               </div>
             </div>
           </div>
+          <Divider />
           <div class="col-12">
             <label for="dd-toastLocation" class="block mb-2">通知位置</label>
             <Dropdown
@@ -223,7 +224,7 @@
             />
           </div>
           <div class="col-12">
-            <label for="cb-focusMode" class="block mb-2">專注模式</label>
+            <label for="cb-focusMode" class="block mb-2">專注模式（移除所有轉盤外的元素）</label>
             <ToggleButton
               v-model="FocusMode"
               inputId="cb-focusMode"
@@ -234,6 +235,30 @@
               }"
             />
           </div>
+        </div>
+      </TabPanel>
+      <TabPanel header="🎨 Demo">
+        <div class="col-12">
+          <label for="dd-group" class="block mb-2">選擇一個 Demo 功能</label>
+        </div>
+        <Divider />
+        <div class="col-12">
+          <Button
+            label="測試通知"
+            icon="pi pi-bell"
+            severity="help"
+            @click="testToast"
+            class="w-full"
+          />
+        </div>
+        <div class="col-12 mb-3">
+          <Button
+            label="測試贊助通知"
+            icon="pi pi-gift"
+            severity="help"
+            @click="testDonation"
+            class="w-full"
+          />
         </div>
       </TabPanel>
     </TabView>
@@ -321,6 +346,7 @@ import type { IItem } from '@/interface/IItem';
 import { StringHelper } from '@/helpers/StringHelper';
 
 const itemService = inject<ItemService>('ItemService')!;
+const spinWheelRef = inject<any>('spinWheelRef');
 const toast = useToast();
 
 const toastLocations = [
@@ -339,6 +365,37 @@ watch(ToastLocation, (newLocation) => {
     life: 10000
   });
 });
+
+// 測試通知
+const testToast = () => {
+  toast.add({
+    severity: 'success',
+    summary: '測試通知',
+    detail: '這是一個測試通知訊息！',
+    life: 3000
+  });
+};
+
+// 測試贊助
+const testDonation = () => {
+  if (!spinWheelRef?.value) {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: '轉盤尚未初始化',
+      life: 3000
+    });
+    return;
+  }
+
+  spinWheelRef.value.handleDonation({
+    donate_id: 'test-' + Date.now(),
+    name: '測試贊助者',
+    amount: 100,
+    message: '這是測試贊助！',
+    timestamp: Date.now()
+  });
+};
 
 const addButton = ref();
 const confirm = useConfirm();

@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue';
+import { inject, onMounted, ref, provide } from 'vue';
 import { ToastLocation, FocusMode } from '@/services/SettingService';
 
 import type { SidebarService } from '@/services/SidebarService';
@@ -208,6 +208,10 @@ onMounted(async () => {
     }
   }
 });
+
+// provide sub module ref
+const spinWheelRef = ref();
+provide('spinWheelRef', spinWheelRef);
 </script>
 
 <style lang="scss" scoped>

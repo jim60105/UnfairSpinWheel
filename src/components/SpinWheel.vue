@@ -301,6 +301,12 @@ onMounted(async () => {
 
   // 連接 WebSocket
   connectWebSocket(uuid);
+
+  // 暴露函數給父組件
+  defineExpose({
+    handleDonation,
+    spin
+  });
 });
 
 onUnmounted(() => {
