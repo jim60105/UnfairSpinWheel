@@ -251,12 +251,21 @@
             class="w-full"
           />
         </div>
-        <div class="col-12 mb-3">
+        <div class="col-6 mb-3">
           <Button
             label="測試贊助通知"
             icon="pi pi-gift"
             severity="help"
-            @click="testDonation"
+            @click="testDonationSucceed"
+            class="w-full"
+          />
+        </div>
+        <div class="col-6 mb-3">
+          <Button
+            label="測試贊助通知（小於門檻）"
+            icon="pi pi-gift"
+            severity="warning"
+            @click="testDonationFailed"
             class="w-full"
           />
         </div>
@@ -377,7 +386,7 @@ const testToast = () => {
 };
 
 // 測試贊助
-const testDonation = () => {
+const testDonationSucceed = () => {
   if (!spinWheelRef?.value) {
     toast.add({
       severity: 'error',
@@ -391,8 +400,29 @@ const testDonation = () => {
   spinWheelRef.value.handleDonation({
     donate_id: 'test-' + Date.now(),
     name: '測試贊助者',
-    amount: 100,
+    amount: DonateThreshold.value + 10,
     message: '這是測試贊助！',
+    timestamp: Date.now(),
+    platform: '蛋蛋子PAY'
+  });
+};
+
+const testDonationFailed = () => {
+  if (!spinWheelRef?.value) {
+    toast.add({
+      severity: 'error',
+      summary: '錯誤',
+      detail: '轉盤尚未初始化',
+      life: 3000
+    });
+    return;
+  }
+
+  spinWheelRef.value.handleDonation({
+    donate_id: 'test-' + Date.now(),
+    name: '測試贊助者',
+    amount: DonateThreshold.value - 10,
+    message: '這是金額小於要求的贊助！',
     timestamp: Date.now(),
     platform: '蛋蛋子PAY'
   });
