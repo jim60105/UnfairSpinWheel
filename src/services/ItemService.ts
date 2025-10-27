@@ -17,7 +17,14 @@ export class ItemService {
     //   this.db.compact();
     // }
 
-    await this.resetGroupLabel();
+    // 如果 GroupLabel 還沒有值，才使用 resetGroupLabel
+    if (!GroupLabel.value) {
+      console.log('📦 ItemService: GroupLabel is empty, initializing from first item');
+      await this.resetGroupLabel();
+    } else {
+      console.log('📦 ItemService: GroupLabel already set to', GroupLabel.value);
+      await this.syncItems();
+    }
     Items.value = await this.getItems();
   }
 
