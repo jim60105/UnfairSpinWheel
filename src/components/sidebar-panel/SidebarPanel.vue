@@ -264,7 +264,7 @@
           <Button
             label="測試贊助通知（小於門檻）"
             icon="pi pi-gift"
-            severity="warning"
+            severity="warn"
             @click="testDonationFailed"
             class="w-full"
           />
