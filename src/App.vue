@@ -19,7 +19,7 @@
         </p>
       </div>
       <div class="flex flex-wrap justify-content-center mb-4">
-        <SpinWheel></SpinWheel>
+        <SpinWheel ref="spinWheelRef"></SpinWheel>
       </div>
     </div>
     <Footer v-show="!FocusMode"></Footer>
