@@ -43,6 +43,7 @@
       optionGroupChildren="items"
       optionLabel="label"
       placeholder="音效"
+      :style="{ maxWidth: '40%', minWidth: '8rem' }"
       class="w-full md:w-14rem"
       @update:modelValue="updateCongratulationSound"
     />
