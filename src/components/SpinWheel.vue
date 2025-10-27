@@ -9,10 +9,10 @@
     @update:model-value="itemService?.changeGroupLabel"
     :pt="{
       input: {
-        class: 'text-xl sm:text-2xl md:text-4xl'
+        class: 'text-xl sm:text-2xl md:text-2xl'
       },
       item: {
-        class: 'text-xl sm:text-xl md:text-2xl'
+        class: 'text-xl sm:text-xl md:text-xl'
       }
     }"
   />
