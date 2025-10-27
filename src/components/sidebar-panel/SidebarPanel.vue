@@ -223,22 +223,6 @@
             />
           </div>
           <div class="col-12">
-            <label for="sl-fairmode" class="block mb-2">公平模式</label>
-            <ToggleButton
-              v-model="Fairmode"
-              @change="
-                () => {
-                  itemService.syncItems();
-                }
-              "
-              :pt="{
-                root: {
-                  class: 'w-full'
-                }
-              }"
-            />
-          </div>
-          <div class="col-12">
             <label for="cb-focusMode" class="block mb-2">專注模式</label>
             <ToggleButton
               v-model="FocusMode"
@@ -329,7 +313,6 @@ import {
   DonateThreshold,
   CongratulationSound,
   CongratulationSounds,
-  Fairmode,
   ToastLocation,
   FocusMode,
 } from '@/services/SettingService';
@@ -426,24 +409,8 @@ const customBase64Uploader = async (
 };
 
 const toggleBulkEditMode = async ($event: Event) => {
-  if (!bulkEditMode.value && Fairmode.value && $event.target instanceof HTMLElement) {
-    confirm.require({
-      target: $event.target || undefined,
-      message: 'The item weights will be LOST if you perform bulk edits in fair mode!',
-      icon: 'pi pi-exclamation-triangle text-yellow-400',
-      defaultFocus: 'reject',
-      accept: async () => {
-        bulkEditMode.value = true;
-        await changeBulkEditMode();
-      },
-      reject: () => {
-        bulkEditMode.value = false;
-      }
-    });
-  } else {
-    bulkEditMode.value = !bulkEditMode.value;
-    await changeBulkEditMode();
-  }
+  bulkEditMode.value = !bulkEditMode.value;
+  await changeBulkEditMode();
 };
 
 const changeBulkEditMode = async () => {

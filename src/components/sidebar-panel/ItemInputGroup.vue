@@ -15,7 +15,6 @@
       @submit="updateLabel($event)"
     ></InputText>
     <InputNumber
-      v-if="!Fairmode"
       :modelValue="weight"
       @update:modelValue="updateWeight($event)"
       @change="updateWeight($event)"
@@ -53,7 +52,7 @@
 <script setup lang="ts">
 import { inject, ref, onMounted } from 'vue';
 import { ItemService } from '@/services/ItemService';
-import { Fairmode, CongratulationSounds, type AudioSetting } from '@/services/SettingService';
+import { CongratulationSounds, type AudioSetting } from '@/services/SettingService';
 
 const props = defineProps(['modelValue']);
 
