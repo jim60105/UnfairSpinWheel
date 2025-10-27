@@ -15,12 +15,14 @@
           <span class="white-space-nowrap">事件轉盤</span>
         </h1>
         <p class="col-12 my-0 py-0 text-base sm:text-lg md:text-lg">
-          <span class="white-space-nowrap">綠界/歐付寶抖內、忠誠點數等事件會觸發自動轉盤</span>
-          <span class="white-space-nowrap">可自訂觸發的最低抖內金額</span>
-          <span class="white-space-nowrap">可自訂每個選項抽中的權重以及音效</span>
-          <span class="white-space-nowrap">可自訂通知顯示位置（四個角落）</span>
-          <span class="white-space-nowrap">可自訂轉盤指針與中央按鈕（製作中）</span>
-          <span class="white-space-nowrap">詳細請按右方 (&lt;&lt;) 按鈕到 Demo 分頁展示</span>
+          <ul>
+            <li><span class="white-space-nowrap">綠界/歐付寶抖內、忠誠點數等事件會觸發自動轉盤</span></li>
+            <li><span class="white-space-nowrap">可自訂觸發的最低抖內金額</span></li>
+            <li><span class="white-space-nowrap">可自訂每個選項抽中的權重以及音效</span></li>
+            <li><span class="white-space-nowrap">可自訂通知顯示位置（四個角落）</span></li>
+            <li><span class="white-space-nowrap">可自訂轉盤指針與中央按鈕（製作中）</span></li>
+            <li><span class="white-space-nowrap">詳細請按右方 (&lt;&lt;) 按鈕到 Demo 分頁展示</span></li>
+          </ul>
         </p>
       </div>
       <div class="flex flex-wrap justify-content-center mb-4">
