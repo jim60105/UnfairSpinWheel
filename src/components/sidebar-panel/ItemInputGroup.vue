@@ -115,6 +115,9 @@ function removeItem() {
 }
 
 onMounted(() => {
+  console.log('🎬 ItemInputGroup mounted');
+  console.log('📦 props.modelValue:', props.modelValue);
+  console.log('🎵 congratulationSound:', congratulationSound.value);
   focusMe.value.$el.focus();
   prefetchAudio(props.modelValue.congratulationSound);
 });
