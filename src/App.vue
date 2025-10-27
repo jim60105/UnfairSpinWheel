@@ -20,7 +20,7 @@
           <span class="white-space-nowrap">可自訂每個選項抽中的權重以及音效</span>
           <span class="white-space-nowrap">可自訂通知顯示位置（四個角落）</span>
           <span class="white-space-nowrap">可自訂轉盤指針與中央按鈕（製作中）</span>
-          <span class="white-space-nowrap">詳細請按右方 (<<) 按鈕到 Demo 分頁展示</span>
+          <span class="white-space-nowrap">詳細請按右方 (&lt;&lt;) 按鈕到 Demo 分頁展示</span>
         </p>
       </div>
       <div class="flex flex-wrap justify-content-center mb-4">
