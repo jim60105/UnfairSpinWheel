@@ -80,7 +80,8 @@ export class ItemService {
       group: item.group,
       label: item.label,
       weight: item.weight,
-      order: count++
+      order: count++,
+      congratulationSound: item.congratulationSound
     }));
     const result = await this.db.bulkDocs(docs);
 
