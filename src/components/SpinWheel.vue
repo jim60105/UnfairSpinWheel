@@ -17,29 +17,27 @@
     }"
   />
   <ShareLink class="w-full flex justify-content-center z-1 mt-3" />
-  <div class="wheel-wrapper">
-    <div ref="container" class="flex spin-container mt-3">
-      <picture>
-        <!--
-        <source srcset="/img/image.avif" type="image/avif" />
-        <source srcset="/img/image.webp" type="image/webp" />
-        <img src="/img/image.png" class="image" alt="background image" />
-        -->
-        <img src="/img/daifuku_pointer.png" class="image" alt="background image" />
-      </picture>
-      <div
-        class="icon"
-        @click="spin"
-        @keyup.enter="spin"
-        @keyup.space="spin"
-        v-tooltip.bottom="{
-          value: `↻ Spin!`,
-          class: 'text-xl',
-          escape: true
-        }"
-        tabindex="0"
-      ></div>
-    </div>
+  <div ref="container" class="flex spin-container mt-3">
+    <picture>
+      <!--
+      <source srcset="/img/image.avif" type="image/avif" />
+      <source srcset="/img/image.webp" type="image/webp" />
+      <img src="/img/image.png" class="image" alt="background image" />
+      -->
+      <img src="/img/daifuku_pointer.png" class="image" alt="background image" />
+    </picture>
+    <div
+      class="icon"
+      @click="spin"
+      @keyup.enter="spin"
+      @keyup.space="spin"
+      v-tooltip.bottom="{
+        value: `↻ Spin!`,
+        class: 'text-xl',
+        escape: true
+      }"
+      tabindex="0"
+    ></div>
   </div>
 </template>
 
