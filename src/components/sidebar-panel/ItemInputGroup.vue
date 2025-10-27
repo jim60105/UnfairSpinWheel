@@ -28,7 +28,7 @@
       }"
       :pt="{
         input: {
-          style: { minWidth: '4em', maxWidth: '4em', borderRadius: '0', textAlign: 'center' }
+          style: { minWidth: '5em', maxWidth: '5em', borderRadius: '0', textAlign: 'center' }
         }
       }"
       :min="1"
@@ -43,7 +43,7 @@
       optionGroupChildren="items"
       optionLabel="label"
       placeholder="音效"
-      :style="{ maxWidth: '35%', minWidth: '8rem' }"
+      :style="{ maxWidth: '30%', minWidth: '8rem' }"
       class="w-full md:w-14rem"
       @update:modelValue="updateCongratulationSound"
     />
