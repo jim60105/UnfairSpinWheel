@@ -394,7 +394,7 @@ const testDonation = () => {
     amount: 100,
     message: '這是測試贊助！',
     timestamp: Date.now(),
-    platforma: '蛋蛋子PAY'
+    platform: '蛋蛋子PAY'
   });
 };
 
