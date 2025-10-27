@@ -147,7 +147,13 @@ export class ItemService {
     doc.label = item.label;
     doc.weight = item.weight;
     doc.congratulationSound = item.congratulationSound;
-    const result = await this.db.put(item);
+    // PouchDB 需要 _rev 欄位來追蹤文件版本。當你執行：
+    // const doc = await this.db.get(item._id) - 取得最新的 doc（含最新的 _rev）
+    // 更新 doc 的內容
+    // await this.db.put(item) - 但存的是舊的 item（可能 _rev 已過期）
+    // 這會導致 PouchDB 的版本衝突，更新可能失敗或不生效。
+    // 因此，我們需要確保我們更新的是最新版本的 doc，而不能用 item。
+    const result = await this.db.put(doc);
     await this.syncItems();
     return result;
   }
