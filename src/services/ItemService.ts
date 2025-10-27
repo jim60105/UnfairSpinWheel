@@ -141,11 +141,12 @@ export class ItemService {
     item: PouchDB.Core.ExistingDocument<IItem>
   ): Promise<PouchDB.Core.Response> {
     const doc = await this.db.get(item._id);
-    if (doc.label === item.label && doc.weight === item.weight)
+    if (doc.label === item.label && doc.weight === item.weight && doc.congratulationSound === item.congratulationSound)
       return Promise.resolve({} as PouchDB.Core.Response);
 
     doc.label = item.label;
     doc.weight = item.weight;
+    doc.congratulationSound = item.congratulationSound;
     const result = await this.db.put(item);
     await this.syncItems();
     return result;
