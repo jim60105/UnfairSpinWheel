@@ -96,7 +96,11 @@ function updateCongratulationSound(value: AudioSetting) {
   const item = props.modelValue;
 
   // 比對音效的實際值，而不是物件參考
-  if (value?.value === item.congratulationSound?.value) return;
+  if (value?.value === item.congratulationSound?.value) {
+    console.log('same sound, return');
+    return;
+  }
+  console.log('update sound!');
 
   congratulationSound.value = value;
   item.congratulationSound = value;
