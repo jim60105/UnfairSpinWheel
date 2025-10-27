@@ -37,7 +37,7 @@
       <template #decrementbuttonicon><i class="pi pi-minus"></i></template>
     </InputNumber>
     <Dropdown
-      v-model="congratulationSound"
+      :model-value="congratulationSound"
       :options="CongratulationSounds"
       optionGroupLabel="label"
       optionGroupChildren="items"
