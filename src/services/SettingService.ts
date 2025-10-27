@@ -2,14 +2,12 @@ import { ref, watch, type Ref } from 'vue';
 import PouchDB from 'pouchdb-browser';
 import type { ISetting } from '@/interface/ISetting';
 import { throttle } from '@/helpers/UtilHelper';
-import { GroupLabel } from '@/services/ItemService';
 
 export type AudioSetting = {
   label: string;
   value: string;
 };
 
-const SETTING_KEY_GROUP_LABEL = 'groupLabel';
 const SETTING_KEY_LABEL_LENGTH = 'labelLength';
 const SETTING_KEY_DONATE_THRESHOLD = 'donateThreshold';
 const SETTING_KEY_TOAST_LOCATION = 'toastLocation';
@@ -19,7 +17,6 @@ export type ToastLocation = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-
 // Define 'top-right' as the default location, and make it as a reference to auto update UI
 export const ToastLocation = ref<ToastLocation>('top-right');
 
-export const CurrentGroup = ref<string | undefined>(undefined);
 export const TickSound = ref<AudioSetting>();
 
 export const TickSounds: Ref<{ label: string; items: AudioSetting[] }[]> = ref([
@@ -88,7 +85,6 @@ export class SettingService {
       this.db.compact();
     }
 
-    await this.initGroupLabel();
     await this.initLabelLength();
     await this.initDonateThreshold();
     await this.initTickSound();
@@ -112,28 +108,6 @@ export class SettingService {
     // Actively preload audio files
     const audio = new Audio(src);
     audio.preload = 'auto';
-  };
-
-  private initGroupLabel = async () => {
-    try {
-      CurrentGroup.value = (await this.getSetting(SETTING_KEY_GROUP_LABEL)).value;
-    } catch (e) {
-      CurrentGroup.value = undefined;
-      // Don't await
-      this.addSetting({ key: SETTING_KEY_GROUP_LABEL, value: CurrentGroup.value });
-    }
-
-    watch(GroupLabel, async (newValue) => {
-      throttle(async () => {
-        try {
-          const doc = await this.getSetting(SETTING_KEY_GROUP_LABEL);
-          doc.value = newValue;
-          await this.updateSetting(doc, true);
-        } catch (e) {
-          await this.addSetting({ key: SETTING_KEY_GROUP_LABEL, value: newValue });
-        }
-      })();
-    });
   };
 
   private initLabelLength = async () => {
