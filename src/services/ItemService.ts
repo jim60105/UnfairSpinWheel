@@ -116,7 +116,6 @@ export class ItemService {
       console.log('🏷️ Changing GroupLabel from', GroupLabel.value, 'to', newGroupLabel);
       GroupLabel.value = newGroupLabel;
     }
-    console.log('🔄 Syncing items for group', newGroupLabel);
     await this.syncItems();
   };
 

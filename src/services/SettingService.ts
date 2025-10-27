@@ -127,11 +127,13 @@ export class SettingService {
     }
 
     watch(GroupLabel, async (newValue) => {
+      console.log('🛠️ SettingService: GroupLabel changed to', newValue);
       if (!newValue) return; // 忽略空值
 
       throttle(async () => {
         try {
           const doc = await this.getSetting(SETTING_KEY_GROUP_LABEL);
+          console.log('🛠️ SettingService: Updating existing GroupLabel setting', newValue);
           doc.value = newValue;
           await this.updateSetting(doc, true);
         } catch (e) {
