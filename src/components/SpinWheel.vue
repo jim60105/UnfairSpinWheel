@@ -301,12 +301,6 @@ onMounted(async () => {
 
   // 連接 WebSocket
   connectWebSocket(uuid);
-
-  // 暴露函數給父組件
-  defineExpose({
-    handleDonation,
-    spin
-  });
 });
 
 onUnmounted(() => {
@@ -316,6 +310,12 @@ onUnmounted(() => {
     ws = undefined;
   }
   reconnectDelay = 10000; // Reset to initial delay
+});
+
+// 暴露函數給父組件
+defineExpose({
+  handleDonation,
+  spin
 });
 </script>
 
