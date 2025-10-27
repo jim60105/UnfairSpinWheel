@@ -23,6 +23,7 @@ export class ItemService {
       await this.resetGroupLabel();
     } else {
       console.log('📦 ItemService: GroupLabel already set to', GroupLabel.value);
+      await this.syncGroups();
       await this.syncItems();
     }
     Items.value = await this.getItems();
