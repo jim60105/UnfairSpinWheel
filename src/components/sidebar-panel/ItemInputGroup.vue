@@ -94,7 +94,9 @@ function prefetchAudio(audioSetting: AudioSetting | undefined) {
 
 function updateCongratulationSound(value: AudioSetting) {
   const item = props.modelValue;
-  if (value === item.congratulationSound) return;
+
+  // 比對音效的實際值，而不是物件參考
+  if (value?.value === item.congratulationSound?.value) return;
 
   congratulationSound.value = value;
   item.congratulationSound = value;
