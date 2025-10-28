@@ -122,7 +122,18 @@ const connectWebSocket = (uuid?: string) => {
       
       // 處理不同類型的事件
       if (data.type === 'connected') {
-        console.log(`✅ 已連接到頻道: ${data.channel}`);
+        console.log(`✅ 已連接到頻道：${data.twitch_channel_name}`);
+        console.log(`📝 訊息：${data.message}`);
+
+        // 從 WebSocket 回傳中取得 twitch_channel_name 並顯示 toast
+        const twitchChannelName = data.twitch_channel_name || '未知';
+        toast.add({
+          severity: 'success',
+          summary: '啟用監聽抖內模式',
+          detail: `Twitch: ${twitchChannelName}`,
+          life: 10000
+        });
+
       } else if (data.type === 'donation') {
         // 收到贊助通知 -> 觸發轉盤
         handleDonation(data.data);
@@ -286,24 +297,19 @@ onMounted(async () => {
   // Show toast after a small delay
   await nextTick();
   if (uuid) {
-    toast.add({
-      severity: 'info',
-      summary: '已載入設定',
-      detail: `使用設定檔: ${uuid}`,
-      life: 10000
-    });
+    // 連接 WebSocket（也會 add toast）
+    connectWebSocket(uuid);
   }
   else {
+    // 無監聽抖內功能
     toast.add({
-      severity: 'error',
-      summary: '錯誤',
-      detail: `${uuid} 格式錯誤`,
+      severity: 'info',
+      summary: '未啟用監聽抖內模式',
+      detail: `請向 leafwind 索取專屬網址以啟用此功能`,
       life: 10000
     });
   }
 
-  // 連接 WebSocket
-  connectWebSocket(uuid);
 });
 
 onUnmounted(() => {
