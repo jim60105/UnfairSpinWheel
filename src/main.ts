@@ -55,9 +55,8 @@ import { SettingService } from '@/services/SettingService';
 // Get UUID from pathname if exists
 const path = window.location.pathname.replace(/\/+$/, '');
 const lastSegment = path.split('/').pop() || '';
-// const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-// const uuid = uuidRegex.test(lastSegment) ? lastSegment : undefined;
-const uuid = lastSegment || undefined;
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+const uuid = uuidRegex.test(lastSegment) ? lastSegment : undefined;
 console.log(`App UUID: ${uuid}`);
 
 const app = createApp(App);

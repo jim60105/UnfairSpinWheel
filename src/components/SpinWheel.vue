@@ -99,7 +99,6 @@ console.log('🚀 Script setup 已執行');
 
 // ===== WebSocket 相關功能 =====
 
-const OPAY_TOKEN = 'C9573BA6EAE2711888B45CE60E3AF6BC';
 const WS_URL_PREFIX = `wss://neoripyon.leafwind.tw/donations/ws`;
 
 let reconnectDelay = 10000; // Start with 10 seconds
@@ -108,7 +107,7 @@ const MAX_RECONNECT_DELAY = 300000; // 300 seconds (5 minutes)
 const connectWebSocket = (uuid?: string) => {
   console.log('🔌 正在連接 WebSocket...\n📝 uuid：', uuid || '預設');
 
-  const wsUrl = uuid ? `${WS_URL_PREFIX}/${uuid}` : `${WS_URL_PREFIX}/${OPAY_TOKEN}`;
+  const wsUrl = `${WS_URL_PREFIX}/${uuid}`;
 
   ws = new WebSocket(wsUrl);
   ws.onopen = () => {
