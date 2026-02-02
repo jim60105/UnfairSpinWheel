@@ -194,8 +194,8 @@
                 <Slider
                   v-model="DonateThreshold"
                   inputId="sl-donateThreshold"
-                  :min="30"
-                  :max="3000"
+                  :min="0"
+                  :max="1000000"
                   :step="10"
                 />
               </div>
@@ -203,8 +203,8 @@
                 <InputNumber
                   v-model="DonateThreshold"
                   inputId="in-donateThreshold"
-                  :min="30"
-                  :max="3000"
+                  :min="0"
+                  :max="1000000"
                   :useGrouping="false"
                   class="w-full"
                 />

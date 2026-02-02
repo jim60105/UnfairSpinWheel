@@ -192,7 +192,7 @@ export class SettingService {
     try {
       DonateThreshold.value = (await this.getSetting(SETTING_KEY_DONATE_THRESHOLD)).value;
     } catch (e) {
-      DonateThreshold.value = 30;
+      DonateThreshold.value = 0;
       // Don't await
       this.addSetting({ key: SETTING_KEY_DONATE_THRESHOLD, value: DonateThreshold.value });
     }
