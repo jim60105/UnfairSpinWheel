@@ -51,9 +51,13 @@ import { TickSound, LabelLength, DonateThreshold } from '@/services/SettingServi
 import { GroupLabel, GroupLabels, ItemService, Items } from '@/services/ItemService';
 import CongratulationDialog from '@/components/CongratulationDialog.vue';
 import { FocusMode } from '@/services/SettingService';
+import type { SpinRecordService, ISpinRecord } from '@/services/SpinRecordService';
 
 const itemService = inject<ItemService>('ItemService');
+const spinRecordService = inject<SpinRecordService>('SpinRecordService');
 const uuid = inject<string | undefined>('uuid');
+
+let pendingDonation: Omit<ISpinRecord, 'id' | 'timestamp' | 'label'> | undefined = undefined;
 
 const properties: WheelProps = {
   // debug: import.meta.env.DEV,
@@ -175,6 +179,12 @@ const handleDonation = (donationData: {
 
   // 觸發轉盤
   if (donationData.amount >= DonateThreshold.value) {
+    pendingDonation = {
+      donorName: donationData.name,
+      amount: donationData.amount,
+      platform: donationData.platform,
+      message: donationData.message
+    };
     spin();
   }
 };
@@ -243,6 +253,15 @@ const openCongratulationDialog = ($event: {
   currentIndex: number;
   rotation: number;
 }) => {
+  const item = Items.value![$event.currentIndex];
+
+  spinRecordService?.addRecord({
+    timestamp: Date.now(),
+    label: item.label,
+    ...pendingDonation
+  });
+  pendingDonation = undefined;
+
   dialog.open(CongratulationDialog, {
     props: {
       modal: true,
@@ -251,9 +270,7 @@ const openCongratulationDialog = ($event: {
       contentStyle: 'border: 0; backgroundColor: transparent',
       dismissableMask: true
     },
-    data: {
-      item: Items.value![$event.currentIndex]
-    }
+    data: { item }
   });
 };
 

@@ -32,6 +32,19 @@
     <Footer v-show="!FocusMode"></Footer>
   </ScrollPanel>
 
+  <LeftSidebarPanel></LeftSidebarPanel>
+  <Button
+    severity="info"
+    text
+    rounded
+    icon="pi pi-angle-double-right"
+    aria-label="Open left sidebar"
+    class="overflow-visible left-sidebar-button"
+    @click="leftSidebarService?.openSidebar"
+    :pt="{
+      icon: { style: { fontSize: 'xx-large' } }
+    }"
+  />
   <SidebarPanel></SidebarPanel>
   <Button
     severity="info"
@@ -89,6 +102,7 @@ import { inject, onMounted, ref, provide } from 'vue';
 import { ToastLocation, FocusMode } from '@/services/SettingService';
 
 import type { SidebarService } from '@/services/SidebarService';
+import type { LeftSidebarService } from '@/services/LeftSidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
 
@@ -99,6 +113,7 @@ declare global {
 }
 
 const sidebarService = inject<SidebarService>('SidebarService');
+const leftSidebarService = inject<LeftSidebarService>('LeftSidebarService');
 const itemService = inject<ItemService>('ItemService');
 
 let inputItems: { label: string; weight: number }[] = [];
@@ -247,6 +262,28 @@ provide('spinWheelRef', spinWheelRef);
   bottom: 0;
   right: 0;
   border-radius: 50%;
+}
+
+.left-sidebar-button {
+  position: fixed;
+  top: calc(50% - 25px);
+  left: 1rem;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  z-index: 999;
+
+  animation: shockwaveJump 2s ease-out infinite;
+
+  &:after {
+    @include afterBg;
+    animation: shockwave 2s 0.65s ease-out infinite;
+  }
+
+  &:before {
+    @include afterBg;
+    animation: shockwave 2s 0.5s ease-out infinite;
+  }
 }
 
 .sidebar-button {

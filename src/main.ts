@@ -50,7 +50,10 @@ import Footer from '@/components/Footer.vue';
 import ShareLink from '@/components/ShareLink.vue';
 import { ItemService } from '@/services/ItemService';
 import { SidebarService } from '@/services/SidebarService';
+import { LeftSidebarService } from '@/services/LeftSidebarService';
 import { SettingService } from '@/services/SettingService';
+import { SpinRecordService } from '@/services/SpinRecordService';
+import LeftSidebarPanel from '@/components/sidebar-panel/LeftSidebarPanel.vue';
 
 // Get UUID from pathname if exists
 const path = window.location.pathname.replace(/\/+$/, '');
@@ -92,6 +95,12 @@ app.provide('ItemService', itemService);
 const sidebarService = new SidebarService();
 app.provide('SidebarService', sidebarService);
 
+const leftSidebarService = new LeftSidebarService();
+app.provide('LeftSidebarService', leftSidebarService);
+
+const spinRecordService = new SpinRecordService();
+app.provide('SpinRecordService', spinRecordService);
+
 app.component('Button', Button);
 app.component('InputText', InputText);
 app.component('InputNumber', InputNumber);
@@ -118,6 +127,7 @@ app.component('FileUpload', FileUpload);
 app.component('SpinWheel', SpinWheel);
 app.component('ItemInputGroup', ItemInputGroup);
 app.component('SidebarPanel', SidebarPanel);
+app.component('LeftSidebarPanel', LeftSidebarPanel);
 app.component('CongratulationDialog', CongratulationDialog);
 app.component('Footer', Footer);
 app.component('ShareLink', ShareLink);
