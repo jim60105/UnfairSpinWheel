@@ -48,5 +48,9 @@
     "vite-plugin-static-copy": "^3.1.4",
     "vue-tsc": "^2.0.29"
   },
-  "homepage": "https://github.com/jim60105/unfair-spin-wheel"
+  "homepage": "https://github.com/jim60105/unfair-spin-wheel",
+  "overrides": {
+    "uuid": "^11.1.1",
+    "tar": "^7.5.16"
+  }
 }
