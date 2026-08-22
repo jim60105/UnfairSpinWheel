@@ -16,12 +16,20 @@ body {
   background-attachment: fixed;
 
   margin: 0;
+}
 
-  /**
-    * When a dialog modal is triggered, this value is used to hide the scrollbar and add a margin-right to the body.
-    * This fix is necessary when using ScrollPanel and there is no scrollbar width.
-    */
-  --scrollbar-width: 0 !important;
+// The app scrolls inside its ScrollPanel, never as a document: the ScrollPanel is
+// exactly 100vh tall and every other child of the body is fixed or teleported.
+//
+// Keeping the document unscrollable matters because the layout is measured in vw
+// and vh, which ignore the space a classic scrollbar takes. A single stray pixel
+// would raise a scrollbar, the scrollbar would shrink the space 100vh describes,
+// and the layout would flicker between the two states. It is also what stops a
+// modal from padding the body by a scrollbar's width to compensate for a
+// scrollbar the document never had.
+html,
+body {
+  overflow: hidden;
 }
 
 .p-tooltip {
