@@ -39,6 +39,7 @@
 
   <SidebarPanel></SidebarPanel>
   <Button
+    v-if="!VisibleSidebar"
     severity="info"
     text
     rounded
@@ -47,6 +48,7 @@
     class="overflow-visible sidebar-button"
     @click="sidebarService?.openSidebar"
     :pt="{
+      root: { style: { position: 'fixed' } },
       icon: { style: { fontSize: 'xx-large' } }
     }"
   />
@@ -64,8 +66,8 @@
           <span class="text-red-300 white-space-nowrap">it will be replaced.</span>
         </p>
         <div class="flex mb-4 flex-column lg:flex-row">
-          <span class="p-input-icon-left w-full">
-            <i class="pi pi-file-import" />
+          <IconField class="w-full">
+            <InputIcon class="pi pi-file-import" />
             <InputText
               autofocus
               v-model="inputGroupName"
@@ -74,7 +76,7 @@
                 root: { class: 'w-full' }
               }"
             />
-          </span>
+          </IconField>
         </div>
         <Button
           type="submit"
@@ -91,7 +93,7 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
-import type { SidebarService } from '@/services/SidebarService';
+import { VisibleSidebar, type SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
 import { Fairmode } from '@/services/SettingService';
@@ -128,7 +130,7 @@ const inputGroup = async () => {
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.delete('data');
   searchParams.delete('group');
-  var url =
+  const url =
     window.location.protocol +
     '//' +
     window.location.host +
@@ -140,7 +142,7 @@ const inputGroup = async () => {
 onMounted(async () => {
   if (import.meta.env.DEV) {
     // Add dummy gtag for dev
-    window.gtag = (...args: any[]) => {
+    window.gtag = (...args: unknown[]) => {
       console.debug('gtag', ...args);
     };
   } else if (navigator.globalPrivacyControl) {
@@ -185,19 +187,30 @@ onMounted(async () => {
     })(import.meta.env.VITE_GA_TRACKING_ID);
 
     // Setup Clarity
-    (function (c: any, l: Document, a: string, r: string, i: string, t: any, y: any) {
+    (function (
+      c: Window & Record<string, unknown>,
+      l: Document,
+      a: string,
+      r: string,
+      i: string,
+      t?: HTMLScriptElement,
+      y?: Element
+    ) {
+      type ClarityQueueFn = ((...args: unknown[]) => void) & { q?: unknown[][] };
+      const existing = c[a] as ClarityQueueFn | undefined;
       c[a] =
-        c[a] ||
-        function (...args: any[]) {
-          (c[a].q = c[a].q || []).push(args);
-        };
-      t = l.createElement(r);
-      t.async = 1;
-      t.src = 'https://www.clarity.ms/tag/' + i;
+        existing ||
+        ((...args: unknown[]) => {
+          const fn = c[a] as ClarityQueueFn;
+          fn.q = [...(fn.q ?? []), args];
+        }) as ClarityQueueFn;
+       t = l.createElement(r) as HTMLScriptElement;
+       t.async = true;
+       t.src = 'https://www.clarity.ms/tag/' + i;
       y = l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t, y);
+      y?.parentNode?.insertBefore(t, y);
     })(
-      window,
+      window as unknown as Window & Record<string, unknown>,
       document,
       'clarity',
       'script',
@@ -261,7 +274,7 @@ onMounted(async () => {
 }
 
 .sidebar-button {
-  position: fixed;
+  position: fixed !important;
   top: calc(50% - 25px);
   right: 1rem;
   transform: translateY(-50%);

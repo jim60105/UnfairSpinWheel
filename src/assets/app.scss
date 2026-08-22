@@ -1,7 +1,8 @@
 body {
   // Should also change SpinWheel.vue
-  --font-family: 'Suez One', 'Mochiy Pop P One', 'Jua', 'Unbounded', 'Mitr', 'Noto Sans TC',
-    'Noto Sans SC', 'Noto Sans Lao', 'Noto Color Emoji';
+  --font-family:
+    'Suez One', 'Mochiy Pop P One', 'Jua', 'Unbounded', 'Mitr', 'Noto Sans TC', 'Noto Sans SC',
+    'Noto Sans Lao', 'Noto Color Emoji';
   font-family: var(--font-family);
   // For font checking
   // http://localhost:5173?group=Font%20test&data=eJw1jr9OwlAUxnefog_AUn0GF2fj7mCwgVQTWHRqqaYBWhgQCkqsklsh1dZGRMpFZMH99g0u9r_RpI_gbYnD-ZLz-76c8-2y-SJTOqa3d3L0VjjjPdsIxGo81kLxOiUmR4gPr2Jb3ZBA0by56fJ1l9fdyqMr1DYweB9ETzeRboQTyV-0gl4l5fLUv6yvpKPP-zLDHhLiP5tBR8TwFsMXDPVMtUyHqStbPnzAwMDgAwMLA0Bh0MYaR_2zaaZNDHgS95YX6M4RHN7hEUQ2mqWNhSZ5GXUNR0DQ4ZDlKGhBEhJJWMSP1dZvu_89MX46r2SN3mq-rOwza7hk89QBs56L5bT4eEBO7K1652cF6vSkWCowhCZqlyPTSNTh6Ks_StRGNUf_ActcwdU
@@ -15,12 +16,20 @@ body {
   background-attachment: fixed;
 
   margin: 0;
+}
 
-  /**
-    * When a dialog modal is triggered, this value is used to hide the scrollbar and add a margin-right to the body.
-    * This fix is necessary when using ScrollPanel and there is no scrollbar width.
-    */
-  --scrollbar-width: 0 !important;
+// The app scrolls inside its ScrollPanel, never as a document: the ScrollPanel is
+// exactly 100vh tall and every other child of the body is fixed or teleported.
+//
+// Keeping the document unscrollable matters because the layout is measured in vw
+// and vh, which ignore the space a classic scrollbar takes. A single stray pixel
+// would raise a scrollbar, the scrollbar would shrink the space 100vh describes,
+// and the layout would flicker between the two states. It is also what stops a
+// modal from padding the body by a scrollbar's width to compensate for a
+// scrollbar the document never had.
+html,
+body {
+  overflow: hidden;
 }
 
 .p-tooltip {
@@ -30,11 +39,119 @@ body {
   font-weight: 700;
 }
 
+// PrimeVue 3 exposed its theme variables unprefixed; from v4 on every design token is
+// namespaced with `--p-`. Without the prefix the substitution is invalid, so the links
+// fell back to inheriting the body's white.
 :not(li) > a {
-  color: var(--primary-color);
+  color: var(--p-primary-color, #8dd0ff);
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
   }
+}
+
+// SidebarLayout exists only to carry the registry that lets the backdrop find the
+// sidebar; here it wraps nothing else. Its own box is a 100svh flex row with its own
+// background, which would sit in the flow after the app and double the page height, so
+// drop the box and keep the component.
+//
+// The class is repeated to outweigh PrimeVue's own rule: the library injects component
+// CSS at mount time, which is after this stylesheet, so an equally specific selector
+// would lose on order alone.
+.p-sidebar-layout.p-sidebar-layout {
+  display: contents;
+}
+
+.p-sidebar[data-overlay] {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: var(--px-sidebar-width, 500px);
+  padding: 20px;
+  background: #2a323d;
+  display: flex;
+  flex-direction: column;
+  transition:
+    left 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    right 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// The v5 Sidebar has no scrolling content region of its own. Scroll the tab
+// panels rather than the whole tab region: each ItemInputGroup focuses itself on
+// mount, and a scroller that contained the tab bar would scroll it out of view.
+.p-sidebar[data-overlay] > .p-tabs {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.p-sidebar[data-overlay] .p-tablist {
+  // Keep the tab bar at its natural height; the panels absorb the overflow.
+  flex: 0 0 auto;
+  // The active tab hides the tab bar's underline by painting its own bottom
+  // border over it from a -1px margin. v5 clips that overhang, unlike v3.
+  overflow: visible;
+
+  .p-tablist-content {
+    overflow: visible;
+  }
+}
+
+.p-sidebar[data-overlay] .p-tabpanels {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.p-sidebar[data-overlay] .p-tab {
+  height: 42px;
+  // Card-style tabs: the border-radius has no design token in v5.
+  border-radius: 4px 4px 0 0;
+}
+
+// The v5 tab buttons are plain <button>s without the .p-component class, and the
+// component styles declare no font-family of their own, so the browser's UA font
+// (Arial) would otherwise override the inherited app font.
+.p-tab {
+  font-family: inherit;
+}
+
+.p-sidebar[data-overlay][data-side='right'] {
+  left: auto;
+  right: 0;
+  border-left: 1px solid var(--p-border-color, #4b5563);
+}
+
+.p-sidebar[data-overlay][data-side='left'] {
+  right: auto;
+  left: 0;
+  border-right: 1px solid var(--p-border-color, #4b5563);
+}
+
+.p-sidebar[data-overlay][data-side='right'][data-state='collapsed'] {
+  right: calc(var(--px-sidebar-width, 500px) * -1);
+}
+
+.p-sidebar[data-overlay][data-side='left'][data-state='collapsed'] {
+  left: calc(var(--px-sidebar-width, 500px) * -1);
+}
+
+// The label is a block that stretches to the root's full height, so whenever the
+// root is shorter than the label wants to be, the text is pushed against the top
+// edge by the label's own padding. Center the flex line instead; the label keeps
+// `display: block` for its ellipsis.
+.p-select {
+  align-items: center;
+}
+
+// The handle is centred on the position of its value, so at 0% and 100% half of
+// it hangs past the slider's own box. Pull the box in by that half at each end:
+// the handle's travel then spans exactly the space the slider was given, instead
+// of spilling out of it and raising a horizontal scrollbar in the settings panel.
+//
+// Sized from the handle's own token rather than a literal, so the inset still
+// matches when the handle scales with a larger root font size.
+.p-slider.p-slider-horizontal {
+  width: calc(100% - var(--p-slider-handle-width));
+  margin-inline: calc(var(--p-slider-handle-width) / 2);
 }

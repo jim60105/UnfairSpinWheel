@@ -1,15 +1,20 @@
 <template>
-  <Dropdown
+  <Select
     id="group-dropdown"
     :model-value="GroupLabel"
     :options="GroupLabels"
     class="mt-4 z-1"
     @update:model-value="itemService?.changeGroupLabel"
     :pt="{
-      input: {
+      root: {
+        // A minimum rather than a fixed height, so the box still fits its text
+        // when the reader's browser has a larger-than-default root font size.
+        style: { minHeight: '80px' }
+      },
+      label: {
         class: 'text-xl sm:text-4xl md:text-6xl'
       },
-      item: {
+      optionLabel: {
         class: 'text-xl sm:text-xl md:text-3xl'
       }
     }"
@@ -96,7 +101,7 @@ const stopAndClearSound = () => {
 const playSound = () => {
   if (!TickSound.value) return;
 
-  var src = TickSound.value.value.startsWith('data:')
+  const src = TickSound.value.value.startsWith('data:')
     ? TickSound.value.value
     : `/sound/${TickSound.value.value}`;
   const audio = new Audio(src);
@@ -141,8 +146,10 @@ const openCongratulationDialog = ($event: {
     props: {
       modal: true,
       showHeader: false,
-      style: 'border: 0',
-      contentStyle: 'border: 0; backgroundColor: transparent',
+      // The winner is announced over the mask, with no dialog chrome behind it.
+      // PrimeVue 3 painted the surface on the content, which is why the old
+      // `contentStyle` was enough; from v4 on the root carries it instead.
+      style: 'border: 0; background: transparent; box-shadow: none',
       dismissableMask: true
     },
     data: {
@@ -166,7 +173,7 @@ onMounted(() => {
   wheel.spin(10);
 
   wheel.onRest = ($event) => {
-    stopAndClearSound;
+    stopAndClearSound();
     openCongratulationDialog($event);
   };
 
@@ -185,7 +192,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import 'primeflex/core/_variables.scss';
+@use 'primeflex/core/_variables.scss' as v;
+@use 'sass:map' as map;
 
 .spin-container {
   aspect-ratio: 1/1;
@@ -196,11 +204,11 @@ onMounted(() => {
   margin-bottom: -10vh;
   position: relative;
 
-  @media (min-width: map-get($breakpoints, 'sm')) {
+  @media (min-width: map.get(v.$breakpoints, 'sm')) {
     height: 100vh;
   }
 
-  @media (min-width: map-get($breakpoints, 'md')) {
+  @media (min-width: map.get(v.$breakpoints, 'md')) {
     height: 110vh;
   }
 }
@@ -217,12 +225,12 @@ onMounted(() => {
   top: calc(calc(50%) - calc(90vh / 2));
   left: calc(calc(50%) - calc(200vw / 2));
 
-  @media (min-width: map-get($breakpoints, 'sm')) {
+  @media (min-width: map.get(v.$breakpoints, 'sm')) {
     height: 100vh;
     top: calc(calc(50%) - calc(100vh / 2));
   }
 
-  @media (min-width: map-get($breakpoints, 'md')) {
+  @media (min-width: map.get(v.$breakpoints, 'md')) {
     height: 110vh;
     top: calc(calc(50%) - calc(110vh / 2));
   }

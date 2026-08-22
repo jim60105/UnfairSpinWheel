@@ -17,22 +17,32 @@ if (
 
 import { createApp } from 'vue';
 import App from '@/App.vue';
-import PrimeVue from 'primevue/config';
+import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
+import { useTheme } from '@primevue/themes';
+import bootstrap4DarkBlue from '@/assets/theme/bootstrap4-dark-blue';
 import PouchDBFind from 'pouchdb-find';
 import PouchDB from 'pouchdb-browser';
 
 import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmationService from 'primevue/confirmationservice';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
 import Sidebar from 'primevue/sidebar';
+import SidebarLayout from 'primevue/sidebarlayout';
+import SidebarBackdrop from 'primevue/sidebarbackdrop';
 import ScrollPanel from 'primevue/scrollpanel';
-import TabView from 'primevue/tabview';
+import Tabs from 'primevue/tabs';
+import Tab from 'primevue/tab';
+import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+import TabList from 'primevue/tablist';
 import Slider from 'primevue/slider';
 import Dialog from 'primevue/dialog';
 import DynamicDialog from 'primevue/dynamicdialog';
@@ -46,7 +56,13 @@ import ToastService from 'primevue/toastservice';
 import FileUpload from 'primevue/fileupload';
 
 //theme
-import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
+// PrimeVue 4 dropped the precompiled `bootstrap4-dark-blue` stylesheet this app was
+// designed against, so it is rebuilt as a token preset. See the preset for details.
+useTheme({
+  preset: bootstrap4DarkBlue,
+  options: { darkModeSelector: '.dark' }
+});
+document.documentElement.classList.add('dark');
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import 'shareon/css';
@@ -67,8 +83,12 @@ import { SidebarService } from '@/services/SidebarService';
 import { SettingService } from '@/services/SettingService';
 
 const app = createApp(App);
-app.use(PrimeVue, {
+const primevueConfig: PrimeVueConfiguration & { license?: string } = {
   ripple: true,
+  theme: {
+    preset: bootstrap4DarkBlue,
+    options: { darkModeSelector: '.dark' }
+  },
   pt: {
     tabPanel: {
       headerTitle: {
@@ -77,8 +97,13 @@ app.use(PrimeVue, {
         }
       }
     }
-  }
-});
+  },
+  ptOptions: {
+    mergeProps: true
+  },
+  ...(import.meta.env.VITE_PRIMEUI_LICENSE ? { license: import.meta.env.VITE_PRIMEUI_LICENSE } : {})
+};
+app.use(PrimeVue, primevueConfig);
 app.use(ConfirmationService);
 
 // PouchDB
@@ -98,15 +123,23 @@ app.provide('SidebarService', sidebarService);
 
 app.component('Button', Button);
 app.component('InputText', InputText);
+app.component('InputGroup', InputGroup);
+app.component('IconField', IconField);
+app.component('InputIcon', InputIcon);
 app.component('InputNumber', InputNumber);
 app.component('ConfirmPopup', ConfirmPopup);
-app.component('Dropdown', Dropdown);
+app.component('Select', Select);
 app.component('Divider', Divider);
 app.component('Sidebar', Sidebar);
+app.component('SidebarLayout', SidebarLayout);
+app.component('SidebarBackdrop', SidebarBackdrop);
 app.component('ScrollPanel', ScrollPanel);
 app.directive('tooltip', Tooltip);
-app.component('TabView', TabView);
+app.component('Tabs', Tabs);
+app.component('Tab', Tab);
+app.component('TabPanels', TabPanels);
 app.component('TabPanel', TabPanel);
+app.component('TabList', TabList);
 app.component('Slider', Slider);
 app.component('Dialog', Dialog);
 app.component('DynamicDialog', DynamicDialog);

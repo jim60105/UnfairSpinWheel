@@ -17,15 +17,14 @@ import { CongratulationSound } from '@/services/SettingService';
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
 
 const dialogRef = inject<DynamicDialogInstance>('dialogRef') as unknown as
-  | Ref<DynamicDialogInstance>
-  | undefined;
+  Ref<DynamicDialogInstance> | undefined;
 const congrats = ref();
 const label = ref();
 
 const playSound = () => {
   if (!CongratulationSound.value) return;
 
-  var src = CongratulationSound.value.value.startsWith('data:')
+  const src = CongratulationSound.value.value.startsWith('data:')
     ? CongratulationSound.value.value
     : `/sound/${CongratulationSound.value.value}`;
   const audio = new Audio(src);
@@ -43,6 +42,8 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:math' as math;
+
 .label {
   color: white;
   z-index: 2;
@@ -129,7 +130,7 @@ onMounted(() => {
       opacity: 1;
     }
     100% {
-      transform: translate(#{floor(random() * 500)-250}px, #{floor(random() * 500)-250}px) scale(2);
+      transform: translate(#{math.floor(math.random() * 500)-250}px, #{math.floor(math.random() * 500)-250}px) scale(2);
       filter: blur(4px);
       opacity: 0;
     }

@@ -1,5 +1,27 @@
 /// From: https://github.com/CrazyTim/spin-wheel/issues/23#issuecomment-1883229422
 declare module 'spin-wheel' {
+  type AlignText = 'start' | 'center' | 'end' | 'left' | 'right';
+  export type ItemValue = string | number | boolean | null;
+  export type CurrentIndexData = { prev?: number; current?: number };
+  export type SpinData = {
+    method: string;
+    duration?: number;
+    targetRotation?: number;
+    targetItemIndex?: number;
+  };
+  export type CurrentIndexChangeEvent = {
+    type: 'currentIndexChange';
+    currentIndex: number;
+  } & Record<string, unknown>;
+  export type RestEvent = {
+    type: 'rest';
+    currentIndex: number;
+    rotation: number;
+  } & Record<string, unknown>;
+  export type SpinEvent = {
+    type: 'spin';
+  } & SpinData;
+
   // -------------- Interfaces --------------
   export interface ItemProps {
     backgroundColor?: string | null;
@@ -10,7 +32,7 @@ declare module 'spin-wheel' {
     imageScale?: number;
     label?: string;
     labelColor?: string | null;
-    value?: any; // Keep as any if the value can be of any type
+    value?: ItemValue; // Typed as a common scalar value
     weight?: number;
   }
 
@@ -40,9 +62,9 @@ declare module 'spin-wheel' {
     rotationResistance?: number;
     rotationSpeedMax?: number;
     offset?: { w: number; h: number };
-    onCurrentIndexChange?: (event: any) => void; // Specify event type if possible
-    onRest?: (event: any) => void; // Specify event type if possible
-    onSpin?: (event: any) => void; // Specify event type if possible
+    onCurrentIndexChange?: (event: CurrentIndexChangeEvent) => void;
+    onRest?: (event: RestEvent) => void;
+    onSpin?: (event: SpinEvent) => void;
     overlayImage?: HTMLImageElement;
     pointerAngle?: number;
   }
@@ -61,7 +83,7 @@ declare module 'spin-wheel' {
     imageScale: number;
     label: string | null;
     labelColor: string | null;
-    value: any; // Keep as any if the value can be of any type
+    value: ItemValue;
     weight: number;
 
     // Methods
@@ -108,10 +130,15 @@ declare module 'spin-wheel' {
     dragStart(point?: { x: number; y: number }): void;
     dragMove(point?: { x: number; y: number }): void;
     dragEnd(): void;
-    isDragEventTooOld(now?: number, event?: any): boolean;
-    raiseEvent_onCurrentIndexChange(data?: any): void;
-    raiseEvent_onRest(data?: any): void;
-    raiseEvent_onSpin(data?: any): void;
+    isDragEventTooOld(now?: number, event?: {
+      distance: number;
+      x: number;
+      y: number;
+      now: number;
+    }): boolean;
+    raiseEvent_onCurrentIndexChange(data?: Record<string, unknown>): void;
+    raiseEvent_onRest(data?: Record<string, unknown>): void;
+    raiseEvent_onSpin(data?: SpinData): void;
 
     // Define getters and setters based on the WheelProps interface
     borderColor: string;
@@ -134,9 +161,9 @@ declare module 'spin-wheel' {
     lineColor: string;
     lineWidth: number;
     offset: { w: number; h: number };
-    onCurrentIndexChange: (event: any) => void;
-    onRest: (event: any) => void;
-    onSpin: (event: any) => void;
+    onCurrentIndexChange: (event: CurrentIndexChangeEvent) => void;
+    onRest: (event: RestEvent) => void;
+    onSpin: (event: SpinEvent) => void;
     overlayImage: HTMLImageElement;
     pointerAngle: number;
     pixelRatio: number;
