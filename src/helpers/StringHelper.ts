@@ -1,11 +1,11 @@
-import pako from 'pako';
+import { deflate, inflate } from 'pako';
 import { parse } from 'csv-parse/browser/esm/sync';
 import { stringify } from 'csv-stringify/browser/esm/sync';
 import { Items } from '@/services/ItemService';
 
 export class StringHelper {
   public static compress = (input: string) =>
-    btoa(String.fromCodePoint(...pako.deflate(input)))
+    btoa(String.fromCodePoint(...deflate(input)))
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=+$/, '');
@@ -15,14 +15,14 @@ export class StringHelper {
     while (str.length % 4 !== 0) {
       str += '=';
     }
-    return pako.inflate(
+    return inflate(
       Uint8Array.from(atob(str), (m) => m.codePointAt(0) || 0),
-      { to: 'string' }
+      { toText: true }
     );
   };
 
-  public static csvStringify = (input?: any[]) => {
-    const items = input ? input : Items.value;
+  public static csvStringify = (input?: { label: string; weight: number }[]) => {
+    const items = input ?? Items.value;
     if (!items || items?.length === 0) return '';
 
     return stringify(items, { columns: ['label', 'weight'], eof: false });

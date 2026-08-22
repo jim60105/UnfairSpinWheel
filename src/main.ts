@@ -18,21 +18,26 @@ if (
 import { createApp } from 'vue';
 import App from '@/App.vue';
 import PrimeVue from 'primevue/config';
+import aura from '@primevue/themes/aura';
+import { updatePrimaryPalette, useTheme } from '@primevue/themes';
 import PouchDBFind from 'pouchdb-find';
 import PouchDB from 'pouchdb-browser';
 
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
+import Select from 'primevue/select';
 import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmationService from 'primevue/confirmationservice';
 import Divider from 'primevue/divider';
 import Tooltip from 'primevue/tooltip';
 import Sidebar from 'primevue/sidebar';
 import ScrollPanel from 'primevue/scrollpanel';
-import TabView from 'primevue/tabview';
+import Tabs from 'primevue/tabs';
+import Tab from 'primevue/tab';
+import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+import TabList from 'primevue/tablist';
 import Slider from 'primevue/slider';
 import Dialog from 'primevue/dialog';
 import DynamicDialog from 'primevue/dynamicdialog';
@@ -46,7 +51,23 @@ import ToastService from 'primevue/toastservice';
 import FileUpload from 'primevue/fileupload';
 
 //theme
-import 'primevue/resources/themes/bootstrap4-dark-blue/theme.css';
+useTheme({
+  preset: aura,
+  options: { darkModeSelector: '.dark' }
+});
+const themePreset = updatePrimaryPalette({
+  50: '#eff6ff',
+  100: '#dbeafe',
+  200: '#bfdbfe',
+  300: '#93c5fd',
+  400: '#60a5fa',
+  500: '#3b82f6',
+  600: '#2563eb',
+  700: '#1d4ed8',
+  800: '#1e40af',
+  900: '#1e3a8a'
+});
+document.documentElement.classList.add('dark');
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.scss';
 import 'shareon/css';
@@ -69,6 +90,10 @@ import { SettingService } from '@/services/SettingService';
 const app = createApp(App);
 app.use(PrimeVue, {
   ripple: true,
+  theme: {
+    preset: themePreset,
+    options: { darkModeSelector: '.dark' }
+  },
   pt: {
     tabPanel: {
       headerTitle: {
@@ -100,13 +125,16 @@ app.component('Button', Button);
 app.component('InputText', InputText);
 app.component('InputNumber', InputNumber);
 app.component('ConfirmPopup', ConfirmPopup);
-app.component('Dropdown', Dropdown);
+app.component('Select', Select);
 app.component('Divider', Divider);
 app.component('Sidebar', Sidebar);
 app.component('ScrollPanel', ScrollPanel);
 app.directive('tooltip', Tooltip);
-app.component('TabView', TabView);
+app.component('Tabs', Tabs);
+app.component('Tab', Tab);
+app.component('TabPanels', TabPanels);
 app.component('TabPanel', TabPanel);
+app.component('TabList', TabList);
 app.component('Slider', Slider);
 app.component('Dialog', Dialog);
 app.component('DynamicDialog', DynamicDialog);

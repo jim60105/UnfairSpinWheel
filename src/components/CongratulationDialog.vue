@@ -17,15 +17,14 @@ import { CongratulationSound } from '@/services/SettingService';
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
 
 const dialogRef = inject<DynamicDialogInstance>('dialogRef') as unknown as
-  | Ref<DynamicDialogInstance>
-  | undefined;
+  Ref<DynamicDialogInstance> | undefined;
 const congrats = ref();
 const label = ref();
 
 const playSound = () => {
   if (!CongratulationSound.value) return;
 
-  var src = CongratulationSound.value.value.startsWith('data:')
+  const src = CongratulationSound.value.value.startsWith('data:')
     ? CongratulationSound.value.value
     : `/sound/${CongratulationSound.value.value}`;
   const audio = new Audio(src);

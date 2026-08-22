@@ -11,201 +11,200 @@
       }
     }"
   >
-    <template #header>
-      <h2><i class="pi pi-palette"></i> Customize</h2>
-    </template>
-    <TabView
-      :scrollable="true"
-      :pt="{
-        panelContainer: {
-          class: 'p-0'
-        }
-      }"
-    >
-      <TabPanel header="📋 Items">
-        <div class="col-12">
-          <label for="dd-group" class="block mb-2">Select a Group</label>
-          <div class="p-inputgroup">
-            <Button
-              icon="pi pi-trash"
-              severity="danger"
-              outlined
-              aria-label="Remove group"
-              @click="removeGroup"
-              tabindex="-1"
-            />
-            <Dropdown
-              :model-value="GroupLabel"
-              inputId="dd-group"
-              :options="GroupLabels"
-              @update:model-value="itemService.changeGroupLabel"
-            />
-            <Button
-              icon="pi pi-pencil"
-              severity="info"
-              outlined
-              aria-label="Rename group"
-              @click="showRenameGroupDialog = true"
-            />
-            <Button
-              icon="pi pi-plus"
-              severity="success"
-              outlined
-              aria-label="Add group"
-              @click="showAddGroupDialog = true"
-            />
+    <h2 class="flex mb-2 flex-row justify-content-between">
+      <span><i class="pi pi-palette"></i> Customize</span>
+    </h2>
+    <Tabs v-model:value="activeTab">
+      <TabList>
+        <Tab value="items">📋 Items</Tab>
+        <Tab value="settings">⚙️ Settings</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel value="items">
+          <div class="col-12">
+            <label for="dd-group" class="block mb-2">Select a Group</label>
+            <div class="p-inputgroup">
+              <Button
+                icon="pi pi-trash"
+                severity="danger"
+                outlined
+                aria-label="Remove group"
+                @click="removeGroup"
+                tabindex="-1"
+              />
+              <Select
+                :model-value="GroupLabel"
+                inputId="dd-group"
+                :options="GroupLabels"
+                @update:model-value="itemService.changeGroupLabel"
+              />
+              <Button
+                icon="pi pi-pencil"
+                severity="info"
+                outlined
+                aria-label="Rename group"
+                @click="showRenameGroupDialog = true"
+              />
+              <Button
+                icon="pi pi-plus"
+                severity="success"
+                outlined
+                aria-label="Add group"
+                @click="showAddGroupDialog = true"
+              />
+            </div>
           </div>
-        </div>
-        <Divider />
-        <div class="p-inputgroup col-12">
-          <ToggleButton
-            :modelValue="bulkEditMode"
-            @change="toggleBulkEditMode"
-            class="w-full border-round"
-            onLabel="Save"
-            offLabel="Bulk Edit"
-            onIcon="pi pi-check"
-            offIcon="pi pi-pencil"
-            :pt="{
-              icon: {
-                class: ['flex', 'flex-auto', 'flex-row-reverse']
-              },
-              label: {
-                class: ['flex']
-              }
-            }"
-          />
-        </div>
-        <template v-if="!bulkEditMode">
-          <div
-            v-focustrap="{
-              disabled: Items?.length === 0
-            }"
-          >
-            <ItemInputGroup
-              :class="['col-12']"
-              v-for="item in Items"
-              :key="item._id"
-              :modelValue="item"
-            ></ItemInputGroup>
-          </div>
+          <Divider />
           <div class="p-inputgroup col-12">
-            <Button
-              ref="addButton"
-              class="w-full"
-              icon="pi pi-plus"
-              severity="success"
-              outlined
-              aria-label="Add item"
-              @click="addItem"
-            />
-          </div>
-        </template>
-        <div v-else class="m-2">
-          <Textarea v-model="textArea" />
-          <small class="text-color-secondary"
-            >This feature uses
-            <a
-              href="https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules"
-              target="_blank"
-              rel="noopener"
-              >the CSV syntax</a
-            >
-            with two columns.</small
-          >
-        </div>
-      </TabPanel>
-      <TabPanel header="⚙️ Settings">
-        <div v-focustrap>
-          <div class="col-12">
-            <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
-            <div class="grid">
-              <div class="col-8">
-                <Dropdown
-                  v-model="TickSound"
-                  inputId="dd-sound"
-                  :options="TickSounds"
-                  optionLabel="label"
-                  optionGroupLabel="label"
-                  optionGroupChildren="items"
-                  class="w-full"
-                />
-              </div>
-              <div class="col-4">
-                <FileUpload
-                  mode="basic"
-                  accept="audio/*,.webm"
-                  customUpload
-                  auto
-                  @uploader="customBase64Uploader($event, 'TickSound')"
-                  :pt="{
-                    chooseButton: {
-                      class: 'w-full'
-                    }
-                  }"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <label for="dd-sound" class="block mb-2">Select a Congratulatory Sound</label>
-            <div class="grid">
-              <div class="col-8">
-                <Dropdown
-                  v-model="CongratulationSound"
-                  inputId="dd-sound"
-                  :options="CongratulationSounds"
-                  optionLabel="label"
-                  optionGroupLabel="label"
-                  optionGroupChildren="items"
-                  class="w-full"
-                />
-              </div>
-              <div class="col-4">
-                <FileUpload
-                  mode="basic"
-                  accept="audio/*,.webm"
-                  customUpload
-                  auto
-                  @uploader="customBase64Uploader($event, 'CongratulationSound')"
-                  :pt="{
-                    chooseButton: {
-                      class: 'w-full'
-                    }
-                  }"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
-            <Slider
-              v-model="LabelLength"
-              inputId="sl-labelLength"
-              :min="0.3"
-              :max="0.75"
-              :step="0.01"
-            />
-          </div>
-          <div class="col-12">
-            <label for="sl-labelLength" class="block mb-2">Fair mode</label>
             <ToggleButton
-              v-model="Fairmode"
-              @change="
-                () => {
-                  itemService.syncItems();
-                }
-              "
+              :modelValue="bulkEditMode"
+              @change="toggleBulkEditMode"
+              class="w-full border-round"
+              onLabel="Save"
+              offLabel="Bulk Edit"
+              onIcon="pi pi-check"
+              offIcon="pi pi-pencil"
               :pt="{
-                root: {
-                  class: 'w-full'
+                icon: {
+                  class: ['flex', 'flex-auto', 'flex-row-reverse']
+                },
+                label: {
+                  class: ['flex']
                 }
               }"
             />
           </div>
-        </div>
-      </TabPanel>
-    </TabView>
+          <template v-if="!bulkEditMode">
+            <div
+              v-focustrap="{
+                disabled: Items?.length === 0
+              }"
+            >
+              <ItemInputGroup
+                :class="['col-12']"
+                v-for="item in Items"
+                :key="item._id"
+                :modelValue="item"
+              ></ItemInputGroup>
+            </div>
+            <div class="p-inputgroup col-12">
+              <Button
+                ref="addButton"
+                class="w-full"
+                icon="pi pi-plus"
+                severity="success"
+                outlined
+                aria-label="Add item"
+                @click="addItem"
+              />
+            </div>
+          </template>
+          <div v-else class="m-2">
+            <Textarea v-model="textArea" />
+            <small class="text-color-secondary"
+              >This feature uses
+              <a
+                href="https://en.wikipedia.org/wiki/Comma-separated_values#Basic_rules"
+                target="_blank"
+                rel="noopener"
+                >the CSV syntax</a
+              >
+              with two columns.</small
+            >
+          </div>
+        </TabPanel>
+        <TabPanel value="settings">
+          <div v-focustrap>
+            <div class="col-12">
+              <label for="dd-sound" class="block mb-2">Select a Ticking Sound</label>
+              <div class="grid">
+                <div class="col-8">
+                  <Select
+                    v-model="TickSound"
+                    inputId="dd-sound"
+                    :options="TickSounds"
+                    optionLabel="label"
+                    optionGroupLabel="label"
+                    optionGroupChildren="items"
+                    class="w-full"
+                  />
+                </div>
+                <div class="col-4">
+                  <FileUpload
+                    mode="basic"
+                    accept="audio/*,.webm"
+                    customUpload
+                    auto
+                    @uploader="customBase64Uploader($event, 'TickSound')"
+                    :pt="{
+                      chooseButton: {
+                        class: 'w-full'
+                      }
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="dd-sound" class="block mb-2">Select a Congratulatory Sound</label>
+              <div class="grid">
+                <div class="col-8">
+                  <Select
+                    v-model="CongratulationSound"
+                    inputId="dd-sound"
+                    :options="CongratulationSounds"
+                    optionLabel="label"
+                    optionGroupLabel="label"
+                    optionGroupChildren="items"
+                    class="w-full"
+                  />
+                </div>
+                <div class="col-4">
+                  <FileUpload
+                    mode="basic"
+                    accept="audio/*,.webm"
+                    customUpload
+                    auto
+                    @uploader="customBase64Uploader($event, 'CongratulationSound')"
+                    :pt="{
+                      chooseButton: {
+                        class: 'w-full'
+                      }
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="sl-labelLength" class="block mb-2">Item Label Length</label>
+              <Slider
+                v-model="LabelLength"
+                inputId="sl-labelLength"
+                :min="0.3"
+                :max="0.75"
+                :step="0.01"
+              />
+            </div>
+            <div class="col-12">
+              <label for="sl-labelLength" class="block mb-2">Fair mode</label>
+              <ToggleButton
+                v-model="Fairmode"
+                @change="
+                  () => {
+                    itemService.syncItems();
+                  }
+                "
+                :pt="{
+                  root: {
+                    class: 'w-full'
+                  }
+                }"
+              />
+            </div>
+          </div>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
 
     <Dialog v-model:visible="showRenameGroupDialog" modal dismissableMask header="Header">
       <template #container>
@@ -294,6 +293,7 @@ const addButton = ref();
 const confirm = useConfirm();
 const bulkEditMode = ref(false);
 const textArea = ref('');
+const activeTab = ref<'items' | 'settings'>('items');
 
 async function addItem() {
   await itemService.addItem();
@@ -337,7 +337,7 @@ const customBase64Uploader = async (
 ) => {
   const file = Array.isArray(event.files) ? event.files[0] : event.files;
   const reader = new FileReader();
-  let blob = await fetch(window.URL.createObjectURL(file)).then((r) => r.blob()); //blob:url
+  const blob = await fetch(window.URL.createObjectURL(file)).then((r) => r.blob()); //blob:url
 
   reader.readAsDataURL(blob);
 

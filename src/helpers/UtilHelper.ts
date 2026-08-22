@@ -8,11 +8,12 @@ let inThrottle: boolean, lastFn: ReturnType<typeof setTimeout>, lastTime: number
  * @example: throttle(() => console.log('throttle'), 1000)
  * @see {@link https://decipher.dev/30-seconds-of-typescript/docs/throttle/}
  */
-export const throttle = (fn: Function, wait: number = 300): Function => {
-  return function (this: unknown, ...args: any[]) {
-    const context = this;
+type ThrottledFn = (...args: unknown[]) => void;
+
+export const throttle = (fn: ThrottledFn, wait: number = 300): ThrottledFn => {
+  return function (this: unknown, ...args: unknown[]) {
     if (!inThrottle) {
-      fn.apply(context, args);
+      fn.apply(this, args);
       lastTime = Date.now();
       inThrottle = true;
     } else {
@@ -20,7 +21,7 @@ export const throttle = (fn: Function, wait: number = 300): Function => {
       lastFn = setTimeout(
         () => {
           if (Date.now() - lastTime >= wait) {
-            fn.apply(context, args);
+            fn.apply(this, args);
             lastTime = Date.now();
           }
         },

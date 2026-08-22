@@ -128,7 +128,7 @@ const inputGroup = async () => {
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.delete('data');
   searchParams.delete('group');
-  var url =
+  const url =
     window.location.protocol +
     '//' +
     window.location.host +
@@ -140,7 +140,7 @@ const inputGroup = async () => {
 onMounted(async () => {
   if (import.meta.env.DEV) {
     // Add dummy gtag for dev
-    window.gtag = (...args: any[]) => {
+    window.gtag = (...args: unknown[]) => {
       console.debug('gtag', ...args);
     };
   } else if (navigator.globalPrivacyControl) {
@@ -185,19 +185,30 @@ onMounted(async () => {
     })(import.meta.env.VITE_GA_TRACKING_ID);
 
     // Setup Clarity
-    (function (c: any, l: Document, a: string, r: string, i: string, t: any, y: any) {
+    (function (
+      c: Window & Record<string, unknown>,
+      l: Document,
+      a: string,
+      r: string,
+      i: string,
+      t?: HTMLScriptElement,
+      y?: Element
+    ) {
+      type ClarityQueueFn = ((...args: unknown[]) => void) & { q?: unknown[][] };
+      const existing = c[a] as ClarityQueueFn | undefined;
       c[a] =
-        c[a] ||
-        function (...args: any[]) {
-          (c[a].q = c[a].q || []).push(args);
-        };
-      t = l.createElement(r);
-      t.async = 1;
-      t.src = 'https://www.clarity.ms/tag/' + i;
+        existing ||
+        ((...args: unknown[]) => {
+          const fn = c[a] as ClarityQueueFn;
+          fn.q = [...(fn.q ?? []), args];
+        }) as ClarityQueueFn;
+       t = l.createElement(r) as HTMLScriptElement;
+       t.async = true;
+       t.src = 'https://www.clarity.ms/tag/' + i;
       y = l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t, y);
+      y?.parentNode?.insertBefore(t, y);
     })(
-      window,
+      window as unknown as Window & Record<string, unknown>,
       document,
       'clarity',
       'script',

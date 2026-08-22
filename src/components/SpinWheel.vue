@@ -1,5 +1,5 @@
 <template>
-  <Dropdown
+  <Select
     id="group-dropdown"
     :model-value="GroupLabel"
     :options="GroupLabels"
@@ -96,7 +96,7 @@ const stopAndClearSound = () => {
 const playSound = () => {
   if (!TickSound.value) return;
 
-  var src = TickSound.value.value.startsWith('data:')
+  const src = TickSound.value.value.startsWith('data:')
     ? TickSound.value.value
     : `/sound/${TickSound.value.value}`;
   const audio = new Audio(src);
@@ -166,7 +166,7 @@ onMounted(() => {
   wheel.spin(10);
 
   wheel.onRest = ($event) => {
-    stopAndClearSound;
+    stopAndClearSound();
     openCongratulationDialog($event);
   };
 

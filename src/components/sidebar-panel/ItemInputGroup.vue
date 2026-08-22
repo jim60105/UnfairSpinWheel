@@ -34,8 +34,8 @@
       }"
       :min="1"
     >
-      <template #incrementbuttonicon><i class="pi pi-plus"></i></template>
-      <template #decrementbuttonicon><i class="pi pi-minus"></i></template>
+      <template #incrementicon><i class="pi pi-plus"></i></template>
+      <template #decrementicon><i class="pi pi-minus"></i></template>
     </InputNumber>
   </div>
 </template>
@@ -63,7 +63,7 @@ function updateLabel(value: Event) {
   itemService?.updateItem(item);
 }
 
-function updateWeight(value: Number) {
+function updateWeight(value: number) {
   const item = props.modelValue;
   if (value === item.weight) return;
 

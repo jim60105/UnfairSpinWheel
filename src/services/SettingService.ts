@@ -101,8 +101,8 @@ export class SettingService {
 
   private initLabelLength = async () => {
     try {
-      LabelLength.value = (await this.getSetting('labelLength')).value;
-    } catch (e) {
+      LabelLength.value = (await this.getSetting('labelLength')).value as number;
+    } catch {
       LabelLength.value = 0.75;
       // Don't await
       this.addSetting({ key: 'labelLength', value: LabelLength.value });
@@ -114,7 +114,7 @@ export class SettingService {
           const doc = await this.getSetting('labelLength');
           doc.value = newValue;
           await this.updateSetting(doc, true);
-        } catch (e) {
+        } catch {
           await this.addSetting({ key: 'labelLength', value: newValue });
         }
       })();
@@ -146,8 +146,8 @@ export class SettingService {
 
   private initTickSound = async () => {
     try {
-      TickSound.value = (await this.getSetting('tickSound')).value;
-    } catch (e) {
+      TickSound.value = (await this.getSetting('tickSound')).value as AudioSetting;
+    } catch {
       const firstItem = TickSounds.value[0].items[0];
       TickSound.value = firstItem;
       // Don't await
@@ -159,11 +159,11 @@ export class SettingService {
     watch(TickSound, async (newValue) => {
       try {
         const doc = await this.getSetting('tickSound');
-        doc.value = newValue;
+        doc.value = newValue!;
         await this.updateSetting(doc);
         this.buildCustomGroup(newValue, TickSounds.value);
-      } catch (e) {
-        await this.addSetting({ key: 'tickSound', value: newValue });
+      } catch {
+        await this.addSetting({ key: 'tickSound', value: newValue! });
       }
       this.prefetchAudio(newValue!);
     });
@@ -171,8 +171,10 @@ export class SettingService {
 
   private initCongratulationSound = async () => {
     try {
-      CongratulationSound.value = (await this.getSetting('congratulationSound')).value;
-    } catch (e) {
+      CongratulationSound.value = (
+        await this.getSetting('congratulationSound')
+      ).value as AudioSetting;
+    } catch {
       const firstItem = CongratulationSounds.value[0].items[0];
       CongratulationSound.value = firstItem;
       // Don't await
@@ -184,11 +186,11 @@ export class SettingService {
     watch(CongratulationSound, async (newValue) => {
       try {
         const doc = await this.getSetting('congratulationSound');
-        doc.value = newValue;
+        doc.value = newValue!;
         await this.updateSetting(doc);
         this.buildCustomGroup(newValue, CongratulationSounds.value);
-      } catch (e) {
-        await this.addSetting({ key: 'congratulationSound', value: newValue });
+      } catch {
+        await this.addSetting({ key: 'congratulationSound', value: newValue! });
       }
       this.prefetchAudio(CongratulationSound.value);
     });
@@ -196,8 +198,8 @@ export class SettingService {
 
   async initFairmode() {
     try {
-      Fairmode.value = (await this.getSetting('fairmode')).value;
-    } catch (e) {
+      Fairmode.value = (await this.getSetting('fairmode')).value as boolean;
+    } catch {
       Fairmode.value = false;
       // Don't await
       this.addSetting({ key: 'fairmode', value: false });
@@ -208,7 +210,7 @@ export class SettingService {
         const doc = await this.getSetting('fairmode');
         doc.value = newValue;
         await this.updateSetting(doc);
-      } catch (e) {
+      } catch {
         await this.addSetting({ key: 'fairmode', value: newValue });
       }
     });
