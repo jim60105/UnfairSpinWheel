@@ -29,8 +29,17 @@ body.obs {
     margin-bottom: 4.5rem !important;
   }
 
+  // From v4 the mask fades in through a keyframe animation on the `background`
+  // shorthand, and it keeps that animation's end state. Animations outrank normal
+  // declarations, so both halves have to be marked important to survive it — and the
+  // shorthand resets `background-image`, which is the half that draws the vignette.
   .p-dialog-mask {
     background-color: transparent !important;
-    background-image: radial-gradient(circle closest-side, var(--maskbg), transparent);
+    background-image: radial-gradient(
+      circle closest-side,
+      // v3's `--maskbg`, renamed along with every other theme variable in v4.
+      var(--p-mask-background, rgba(0, 0, 0, 0.4)),
+      transparent
+    ) !important;
   }
 }

@@ -39,8 +39,11 @@ body {
   font-weight: 700;
 }
 
+// PrimeVue 3 exposed its theme variables unprefixed; from v4 on every design token is
+// namespaced with `--p-`. Without the prefix the substitution is invalid, so the links
+// fell back to inheriting the body's white.
 :not(li) > a {
-  color: var(--primary-color);
+  color: var(--p-primary-color, #8dd0ff);
   text-decoration: none;
 
   &:hover {
