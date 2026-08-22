@@ -28,38 +28,7 @@
         @click="VisibleSidebar = false"
       />
     </h2>
-    <Tabs
-      v-model:value="activeTab"
-      :dt="{
-        tablist: {
-          background: 'transparent',
-          borderColor: '#3f4b5b',
-          borderWidth: '0 0 1px 0'
-        },
-        tab: {
-          background: '#2a323d',
-          hoverBackground: '#2a323d',
-          activeBackground: '#2a323d',
-          borderWidth: '1px',
-          borderColor: '#2a323d #2a323d #3f4b5b #2a323d',
-          hoverBorderColor: '#3f4b5b #3f4b5b #3f4b5b #3f4b5b',
-          activeBorderColor: '#3f4b5b #3f4b5b #2a323d #3f4b5b',
-          color: 'rgba(255, 255, 255, 0.6)',
-          hoverColor: 'rgba(255, 255, 255, 0.6)',
-          activeColor: 'rgba(255, 255, 255, 0.6)',
-          padding: '0.75rem 1rem',
-          margin: '0 0 -1px 0'
-        },
-        tabpanel: {
-          background: '#2a323d',
-          color: 'rgba(255, 255, 255, 0.87)',
-          padding: '0'
-        },
-        activeBar: {
-          height: '0'
-        }
-      }"
-    >
+    <Tabs v-model:value="activeTab">
       <TabList>
         <Tab value="items">📋 Items</Tab>
         <Tab value="settings">⚙️ Settings</Tab>
@@ -109,7 +78,6 @@
               offLabel="Bulk Edit"
               onIcon="pi pi-check"
               offIcon="pi pi-pencil"
-              :dt="toggleButtonDt"
               :pt="{
                 icon: {
                   class: ['flex', 'flex-auto', 'flex-row-reverse']
@@ -235,7 +203,6 @@
               <label for="sl-labelLength" class="block mb-2">Fair mode</label>
               <ToggleButton
                 v-model="Fairmode"
-                :dt="toggleButtonDt"
                 @change="
                   () => {
                     itemService.syncItems();
@@ -341,30 +308,6 @@ const confirm = useConfirm();
 const bulkEditMode = ref(false);
 const textArea = ref('');
 const activeTab = ref<'items' | 'settings'>('items');
-
-// Secondary-button palette of the pre-migration bootstrap4-dark-blue theme,
-// which the Aura preset renders near-black instead.
-const toggleButtonDt = {
-  root: {
-    background: '#6c757d',
-    hoverBackground: '#5a6268',
-    checkedBackground: '#545b62',
-    borderColor: '#6c757d',
-    checkedBorderColor: '#4e555b',
-    color: '#ffffff',
-    hoverColor: '#ffffff',
-    checkedColor: '#ffffff'
-  },
-  content: {
-    checkedBackground: 'transparent',
-    checkedShadow: 'none'
-  },
-  icon: {
-    color: '#ffffff',
-    hoverColor: '#ffffff',
-    checkedColor: '#ffffff'
-  }
-};
 
 async function addItem() {
   await itemService.addItem();

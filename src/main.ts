@@ -18,8 +18,8 @@ if (
 import { createApp } from 'vue';
 import App from '@/App.vue';
 import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
-import aura from '@primevue/themes/aura';
-import { definePreset, updatePrimaryPalette, useTheme } from '@primevue/themes';
+import { useTheme } from '@primevue/themes';
+import bootstrap4DarkBlue from '@/assets/theme/bootstrap4-dark-blue';
 import PouchDBFind from 'pouchdb-find';
 import PouchDB from 'pouchdb-browser';
 
@@ -54,41 +54,11 @@ import ToastService from 'primevue/toastservice';
 import FileUpload from 'primevue/fileupload';
 
 //theme
-// Aura's dark form fields default to {surface.950}/{surface.600}, which is far darker
-// than the bootstrap4-dark-blue theme this app was designed against. Restore the
-// original form field palette so inputs keep sitting on #20262e.
-const appPreset = definePreset(aura, {
-  semantic: {
-    colorScheme: {
-      dark: {
-        formField: {
-          background: '#20262e',
-          borderColor: '#3f4b5b',
-          hoverBorderColor: '#3f4b5b',
-          focusBorderColor: '#8dd0ff',
-          invalidBorderColor: '#f19ea6',
-          color: 'rgba(255, 255, 255, 0.87)'
-        }
-      }
-    }
-  }
-});
-
+// PrimeVue 4 dropped the precompiled `bootstrap4-dark-blue` stylesheet this app was
+// designed against, so it is rebuilt as a token preset. See the preset for details.
 useTheme({
-  preset: appPreset,
+  preset: bootstrap4DarkBlue,
   options: { darkModeSelector: '.dark' }
-});
-const themePreset = updatePrimaryPalette({
-  50: '#eff6ff',
-  100: '#dbeafe',
-  200: '#bfdbfe',
-  300: '#93c5fd',
-  400: '#60a5fa',
-  500: '#3b82f6',
-  600: '#2563eb',
-  700: '#1d4ed8',
-  800: '#1e40af',
-  900: '#1e3a8a'
 });
 document.documentElement.classList.add('dark');
 import 'primeicons/primeicons.css';
@@ -114,7 +84,7 @@ const app = createApp(App);
 const primevueConfig: PrimeVueConfiguration & { license?: string } = {
   ripple: true,
   theme: {
-    preset: themePreset,
+    preset: bootstrap4DarkBlue,
     options: { darkModeSelector: '.dark' }
   },
   pt: {
