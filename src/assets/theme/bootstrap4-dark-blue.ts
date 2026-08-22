@@ -327,7 +327,14 @@ export default definePreset(aura, {
         }
       }
     },
-    /** A 4px square handle on a thin track, rather than Aura's round knob. */
+    /**
+     * A 4px square handle on a thin track, rather than Aura's round knob.
+     *
+     * Aura draws the handle as a ring: the `handle` box is the border, and a `content`
+     * pseudo-element painted in the surface colour sits inside it. Here the content
+     * fills the handle, so it is the content — not the handle — whose colour is the one
+     * the reader sees, and both have to be set or the surface shows through.
+     */
     slider: {
       track: { background: borderColor, size: '0.286rem' },
       range: { background: primaryColor },
@@ -336,13 +343,22 @@ export default definePreset(aura, {
         height: '1.143rem',
         borderRadius: '4px',
         background: primaryColor,
-        hoverBackground: primaryColor,
+        hoverBackground: severities.primary.hover,
         content: {
           borderRadius: '4px',
-          hoverBackground: primaryColor,
+          hoverBackground: severities.primary.hover,
           width: '1.143rem',
           height: '1.143rem',
           shadow: 'none'
+        }
+      },
+      colorScheme: {
+        // Aura pins the content to `{surface.950}` per scheme, which outranks the
+        // scheme-agnostic block above.
+        dark: {
+          handle: {
+            content: { background: primaryColor }
+          }
         }
       }
     }

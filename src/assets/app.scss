@@ -121,3 +121,15 @@ body {
 .p-select {
   align-items: center;
 }
+
+// The handle is centred on the position of its value, so at 0% and 100% half of
+// it hangs past the slider's own box. Pull the box in by that half at each end:
+// the handle's travel then spans exactly the space the slider was given, instead
+// of spilling out of it and raising a horizontal scrollbar in the settings panel.
+//
+// Sized from the handle's own token rather than a literal, so the inset still
+// matches when the handle scales with a larger root font size.
+.p-slider.p-slider-horizontal {
+  width: calc(100% - var(--p-slider-handle-width));
+  margin-inline: calc(var(--p-slider-handle-width) / 2);
+}
