@@ -103,6 +103,9 @@ const primevueConfig: PrimeVueConfiguration & { license?: string } = {
       }
     }
   },
+  ptOptions: {
+    mergeProps: true
+  },
   ...(import.meta.env.VITE_PRIMEUI_LICENSE ? { license: import.meta.env.VITE_PRIMEUI_LICENSE } : {})
 };
 app.use(PrimeVue, primevueConfig);

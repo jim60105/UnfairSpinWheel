@@ -185,22 +185,24 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import 'primeflex/core/_variables.scss';
+@use 'primeflex/core/_variables.scss' as v;
+@use 'sass:map' as map;
 
 .spin-container {
   aspect-ratio: 1/1;
   width: 200vw;
   height: 90vh;
+  flex-shrink: 0;
 
   margin-top: -3.5rem;
   margin-bottom: -10vh;
   position: relative;
 
-  @media (min-width: map-get($breakpoints, 'sm')) {
+  @media (min-width: map.get(v.$breakpoints, 'sm')) {
     height: 100vh;
   }
 
-  @media (min-width: map-get($breakpoints, 'md')) {
+  @media (min-width: map.get(v.$breakpoints, 'md')) {
     height: 110vh;
   }
 }
@@ -217,12 +219,12 @@ onMounted(() => {
   top: calc(calc(50%) - calc(90vh / 2));
   left: calc(calc(50%) - calc(200vw / 2));
 
-  @media (min-width: map-get($breakpoints, 'sm')) {
+  @media (min-width: map.get(v.$breakpoints, 'sm')) {
     height: 100vh;
     top: calc(calc(50%) - calc(100vh / 2));
   }
 
-  @media (min-width: map-get($breakpoints, 'md')) {
+  @media (min-width: map.get(v.$breakpoints, 'md')) {
     height: 110vh;
     top: calc(calc(50%) - calc(110vh / 2));
   }

@@ -47,6 +47,7 @@
     class="overflow-visible sidebar-button"
     @click="sidebarService?.openSidebar"
     :pt="{
+      root: { style: { position: 'fixed' } },
       icon: { style: { fontSize: 'xx-large' } }
     }"
   />
@@ -272,7 +273,7 @@ onMounted(async () => {
 }
 
 .sidebar-button {
-  position: fixed;
+  position: fixed !important;
   top: calc(50% - 25px);
   right: 1rem;
   transform: translateY(-50%);

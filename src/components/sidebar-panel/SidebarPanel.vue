@@ -1,10 +1,14 @@
 <template>
   <Sidebar
-    v-model:visible="VisibleSidebar"
-    position="right"
+    v-model:open="VisibleSidebar"
+    side="right"
+    overlay
+    collapsible="offcanvas"
+    width="500px"
     :pt="{
       root: {
-        style: { width: '500px', maxWidth: '100vw' }
+        style: { maxWidth: '100vw' },
+        class: ['surface-card', 'border-round', 'shadow-2']
       },
       header: {
         class: 'justify-content-between pb-0'

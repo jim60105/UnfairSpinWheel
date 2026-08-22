@@ -42,6 +42,8 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+@use 'sass:math' as math;
+
 .label {
   color: white;
   z-index: 2;
@@ -128,7 +130,7 @@ onMounted(() => {
       opacity: 1;
     }
     100% {
-      transform: translate(#{floor(random() * 500)-250}px, #{floor(random() * 500)-250}px) scale(2);
+      transform: translate(#{math.floor(math.random() * 500)-250}px, #{math.floor(math.random() * 500)-250}px) scale(2);
       filter: blur(4px);
       opacity: 0;
     }

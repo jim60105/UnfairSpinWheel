@@ -15,12 +15,12 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@primevue/themes": "^4.5.4",
     "csv": "^6.6.3",
     "events": "^3.3.0",
     "pako": "^3.0.1",
     "pouchdb-browser": "^9.0.0",
     "pouchdb-find": "^9.0.0",
-    "@primevue/themes": "^4.5.4",
     "primeflex": "^4.0.0",
     "primeicons": "^8.0.0",
     "primevue": "^5.0.1",
