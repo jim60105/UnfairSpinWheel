@@ -17,7 +17,7 @@ if (
 
 import { createApp } from 'vue';
 import App from '@/App.vue';
-import PrimeVue from 'primevue/config';
+import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
 import aura from '@primevue/themes/aura';
 import { updatePrimaryPalette, useTheme } from '@primevue/themes';
 import PouchDBFind from 'pouchdb-find';
@@ -88,7 +88,7 @@ import { SidebarService } from '@/services/SidebarService';
 import { SettingService } from '@/services/SettingService';
 
 const app = createApp(App);
-app.use(PrimeVue, {
+const primevueConfig: PrimeVueConfiguration & { license?: string } = {
   ripple: true,
   theme: {
     preset: themePreset,
@@ -102,8 +102,10 @@ app.use(PrimeVue, {
         }
       }
     }
-  }
-});
+  },
+  ...(import.meta.env.VITE_PRIMEUI_LICENSE ? { license: import.meta.env.VITE_PRIMEUI_LICENSE } : {})
+};
+app.use(PrimeVue, primevueConfig);
 app.use(ConfirmationService);
 
 // PouchDB
