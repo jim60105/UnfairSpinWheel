@@ -109,6 +109,13 @@ body {
   border-radius: 4px 4px 0 0;
 }
 
+// The v5 tab buttons are plain <button>s without the .p-component class, and the
+// component styles declare no font-family of their own, so the browser's UA font
+// (Arial) would otherwise override the inherited app font.
+.p-tab {
+  font-family: inherit;
+}
+
 .p-sidebar[data-overlay][data-side='right'] {
   left: auto;
   right: 0;

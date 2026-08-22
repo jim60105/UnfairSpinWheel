@@ -161,6 +161,17 @@ export default definePreset(aura, {
       md: '4px', // --border-radius
       lg: '5px',
       xl: '6px'
+    },
+    // The base style applies `font-family: var(--p-typography-font-family)` and
+    // `line-height: var(--p-typography-line-height)` to every `.p-component`; Aura's
+    // base preset defines no typography tokens, so those variables were left undefined.
+    // The font stack mirrors the app's own body font from app.scss.
+    typography: {
+      fontFamily:
+        "'Suez One', 'Mochiy Pop P One', 'Jua', 'Unbounded', 'Mitr', 'Noto Sans TC', 'Noto Sans SC', 'Noto Sans Lao', 'Noto Color Emoji'",
+      fontSize: '1rem',
+      fontWeight: '400',
+      lineHeight: '1.5'
     }
   },
   semantic: {
@@ -323,6 +334,138 @@ export default definePreset(aura, {
             color: severities.secondary.text,
             hoverColor: severities.secondary.text,
             checkedColor: severities.secondary.text
+          }
+        }
+      }
+    },
+    /**
+     * The v5 sidebar styles resolve every colour, padding and focus-ring through
+     * `--p-sidebar-*` variables, but the Aura preset ships no sidebar tokens, so all
+     * of them were undefined. Values follow this theme's palette.
+     */
+    sidebar: {
+      colorScheme: {
+        dark: {
+          layout: { background: surface[950] },
+          aside: { padding: '0' },
+          border: { color: borderColor },
+          panel: {
+            background: surface[900],
+            color: textColor,
+            floating: { borderRadius: '4px', shadow: 'none' }
+          },
+          header: { gap: '0.5rem', padding: '1rem' },
+          footer: { gap: '0.5rem', padding: '0.5rem 1rem' },
+          content: { gap: '0.5rem' },
+          group: {
+            padding: '0.5rem 0.75rem',
+            label: {
+              height: '2.5rem',
+              borderRadius: '4px',
+              padding: '0.5rem 0.75rem',
+              fontSize: '0.875rem',
+              fontWeight: '400',
+              color: mutedColor
+            },
+            action: {
+              top: '0.5rem',
+              right: '0.5rem',
+              size: '1.25rem',
+              borderRadius: '4px',
+              color: mutedColor,
+              focusBackground: 'rgba(255, 255, 255, 0.04)',
+              focusColor: textColor,
+              icon: { size: '0.875rem' }
+            }
+          },
+          main: {
+            background: surface[950],
+            borderRadius: '4px',
+            floating: { background: surface[950] },
+            inset: { background: surface[900] },
+            margin: '0.5rem',
+            shadow: 'none'
+          },
+          menu: {
+            gap: '2px',
+            button: {
+              gap: '0.5rem',
+              height: '2.5rem',
+              borderRadius: '4px',
+              padding: '0.5rem 0.75rem',
+              fontSize: '0.875rem',
+              fontWeight: '400',
+              color: textColor,
+              focusBackground: 'rgba(255, 255, 255, 0.04)',
+              focusColor: textColor,
+              activeBackground: 'rgba(255, 255, 255, 0.04)',
+              activeColor: textColor,
+              icon: {
+                color: mutedColor,
+                focusColor: textColor,
+                size: '0.875rem',
+                only: { width: '2.5rem' }
+              },
+              with: { action: { paddingEnd: 'calc(0.5rem + 1.25rem)' } }
+            },
+            action: {
+              top: '0.25rem',
+              right: '0.5rem',
+              width: '1.25rem',
+              borderRadius: '4px',
+              color: mutedColor,
+              focusBackground: 'rgba(255, 255, 255, 0.04)',
+              focusColor: textColor,
+              icon: { size: '0.875rem' }
+            },
+            badge: {
+              top: '0.25rem',
+              right: '0.5rem',
+              height: '1.25rem',
+              minWidth: '1.25rem',
+              borderRadius: '999px',
+              padding: '0 0.5rem',
+              fontSize: '0.75rem',
+              fontWeight: '700',
+              background: surface[900],
+              borderColor: borderColor,
+              color: textColor
+            },
+            sub: {
+              gap: '2px',
+              padding: { block: '0.5rem' },
+              indent: { margin: '1rem', padding: '0.5rem' },
+              collapsible: {
+                indent: '1rem',
+                top: { margin: '0.5rem' },
+                borderRadius: '4px'
+              },
+              button: {
+                height: '2rem',
+                gap: '0.5rem',
+                padding: '0.25rem 0.75rem',
+                borderRadius: '3px',
+                fontSize: '0.875rem',
+                fontWeight: '400',
+                color: textColor,
+                activeBackground: 'rgba(255, 255, 255, 0.04)',
+                activeColor: textColor,
+                focusBackground: 'rgba(255, 255, 255, 0.04)',
+                focusColor: textColor,
+                icon: {
+                  color: mutedColor,
+                  focusColor: textColor,
+                  size: '0.875rem'
+                }
+              }
+            }
+          },
+          focusRing: {
+            width: '1px',
+            style: 'solid',
+            color: focusRingColor,
+            offset: '0',
+            shadow: 'none'
           }
         }
       }
