@@ -65,6 +65,13 @@ body {
 .p-sidebar[data-overlay] .p-tablist {
   // Keep the tab bar at its natural height; the panels absorb the overflow.
   flex: 0 0 auto;
+  // The active tab hides the tab bar's underline by painting its own bottom
+  // border over it from a -1px margin. v5 clips that overhang, unlike v3.
+  overflow: visible;
+
+  .p-tablist-content {
+    overflow: visible;
+  }
 }
 
 .p-sidebar[data-overlay] .p-tabpanels {
