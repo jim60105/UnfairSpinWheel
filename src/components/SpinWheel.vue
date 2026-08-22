@@ -6,10 +6,13 @@
     class="mt-4 z-1"
     @update:model-value="itemService?.changeGroupLabel"
     :pt="{
-      input: {
+      root: {
+        style: { height: '80px' }
+      },
+      label: {
         class: 'text-xl sm:text-4xl md:text-6xl'
       },
-      item: {
+      optionLabel: {
         class: 'text-xl sm:text-xl md:text-3xl'
       }
     }"
@@ -192,7 +195,6 @@ onMounted(() => {
   aspect-ratio: 1/1;
   width: 200vw;
   height: 90vh;
-  flex-shrink: 0;
 
   margin-top: -3.5rem;
   margin-bottom: -10vh;

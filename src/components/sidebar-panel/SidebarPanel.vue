@@ -7,8 +7,7 @@
     width="500px"
     :pt="{
       root: {
-        style: { maxWidth: '100vw' },
-        class: ['surface-card', 'border-round', 'shadow-2']
+        style: { maxWidth: '100vw' }
       },
       header: {
         class: 'justify-content-between pb-0'
