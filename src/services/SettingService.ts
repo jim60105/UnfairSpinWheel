@@ -220,20 +220,27 @@ export class SettingService {
     (await this.db.allDocs<ISetting>({ include_docs: true })).rows.map((row) => row.doc!);
 
   public getSetting = async (key: string): Promise<PouchDB.Core.ExistingDocument<ISetting>> =>
-    this.db.get(key);
-
-  public addSetting = async (setting: ISetting): Promise<PouchDB.Core.Response> => {
-    const doc = setting as PouchDB.Core.ExistingDocument<ISetting>;
-    doc._id = setting.key;
-    return this.db.put(doc);
-  };
+    this.db.get(this.sanitizeSettingId(key));
 
   public updateSetting = async (
     item: PouchDB.Core.ExistingDocument<ISetting>,
     force: boolean = false
   ): Promise<PouchDB.Core.Response> => {
-    const doc = await this.db.get(item._id);
+    const doc = await this.db.get(this.sanitizeSettingId(item._id));
     doc.value = item.value;
-    return this.db.put(item, { force: force });
+    return this.db.put(doc, { force: force });
+  };
+
+  private sanitizeSettingId = (id: string): string => {
+    if (typeof id !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(id)) {
+      throw new Error(`Invalid setting id: ${id}`);
+    }
+    return id;
+  };
+
+  public addSetting = async (setting: ISetting): Promise<PouchDB.Core.Response> => {
+    const doc = setting as PouchDB.Core.ExistingDocument<ISetting>;
+    doc._id = this.sanitizeSettingId(setting.key);
+    return this.db.put(doc);
   };
 }
