@@ -146,8 +146,10 @@ const openCongratulationDialog = ($event: {
     props: {
       modal: true,
       showHeader: false,
-      style: 'border: 0',
-      contentStyle: 'border: 0; backgroundColor: transparent',
+      // The winner is announced over the mask, with no dialog chrome behind it.
+      // PrimeVue 3 painted the surface on the content, which is why the old
+      // `contentStyle` was enough; from v4 on the root carries it instead.
+      style: 'border: 0; background: transparent; box-shadow: none',
       dismissableMask: true
     },
     data: {
