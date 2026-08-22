@@ -91,6 +91,7 @@
                 v-for="item in Items"
                 :key="item._id"
                 :modelValue="item"
+                :autoFocus="item._id === newItemId"
               ></ItemInputGroup>
             </div>
             <InputGroup class="col-12">
@@ -274,7 +275,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref, watch } from 'vue';
+import { inject, nextTick, onMounted, ref, watch } from 'vue';
 import type { FileUploadUploaderEvent } from 'primevue/fileupload';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
@@ -301,8 +302,17 @@ const bulkEditMode = ref(false);
 const textArea = ref('');
 const activeTab = ref<'items' | 'settings'>('items');
 
+// The id of the item added last, so that ItemInputGroup can tell the one the
+// user just created from the ones that were already there. Cleared once it has
+// been rendered, so the item does not claim focus again on a later re-render.
+const newItemId = ref<string>();
+
 async function addItem() {
-  await itemService.addItem();
+  const { id } = await itemService.addItem();
+  newItemId.value = id;
+  await nextTick();
+  newItemId.value = undefined;
+
   setTimeout(() => {
     addButton.value.$el.scrollIntoView({ behavior: 'smooth' });
   }, 100);

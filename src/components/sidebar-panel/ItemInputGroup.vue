@@ -41,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, onMounted } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { ItemService } from '@/services/ItemService';
 import { Fairmode } from '@/services/SettingService';
 
-const props = defineProps(['modelValue']);
+const props = defineProps(['modelValue', 'autoFocus']);
 
 const itemService = inject<ItemService>('ItemService');
 
@@ -76,9 +76,20 @@ function removeItem() {
   itemService?.removeItem(props.modelValue);
 }
 
-onMounted(() => {
-  focusMe.value.$el.focus();
-});
+// Only an item the user just added takes focus. Focusing on every mount would
+// let the last item of the list win whenever the panel renders, and the browser
+// would scroll it into view — landing the panel at its bottom.
+//
+// The flag always arrives after this component is mounted: the parent only
+// learns the new item's id once the database has assigned one, by which time
+// the list has already rendered. So watch it rather than reading it on mount.
+watch(
+  () => props.autoFocus,
+  (autoFocus) => {
+    if (autoFocus) focusMe.value.$el.focus();
+  },
+  { flush: 'post' }
+);
 </script>
 
 <style scoped></style>
