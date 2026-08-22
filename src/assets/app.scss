@@ -62,6 +62,11 @@ body {
   min-height: 0;
 }
 
+.p-sidebar[data-overlay] .p-tablist {
+  // Keep the tab bar at its natural height; the panels absorb the overflow.
+  flex: 0 0 auto;
+}
+
 .p-sidebar[data-overlay] .p-tabpanels {
   flex: 1 1 auto;
   min-height: 0;
