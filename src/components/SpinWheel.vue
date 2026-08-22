@@ -7,7 +7,9 @@
     @update:model-value="itemService?.changeGroupLabel"
     :pt="{
       root: {
-        style: { height: '80px' }
+        // A minimum rather than a fixed height, so the box still fits its text
+        // when the reader's browser has a larger-than-default root font size.
+        style: { minHeight: '80px' }
       },
       label: {
         class: 'text-xl sm:text-4xl md:text-6xl'

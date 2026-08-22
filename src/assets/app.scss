@@ -105,3 +105,11 @@ body {
 .p-sidebar[data-overlay][data-side='left'][data-state='collapsed'] {
   left: calc(var(--px-sidebar-width, 500px) * -1);
 }
+
+// The label is a block that stretches to the root's full height, so whenever the
+// root is shorter than the label wants to be, the text is pushed against the top
+// edge by the label's own padding. Center the flex line instead; the label keeps
+// `display: block` for its ellipsis.
+.p-select {
+  align-items: center;
+}
