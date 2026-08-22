@@ -78,14 +78,6 @@
               offLabel="Bulk Edit"
               onIcon="pi pi-check"
               offIcon="pi pi-pencil"
-              :pt="{
-                icon: {
-                  class: ['flex', 'flex-auto', 'flex-row-reverse']
-                },
-                label: {
-                  class: ['flex']
-                }
-              }"
             />
           </InputGroup>
           <template v-if="!bulkEditMode">

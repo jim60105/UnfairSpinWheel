@@ -54,9 +54,15 @@ body {
     right 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-// The v5 Sidebar has no scrolling content region of its own. Keep the heading
-// pinned and let everything below it scroll, as the v3 .p-sidebar-content did.
+// The v5 Sidebar has no scrolling content region of its own. Scroll the tab
+// panels rather than the whole tab region: each ItemInputGroup focuses itself on
+// mount, and a scroller that contained the tab bar would scroll it out of view.
 .p-sidebar[data-overlay] > .p-tabs {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.p-sidebar[data-overlay] .p-tabpanels {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
