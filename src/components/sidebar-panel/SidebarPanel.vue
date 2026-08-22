@@ -39,6 +39,7 @@
                 :model-value="GroupLabel"
                 inputId="dd-group"
                 :options="GroupLabels"
+                :pt='{ root: { style: { background: "#20262e" } } }'
                 @update:model-value="itemService.changeGroupLabel"
               />
               <Button

@@ -7,7 +7,7 @@
     @update:model-value="itemService?.changeGroupLabel"
     :pt="{
       root: {
-        style: { height: '80px' }
+        style: { height: '80px', background: '#20262e' }
       },
       label: {
         class: 'text-xl sm:text-4xl md:text-6xl'
