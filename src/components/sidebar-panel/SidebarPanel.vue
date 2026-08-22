@@ -286,7 +286,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, nextTick, onMounted, ref, watch } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import type { FileUploadUploaderEvent } from 'primevue/fileupload';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
@@ -312,6 +312,23 @@ const confirm = useConfirm();
 const bulkEditMode = ref(false);
 const textArea = ref('');
 const activeTab = ref<'items' | 'settings'>('items');
+
+// v3's Sidebar closed itself on Escape. v5's Sidebar handles no keyboard at all and
+// SidebarLayout adds none, so the listener lives here; it is bound only while the panel
+// is open, the way Drawer does it.
+//
+// The `isComposing` guard is for IME input: Escape cancels a composition in progress,
+// and that keystroke must not also close the panel being typed into.
+const onKeydown = (event: KeyboardEvent) => {
+  if (event.code === 'Escape' && !event.isComposing) VisibleSidebar.value = false;
+};
+
+watch(VisibleSidebar, (visible) => {
+  if (visible) document.addEventListener('keydown', onKeydown);
+  else document.removeEventListener('keydown', onKeydown);
+});
+
+onUnmounted(() => document.removeEventListener('keydown', onKeydown));
 
 // The id of the item added last, so that ItemInputGroup can tell the one the
 // user just created from the ones that were already there. Cleared once it has
