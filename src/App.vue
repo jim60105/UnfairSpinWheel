@@ -39,6 +39,7 @@
 
   <SidebarPanel></SidebarPanel>
   <Button
+    v-if="!VisibleSidebar"
     severity="info"
     text
     rounded
@@ -92,7 +93,7 @@
 
 <script setup lang="ts">
 import { inject, onMounted, ref } from 'vue';
-import type { SidebarService } from '@/services/SidebarService';
+import { VisibleSidebar, type SidebarService } from '@/services/SidebarService';
 import { ItemService, GroupLabels } from '@/services/ItemService';
 import { StringHelper } from '@/helpers/StringHelper';
 import { Fairmode } from '@/services/SettingService';
