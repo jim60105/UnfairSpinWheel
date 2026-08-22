@@ -48,6 +48,18 @@ body {
   }
 }
 
+// SidebarLayout exists only to carry the registry that lets the backdrop find the
+// sidebar; here it wraps nothing else. Its own box is a 100svh flex row with its own
+// background, which would sit in the flow after the app and double the page height, so
+// drop the box and keep the component.
+//
+// The class is repeated to outweigh PrimeVue's own rule: the library injects component
+// CSS at mount time, which is after this stylesheet, so an equally specific selector
+// would lose on order alone.
+.p-sidebar-layout.p-sidebar-layout {
+  display: contents;
+}
+
 .p-sidebar[data-overlay] {
   position: fixed;
   top: 0;
