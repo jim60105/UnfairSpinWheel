@@ -19,11 +19,14 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import PrimeVue, { type PrimeVueConfiguration } from 'primevue/config';
 import aura from '@primevue/themes/aura';
-import { updatePrimaryPalette, useTheme } from '@primevue/themes';
+import { definePreset, updatePrimaryPalette, useTheme } from '@primevue/themes';
 import PouchDBFind from 'pouchdb-find';
 import PouchDB from 'pouchdb-browser';
 
 import InputText from 'primevue/inputtext';
+import InputGroup from 'primevue/inputgroup';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
 import Select from 'primevue/select';
@@ -51,8 +54,28 @@ import ToastService from 'primevue/toastservice';
 import FileUpload from 'primevue/fileupload';
 
 //theme
+// Aura's dark form fields default to {surface.950}/{surface.600}, which is far darker
+// than the bootstrap4-dark-blue theme this app was designed against. Restore the
+// original form field palette so inputs keep sitting on #20262e.
+const appPreset = definePreset(aura, {
+  semantic: {
+    colorScheme: {
+      dark: {
+        formField: {
+          background: '#20262e',
+          borderColor: '#3f4b5b',
+          hoverBorderColor: '#3f4b5b',
+          focusBorderColor: '#8dd0ff',
+          invalidBorderColor: '#f19ea6',
+          color: 'rgba(255, 255, 255, 0.87)'
+        }
+      }
+    }
+  }
+});
+
 useTheme({
-  preset: aura,
+  preset: appPreset,
   options: { darkModeSelector: '.dark' }
 });
 const themePreset = updatePrimaryPalette({
@@ -128,6 +151,9 @@ app.provide('SidebarService', sidebarService);
 
 app.component('Button', Button);
 app.component('InputText', InputText);
+app.component('InputGroup', InputGroup);
+app.component('IconField', IconField);
+app.component('InputIcon', InputIcon);
 app.component('InputNumber', InputNumber);
 app.component('ConfirmPopup', ConfirmPopup);
 app.component('Select', Select);

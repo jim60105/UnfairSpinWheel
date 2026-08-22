@@ -1,5 +1,5 @@
 <template>
-  <div class="p-inputgroup">
+  <InputGroup>
     <Button
       icon="pi pi-trash"
       severity="danger"
@@ -37,7 +37,7 @@
       <template #incrementicon><i class="pi pi-plus"></i></template>
       <template #decrementicon><i class="pi pi-minus"></i></template>
     </InputNumber>
-  </div>
+  </InputGroup>
 </template>
 
 <script setup lang="ts">

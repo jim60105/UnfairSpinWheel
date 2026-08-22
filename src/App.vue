@@ -65,8 +65,8 @@
           <span class="text-red-300 white-space-nowrap">it will be replaced.</span>
         </p>
         <div class="flex mb-4 flex-column lg:flex-row">
-          <span class="p-input-icon-left w-full">
-            <i class="pi pi-file-import" />
+          <IconField class="w-full">
+            <InputIcon class="pi pi-file-import" />
             <InputText
               autofocus
               v-model="inputGroupName"
@@ -75,7 +75,7 @@
                 root: { class: 'w-full' }
               }"
             />
-          </span>
+          </IconField>
         </div>
         <Button
           type="submit"

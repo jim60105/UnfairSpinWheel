@@ -14,10 +14,52 @@
       }
     }"
   >
-    <h2 class="flex mb-2 flex-row justify-content-between">
+    <h2 class="flex mb-2 flex-row align-items-center justify-content-between">
       <span><i class="pi pi-palette"></i> Customize</span>
+      <Button
+        icon="pi pi-times"
+        severity="secondary"
+        rounded
+        text
+        aria-label="Close"
+        :pt="{
+          root: { style: { width: '2rem', height: '2rem', color: 'rgba(255, 255, 255, 0.6)' } }
+        }"
+        @click="VisibleSidebar = false"
+      />
     </h2>
-    <Tabs v-model:value="activeTab">
+    <Tabs
+      v-model:value="activeTab"
+      :dt="{
+        tablist: {
+          background: 'transparent',
+          borderColor: '#3f4b5b',
+          borderWidth: '0 0 1px 0'
+        },
+        tab: {
+          background: '#2a323d',
+          hoverBackground: '#2a323d',
+          activeBackground: '#2a323d',
+          borderWidth: '1px',
+          borderColor: '#2a323d #2a323d #3f4b5b #2a323d',
+          hoverBorderColor: '#3f4b5b #3f4b5b #3f4b5b #3f4b5b',
+          activeBorderColor: '#3f4b5b #3f4b5b #2a323d #3f4b5b',
+          color: 'rgba(255, 255, 255, 0.6)',
+          hoverColor: 'rgba(255, 255, 255, 0.6)',
+          activeColor: 'rgba(255, 255, 255, 0.6)',
+          padding: '0.75rem 1rem',
+          margin: '0 0 -1px 0'
+        },
+        tabpanel: {
+          background: '#2a323d',
+          color: 'rgba(255, 255, 255, 0.87)',
+          padding: '0'
+        },
+        activeBar: {
+          height: '0'
+        }
+      }"
+    >
       <TabList>
         <Tab value="items">📋 Items</Tab>
         <Tab value="settings">⚙️ Settings</Tab>
@@ -26,7 +68,7 @@
         <TabPanel value="items">
           <div class="col-12">
             <label for="dd-group" class="block mb-2">Select a Group</label>
-            <div class="p-inputgroup">
+            <InputGroup>
               <Button
                 icon="pi pi-trash"
                 severity="danger"
@@ -39,7 +81,6 @@
                 :model-value="GroupLabel"
                 inputId="dd-group"
                 :options="GroupLabels"
-                :pt='{ root: { style: { background: "#20262e" } } }'
                 @update:model-value="itemService.changeGroupLabel"
               />
               <Button
@@ -56,10 +97,10 @@
                 aria-label="Add group"
                 @click="showAddGroupDialog = true"
               />
-            </div>
+            </InputGroup>
           </div>
           <Divider />
-          <div class="p-inputgroup col-12">
+          <InputGroup class="col-12">
             <ToggleButton
               :modelValue="bulkEditMode"
               @change="toggleBulkEditMode"
@@ -68,6 +109,7 @@
               offLabel="Bulk Edit"
               onIcon="pi pi-check"
               offIcon="pi pi-pencil"
+              :dt="toggleButtonDt"
               :pt="{
                 icon: {
                   class: ['flex', 'flex-auto', 'flex-row-reverse']
@@ -77,7 +119,7 @@
                 }
               }"
             />
-          </div>
+          </InputGroup>
           <template v-if="!bulkEditMode">
             <div
               v-focustrap="{
@@ -91,7 +133,7 @@
                 :modelValue="item"
               ></ItemInputGroup>
             </div>
-            <div class="p-inputgroup col-12">
+            <InputGroup class="col-12">
               <Button
                 ref="addButton"
                 class="w-full"
@@ -101,7 +143,7 @@
                 aria-label="Add item"
                 @click="addItem"
               />
-            </div>
+            </InputGroup>
           </template>
           <div v-else class="m-2">
             <Textarea v-model="textArea" />
@@ -193,6 +235,7 @@
               <label for="sl-labelLength" class="block mb-2">Fair mode</label>
               <ToggleButton
                 v-model="Fairmode"
+                :dt="toggleButtonDt"
                 @change="
                   () => {
                     itemService.syncItems();
@@ -216,8 +259,8 @@
           <div class="text-900 font-medium mb-2 text-xl">Rename Group</div>
           <p class="min-w-min text-color-secondary">Change the name, change your luck.</p>
           <div class="flex mb-4 flex-column lg:flex-row">
-            <span class="p-input-icon-left w-full">
-              <i class="pi pi-pencil" />
+            <IconField class="w-full">
+              <InputIcon class="pi pi-pencil" />
               <InputText
                 autofocus
                 v-model="renameGroupName"
@@ -226,7 +269,7 @@
                   root: { class: 'w-full' }
                 }"
               />
-            </span>
+            </IconField>
           </div>
           <Button
             type="submit"
@@ -245,8 +288,8 @@
           <div class="text-900 font-medium mb-2 text-xl">Add Group</div>
           <p class="min-w-min text-color-secondary">What should we name this new spinner?</p>
           <div class="flex mb-4 flex-column lg:flex-row">
-            <span class="p-input-icon-left w-full">
-              <i class="pi pi-plus" />
+            <IconField class="w-full">
+              <InputIcon class="pi pi-plus" />
               <InputText
                 autofocus
                 v-model="addGroupName"
@@ -255,7 +298,7 @@
                   root: { class: 'w-full' }
                 }"
               />
-            </span>
+            </IconField>
           </div>
           <Button
             type="submit"
@@ -298,6 +341,30 @@ const confirm = useConfirm();
 const bulkEditMode = ref(false);
 const textArea = ref('');
 const activeTab = ref<'items' | 'settings'>('items');
+
+// Secondary-button palette of the pre-migration bootstrap4-dark-blue theme,
+// which the Aura preset renders near-black instead.
+const toggleButtonDt = {
+  root: {
+    background: '#6c757d',
+    hoverBackground: '#5a6268',
+    checkedBackground: '#545b62',
+    borderColor: '#6c757d',
+    checkedBorderColor: '#4e555b',
+    color: '#ffffff',
+    hoverColor: '#ffffff',
+    checkedColor: '#ffffff'
+  },
+  content: {
+    checkedBackground: 'transparent',
+    checkedShadow: 'none'
+  },
+  icon: {
+    color: '#ffffff',
+    hoverColor: '#ffffff',
+    checkedColor: '#ffffff'
+  }
+};
 
 async function addItem() {
   await itemService.addItem();
