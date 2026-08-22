@@ -178,8 +178,9 @@ You should have received a copy of the GNU Affero General Public License along w
 
 We rely on these awesome open source projects as the foundation for our projects.
 
-- MIT Licensed: Vue.js, PrimeFlex, PrimeVue, CrazyTim/spin-wheel, transitive-bullshit/random, adaltas/node-csv, pako, shareon
-- Apache-2.0 Licensed: PouchDB
+- MIT Licensed: vue, PrimeFlex, @primevue/themes, spin-wheel, random, csv, pako, shareon, events
+- Apache-2.0 Licensed: PouchDB (pouchdb-browser, pouchdb-find)
+- PrimeUI Community License: PrimeVue, PrimeIcons
 
 ### Images
 
